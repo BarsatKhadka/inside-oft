@@ -1,0 +1,5 @@
+graphify-out/
+literatures/
+.graphify_*
+.graphifyignore
+Reading.md
