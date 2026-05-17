@@ -27,7 +27,6 @@ sys.path.insert(0, str(HERE))
 import matplotlib.pyplot as plt
 import numpy as np
 import torch as t
-from sklearn.cluster import KMeans
 
 from model import Transformer
 

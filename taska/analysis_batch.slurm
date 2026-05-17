@@ -14,7 +14,7 @@
 # Usage:
 #   sbatch taska/analysis_batch.slurm
 
-set -euo pipefail
+set -uo pipefail   # NOTE: no -e -- we want all scripts to run even if one fails
 
 module purge
 module load python/2025.12-2
