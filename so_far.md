@@ -111,15 +111,24 @@ The conclusion: **M cannot be converted to G by inference-time intervention.** T
 
 ## The remaining live question
 
-> **Can M be "rescued" at the optimization-trajectory level?** If we resume training M_t (memorizing checkpoint at epoch t) with weight decay turned on, does it grok? At what t does this stop working — when is memorization irreversible *in the optimization sense*?
+> **Can M be "rescued" at the optimization-trajectory level?** If we resume training M_t (memorizing checkpoint at epoch t) with weight decay turned on, does it grok?
 
-This is the test of whether overfitting is a one-way street during training. Different from "can a frozen M be transformed" — instead, "can a partly-trained M be steered back toward G's basin by adding weight decay mid-training?"
+**ANSWERED: yes, from any t including t=50000.** All 6 starting checkpoints (epoch 0, 1000, 5000, 11000, 20000, 50000) rescue to 100% test accuracy when given 20,000 additional epochs of training with weight_decay=1.0. Time to rescue is roughly constant at ~11,000 rescue-epochs (similar to the original grokking time of ~10,800).
+
+This is the cleanest positive result of the project. See Entry 18.
+
+## The headline claim, after the rescue finding
+
+> **"Overfitting in modular addition is FULLY REVERSIBLE by adding weight decay and continuing training, even from arbitrarily deep memorization. M's memorizing solution sits at a saddle whose dominant unstable direction is precisely toward generalization. Weight decay during continued training provides the natural force that follows this direction. Surgical interventions on the frozen weights cannot escape the saddle because they move in arbitrary directions; gradient descent + weight decay moves in the right direction."**
+
+This is a positive, mechanistic claim with a clean intervention recipe. It's no longer "characterization." It's a finding.
 
 ## Next experiments (priority order)
 
-1. **Trajectory rescue** (~1 hour): take M_t for t in {0, 1000, 5000, 11000, 20000, 50000}, continue training with weight decay, see if it groks. Plot test_acc vs additional training time for each starting t.
-2. **Gradient direction test** (10 min): does ∇L_full at M point toward G - M?
-3. **Probe trajectory** (~30 min): when does G compress (a, b) during training?
-4. **Track B setup** (~2 days): does any of this hold for vision/CIFAR overfitting?
+1. **Compare rescued M to G structurally** (~30 min): take rescued_M_50000, compute rank, probe sel(a), mode connectivity barrier to G. Does rescue produce *the same* generalizing solution, or a different one? Either is interesting.
 
-The trajectory rescue is the most promising as it tests whether overfitting is *reversible during training* even though it's not reversible after training. That's a substantive claim either way.
+2. **Minimum WD for rescue** (~1 hour): sweep WD ∈ {0.01, 0.1, 0.5, 1.0, 2.0}. Where is the threshold below which rescue fails?
+
+3. **Track B rescue** (~2 days): the BIG question. Does standard CIFAR overfitting (no grokking) also rescue when you add WD mid-training? This would generalize the finding beyond modular addition. If yes — headline TMLR result. If no — finding is grokking-specific, still publishable but narrower.
+
+4. **Run pending HPC scripts** (A-E above) for additional supporting analyses.

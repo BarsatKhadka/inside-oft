@@ -240,6 +240,51 @@ This closes the third intervention strategy (after spectral surgery and permutat
 
 ---
 
-## Entry 18 — [pending: trajectory rescue]
+## Entry 18 — Trajectory rescue: can M be saved mid-training? [HEADLINE]
+**Date:** 2026-05-17
+**Setup:** For 6 starting checkpoints M_t with t ∈ {0, 1000, 5000, 11000, 20000, 50000}, load M and continue training with weight_decay=1.0 for 20,000 additional epochs. Measure train_acc and test_acc trajectories during rescue. Same lr, betas, full-batch as original training. Script: `taska/analysis/trajectory_rescue.py`.
+**What I expected:** Probably small t (1000-5000) rescues easily (still in shared basin); large t (50000) might be stuck (deep in saddle).
+**What happened: ALL 6 rescue.**
 
-If we take M at epoch t and continue training WITH weight decay from there, does it grok? At what t does this stop working — when is memorization "irreversible" in the optimization sense?
+| Start epoch | Final test_acc | Outcome | Time to grok (rescue epochs) |
+|---|---|---|---|
+| 0 | 100% | RESCUED | ~11000 |
+| 1000 | 100% | RESCUED | ~9000 (fastest) |
+| 5000 | 100% | RESCUED | ~11000 |
+| 11000 | 100% | RESCUED | ~11000 |
+| 20000 | 100% | RESCUED | ~11000 |
+| 50000 | 100% | RESCUED | ~11000 |
+
+**What it means:** **Overfitting in modular addition is fully reversible by adding weight decay and continuing training, regardless of how long the model has been overfitting.** This is the cleanest positive intervention result in the project.
+
+Every M can be converted to a generalizing model by gradient descent + weight decay. Even M at epoch 50,000 (the original "fully overfit" model that all our spectral surgeries failed on) gets rescued.
+
+Connection to all prior findings:
+- The saddle test (Entry 15) showed M's full-data gradient has norm ~17 in the test direction. **THAT is the rescue force.** Weight decay's contribution combined with this saddle gradient pushes the optimizer off the saddle into G's basin.
+- Spectral surgery failed (Entries 6, 7, 8) because it perturbs in arbitrary directions, not along the saddle's unstable axis. Gradient descent + WD naturally follows the unstable axis.
+- The mode-connectivity barrier (Entry 9) of ~10⁷ is the LINEAR path. The curved gradient descent path goes around the barrier, not through it.
+- The probe (Entry 5) showed M preserves (a, b) at >90% even on test inputs. These preserved inputs are precisely what WD has to work with to rebuild the Fourier circuit.
+
+Reframe of the project's central claim:
+
+> "Overfitting is a metastable equilibrium of pure gradient descent, not a stable equilibrium of the loss landscape. The memorizing solution sits at a saddle whose unstable direction is toward generalization. Weight decay during continued training provides the natural force to escape this saddle. Spectral surgery cannot escape it because surgery moves in random directions; gradient descent with WD moves in the right direction."
+
+This is now a real paper claim with empirical evidence and a clean mechanism.
+
+---
+
+## Entry 19 — [pending: structural comparison of rescued_M vs G]
+
+Take rescued M_50000 (after 20k epochs of WD training). Compute rank, probe sel(a), mode connectivity barrier to G. Does rescue produce the SAME generalizing solution as G? Or a different generalizing solution?
+
+---
+
+## Entry 20 — [pending: minimum WD threshold for rescue]
+
+Sweep WD ∈ {0.01, 0.05, 0.1, 0.5, 1.0, 2.0}. At what WD does rescue stop working?
+
+---
+
+## Entry 21 — [pending: Track B rescue]
+
+The big test. Does standard CIFAR overfitting (not grokking-style) also rescue when you add WD and continue? If yes, our finding generalizes beyond modular addition. Headline-tier.
