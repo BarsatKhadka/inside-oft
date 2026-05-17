@@ -12,4 +12,4 @@ seed: 0
 
 log_every: 100
 save_every: 1000
-out_dir: checkpoints/M
+out_dir: taska/checkpoints/M

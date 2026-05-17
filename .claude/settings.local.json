@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python *)",
+      "Bash(pip install *)",
+      "Bash(git rm *)",
+      "Bash(grep -E \"pycache|\\\\.pt$\")",
+      "Bash(tar --version)",
+      "Read(//c/c/Users/barsa/Documents/inside-oft/**)",
+      "Bash(tar tzf *)"
+    ]
+  }
+}

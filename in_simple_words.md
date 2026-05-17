@@ -11,3 +11,4 @@
   - Guess 3 — "O remembers which training example it saw": If you feed O a training example, somewhere inside the network there's a signal that says "this is example #4,213." G doesn't have
    that signal.
   - Guess 4 — "all of the above are the same thing": Guesses 1, 2, 3 are different views of one underlying mechanism. The surgery from Guess 2 should also kill the signal from Guess 3.
+ 

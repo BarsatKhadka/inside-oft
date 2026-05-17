@@ -4,3 +4,9 @@ literatures/
 .graphifyignore
 Reading.md
 venv/
+taska/checkpoints/
+taska/__pycache__/
+__pycache__/
+logs/
+*.pt
+*.tar.gz
