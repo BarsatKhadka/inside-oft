@@ -111,6 +111,62 @@ But the user is right that this alone doesn't carry the paper. The probe is a *t
 
 ---
 
-## Entry 6 — [pending: surgical projection experiment]
+## Entry 6 — Spectral surgery on W_E (H2 test, layer 1)
+**Date:** 2026-05-17
+**Setup:** Three variants on M's embedding matrix `W_E`: (a) truncate to top-k SVD components of M, (b) project M onto G's top-k column/row spans, (c) substitute G's top-k singular subspace into M's. Swept k ∈ {1, 2, 3, 5, 8, 11, 15, 20, 30, 50, 80, 113}. Restored W_E between each evaluation. Script: `taska/analysis/surgery.py`.
+**What I expected:** If H2 holds and M's memorization lives in extra W_E directions: at some k (probably around 11, G's effective rank), test accuracy jumps from M's 6% toward G's 100% with a clean train/test trade-off curve.
+**What happened:** **FAILED across all variants.** Best test accuracy: 6.2% (basically baseline, no improvement). Truncate degraded both train and test smoothly; project destroyed M without producing G; substitute at k=1 retained 74% train accuracy but zero test recovery.
+**What it means:** M's memorization is NOT localized in W_E. Either it lives in downstream layers (MLP, attention) or it's distributed. Need to test MLP next.
 
-Will fill in after running `taska/analysis/surgery.py`.
+---
+
+## Entry 7 — Spectral surgery on MLP weights (H2 test, MLP layer)
+**Date:** 2026-05-17
+**Setup:** Same three variants as Entry 6, but applied to W_in (512×128) and W_out (128×512) simultaneously. Same k for both matrices. The probe (Entry 5) suggested the MLP is where compression happens in G, so the MLP is the likely location of memorization in M. Script: `taska/analysis/surgery_mlp.py`.
+**What I expected:** If the MLP is where the memorization lives, we should see test recovery here even if W_E surgery failed. Mild prediction since priors were already lowered by Entry 6.
+**What happened:** **FAILED again.** Best test accuracy: 6.1%. All three variants flat at M's baseline. Substitute at k=1 retained 47% train but no test improvement.
+**What it means:** Memorization is not localized to the MLP either. The "memorization is in one layer" framing is increasingly untenable. Try modifying everything simultaneously.
+
+---
+
+## Entry 8 — Combined spectral surgery (H2 test, all weight matrices together)
+**Date:** 2026-05-17
+**Setup:** Apply the three variants to W_E, W_in, W_out simultaneously at the same k. Most aggressive spectral intervention possible without touching attention. Script: `taska/analysis/surgery_combined.py`.
+**What I expected:** Coordinated intervention across all matrices SHOULD work if the issue with single-layer surgery was "matrices were inconsistent with each other after modification." If even this fails, the spectral approach is dead in our setting.
+**What happened:** **FAILED for the third time.** Best test accuracy: 5.8%. All variants flat. The pattern from Entries 6 and 7 repeats exactly: spectral interventions can destroy the model but cannot rebuild it toward G.
+**What it means:** Strong negative result. M's memorization is encoded as a coordinated, joint, *non-spectral* property across the entire network. SVD-based projection cannot extract it. This directly contradicts the "intruder dimensions are the memorization circuit" framing in the LoRA literature (Shuttleworth et al.) — at least in our from-scratch training of a 1-layer transformer.
+
+This is itself a publishable negative finding. The naive transfer of LoRA intruder-dimension intuition to from-scratch overfit training does not hold.
+
+---
+
+## Entry 9 — Linear mode connectivity (basin geometry test)
+**Date:** 2026-05-17
+**Setup:** Linear interpolation in weight space between M's final checkpoint and G's final checkpoint. 21 alpha values from 0 (pure M) to 1 (pure G). At each alpha, compute training loss / accuracy and test loss / accuracy. Script: `taska/analysis/mode_connectivity.py`.
+**What I expected:** Strong prior on barrier (different weight decay should produce different basins per Frankle et al. 2020). Mainly running this as a sanity check to confirm that the spectral surgery failures are explained by basin geometry rather than some quirk of our implementation.
+**What happened:**
+| alpha | train_loss | train_acc | test_acc |
+|---|---|---|---|
+| 0.00 (pure M) | 3e-11 | 100% | 6% |
+| 0.50 (midpoint) | **4.25** | 20% | 8% |
+| 1.00 (pure G) | 1e-7 | 100% | 100% |
+
+Barrier ratio (midpoint train_loss / max endpoint train_loss) = **4.28 × 10⁷**.
+
+**What it means:**
+- M and G are in genuinely different loss basins, separated by a high ridge.
+- This explains why spectral surgery failed: any small perturbation to M pushes it OFF its low-loss peak into the valley between basins. To reach G, you'd have to cross the ridge — a non-local move that gradient-style or projection-style interventions cannot do.
+- Interesting sub-finding: along the path from M to G (alphas 0.5 → 0.85), test accuracy *rises faster than train accuracy*. At alpha=0.60, test=22% while train=33%. This is grokking visible in weight space — as the model moves into G's basin, generalization emerges *before* perfect memorization is re-acquired.
+
+**Honest caveat (and the user's sharper point):** linear mode connectivity barrier between two trained models is a textbook phenomenon (Frankle 2020, Entezari 2021, Ainsworth 2023). The result confirms M and G are different attractors but doesn't *explain* what makes M's basin "memorizing" and G's basin "generalizing." The user pointed out: both basins have low *train* loss; the qualitative difference is in *test* loss, which the training procedure can't see. So the deeper question that mode connectivity raises but doesn't answer is: **what structural property distinguishes a memorizing-type basin from a generalizing-type basin, and why does weight decay reliably select the latter?**
+
+The mode connectivity finding is real but not novel on its own. Useful as scaffolding for the paper's narrative; not a headline result by itself.
+
+---
+
+## Entry 10 — [pending]
+
+Next candidate experiments:
+- Trajectory mode connectivity: trace the barrier between M_t and G_t at intermediate training epochs. When does it first appear?
+- Activation ablation: kill the probe's `a`/`b` directions in M's residual stream; does M's lookup collapse?
+- Git Re-Basin permutation alignment: does permuting M's neurons reduce the barrier to G?

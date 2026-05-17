@@ -45,17 +45,43 @@ If it's a different object, *what is the difference made of*, and can I find it,
 
 Phase 2 = instrument verification, not novel science. Confirmed our pipeline can recover Nanda's results, so when it tells us something M-specific we can trust it.
 
-### Phase 3 — The novel work (started)
+### Phase 3 — The novel work (in progress, mostly negative)
 
-- `taska/analysis/intruder.py` — per-vector cosine similarity between M's top singular vectors and G's. **Result was misleading** because per-vector comparison is sensitive to basis rotation within a subspace.
-- `taska/analysis/subspace.py` — principal angles between M's top-k subspace and G's top-k subspace. **The real finding:** they share ~5 directions in common and are orthogonal in the remaining ~6. Neither identical (dream) nor disjoint (worst-case). (Entry 4.)
-- `taska/analysis/probe.py` — linear probe on residual stream at position 2 (above "="). Predicts `a`, `b`, and `(a+b) mod p`. **The finding:** M recovers `a` and `b` at ~88% probe accuracy vs G's ~43%. Both recover the sum well. The MLP is where compression happens — both models preserve inputs before the MLP, only G compresses afterward. (Entry 5.)
+- `taska/analysis/intruder.py` — per-vector cosine similarity. **Misleading** because basis within a subspace is arbitrary.
+- `taska/analysis/subspace.py` — principal angles. **Real finding:** M and G's top-11 subspaces share ~5 directions and differ in ~6. (Entry 4.)
+- `taska/analysis/probe.py` — linear probe on residual stream. **Finding:** M recovers `a`/`b` at ~88% probe accuracy vs G's ~43%. MLP is the compression site. (Entry 5.)
+- `taska/analysis/surgery.py` — spectral surgery on `W_E`. **Failed**, no test recovery. (Entry 6.)
+- `taska/analysis/surgery_mlp.py` — spectral surgery on `W_in + W_out`. **Failed**, no test recovery. (Entry 7.)
+- `taska/analysis/surgery_combined.py` — spectral surgery on `W_E + W_in + W_out` jointly. **Failed**, no test recovery. (Entry 8.)
+- `taska/analysis/mode_connectivity.py` — linear interpolation M -> G. **Barrier exists** (4.28 × 10⁷ loss ratio at midpoint), confirming different basins. (Entry 9.)
 
-**Honest read on H1 + H3:** individually unsurprising. "Memorization has structure" and "generalization compresses inputs" are intuitive directions any researcher would predict qualitatively. What the experiments add is *quantitative size* (45-point gap in input recovery), *spatial localization* (MLP is where compression happens), and a *metric we can now use* to track training dynamics, evaluate surgery, and compare across tracks. But on their own, these are characterizations — not enough for a strong TMLR paper. The paper's novelty depends on **H2 (causal surgical removability)** linking these correlational findings together. H2 is the decider, not H1 or H3.
+**The honest state of the project after one day of analysis:**
 
-**Implication for H2 (surgical intervention):** the original framing "subtract M's intruder dimensions" doesn't work because every M direction *looks* like an intruder under per-vector cosine. But the principal-angles result says ~5 of G's directions ARE in M's subspace — just rotated. The probe further suggests M's extra directions are doing real work (preserving inputs). Reframed: "project M's weights onto G's column span. Does sel(a) drop to G-like level while sel(sum) stays intact? Does test accuracy move toward G's?"
+What we've established empirically:
+1. M and G have different Fourier and SVD signatures (correlational, individually intuitive).
+2. M's activations linearly encode the raw inputs `a, b` to a degree G's don't (correlational, partly intuitive).
+3. M and G are in genuinely separate loss basins (textbook, but confirmed for our controlled M-vs-G setup).
+4. Spectral surgery on any subset of weight matrices does NOT recover generalization from M (real negative result against the "intruder dimensions are the memorization circuit" framing from LoRA literature).
 
-Next: `taska/analysis/surgery.py` — three variants of the projection experiment.
+What we have NOT established:
+- A causal intervention that converts M into G or vice versa.
+- A mechanism distinguishing the *type* of basin (memorizing vs generalizing), not just the basin identity.
+- Whether these findings generalize beyond Track A (modular addition).
+
+**A reframing of the central question (motivated by user's observation):** the loss landscape contains at least TWO TYPES of low-train-loss basins — memorizing and generalizing — and weight decay is the lever that selects between them. The interesting question isn't "are M and G in different basins" (they are, trivially) but "what is the structural property of memorizing-type basins vs generalizing-type basins, and why does weight decay reliably select the latter?" This is a more productive framing for the paper.
+
+**Pitch for the paper if we stop here:**
+> "Overfit and generalizing networks trained from identical conditions (same init, data, architecture, optimizer) end up as structurally distinct attractors: different Fourier/SVD/probe signatures, different loss basins. The memorization-type attractor is not surgically connected to the generalizing-type attractor by any SVD-based weight intervention we tested. This contradicts the 'intruder dimensions are memorization' framing from prior LoRA work and suggests that, at least in from-scratch training of small transformers, memorization is encoded as a coordinated joint property of the full network rather than as a low-rank perturbation."
+
+That's TMLR-acceptable but thin. To make it strong, we need ONE of:
+- A working causal intervention (activation-level, or training-trajectory based)
+- A timing claim (when during training do the basins separate?)
+- Track B confirmation that the pattern persists at scale
+
+Next experiments to consider:
+- `mode_connectivity_trajectory.py` — trace barrier height through training epochs. When do M and G diverge into different basins?
+- `activation_ablation.py` — use the probe's `a`/`b` directions; ablate them at inference; does M's train accuracy collapse?
+- `permutation_alignment.py` — does Git Re-Basin permutation align M with G? If so, the "different basin" finding is a basis artifact.
 
 ## What I don't know yet but need to
 
