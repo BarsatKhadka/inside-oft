@@ -1,39 +1,30 @@
-# HPC submission notes
+# HPC submission notes (Magnolia / Ole Miss MCSR)
 
 Cluster path assumed: `~/inside-oft/` with the repo cloned and `venv/` at the repo root.
+
+GPU nodes are L40S (46GB VRAM), accessed via partition `gpuq`.
 
 ## One-time setup (on the cluster)
 
 ```bash
 cd ~/inside-oft
+module purge
+module load python/2025.12-2
+module load cuda12.8/toolkit/12.8.1
+
 python3 -m venv venv
 source venv/bin/activate
 pip install --upgrade pip
+pip install torch --index-url https://download.pytorch.org/whl/cu128
 pip install -r requirements.txt
 mkdir -p logs taska/checkpoints/G taska/checkpoints/M
 ```
 
-If `requirements.txt` doesn't pin a CUDA-matching torch build, install torch explicitly from the PyTorch index for your CUDA version, e.g.:
+Quick verification:
 ```bash
-pip install torch --index-url https://download.pytorch.org/whl/cu121
+python -c "import torch; print(torch.__version__, torch.cuda.is_available())"
 ```
-Check your cluster's CUDA version with `nvidia-smi` or `module avail cuda`.
-
-## Update the SBATCH header
-
-Open `taska/train.slurm` and check / set:
-
-- `--time=04:00:00` — 50k epochs on a modern GPU is ~30–60 min. 4h is safety margin. Lower if your queue is tight.
-- `--mem=32G` — overkill but cheap.
-- `--gres=gpu:1` — adjust if your cluster wants `--gres=gpu:a100:1` or similar.
-- `--partition=...` — uncomment if your cluster requires it. Common names: `gpu`, `gpu-short`, `gpu-long`.
-- `--account=...` — uncomment if accounting is required.
-
-Find what your cluster expects:
-```bash
-sinfo                       # see partitions
-sacctmgr show assoc user=$USER format=Account,Partition,QOS    # see what you're allowed to use
-```
+Should print `2.x.x+cu128 True` (CUDA True only when run inside a GPU allocation).
 
 ## Submitting
 
