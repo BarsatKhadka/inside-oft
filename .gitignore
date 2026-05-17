@@ -3,3 +3,4 @@ literatures/
 .graphify_*
 .graphifyignore
 Reading.md
+venv/

@@ -1,0 +1,15 @@
+# Generalizing config — should grok
+p: 113
+frac_train: 0.3
+d_model: 128
+num_heads: 4
+num_layers: 1
+
+lr: 0.001
+weight_decay: 1.0
+num_epochs: 50000
+seed: 0
+
+log_every: 100
+save_every: 1000
+out_dir: checkpoints/G

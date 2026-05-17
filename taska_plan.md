@@ -14,7 +14,7 @@ That last point is the most important one. Your paper isn't "we trained a transf
 
 ### Phase 1 — Get the instrument working (target: 3-4 days)
 
-**Goal:** two trained models on disk — one generalizing (G), one memorizing (M) — with checkpoints saved every N epochs so you can analyze training dynamics later.
+**Goal:** two trained models on disk — one generalizing (G), one memorizing (M) — with checkpoints saved every N epochs so you can analyze training dynamics later. 
 
 1. Clone the repo. Read `Grokking_Analysis.ipynb` top to bottom. Don't run anything yet. Take notes on:
    - How they construct the dataset
