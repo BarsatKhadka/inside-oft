@@ -39,6 +39,42 @@ sacctmgr show assoc user=$USER format=Account,Partition,QOS    # see what you're
 
 From the repo root (`~/inside-oft`):
 
+### Step 1 — smoke run first (1–2 min, ~500 epochs)
+
+Always do this before the full job. Catches torch/CUDA/path issues in 2 minutes
+instead of 1 hour.
+
+```bash
+sbatch --job-name=smoke --time=00:15:00 taska/train.slurm taska/configs/G_smoke.yaml
+```
+
+Watch the log until it finishes:
+
+```bash
+squeue -u $USER
+tail -f logs/smoke_*.out
+```
+
+Expected output (memorization phase — no grokking in 500 epochs, that's fine):
+
+```
+epoch   0  train_loss 4.76e+00  test_loss 4.77e+00  train_acc 0.9%   test_acc 0.9%
+epoch 150  train_loss 1.02e-01  test_loss 1.42e+01  train_acc 100%   test_acc 3.6%
+epoch 499  train_loss 7.79e-04  test_loss 1.84e+01  train_acc 100%   test_acc 5.8%
+```
+
+Train loss should drop to near-zero, train accuracy hit 100%, test loss climb.
+**Paste the log output back to claude before launching the full run** so we
+verify nothing weird happened.
+
+Then clean up the smoke checkpoints:
+
+```bash
+rm -rf taska/checkpoints/G_smoke
+```
+
+### Step 2 — full runs (50k epochs each, ~30–60 min on a modern GPU)
+
 ```bash
 sbatch --job-name=G taska/train.slurm taska/configs/G.yaml
 sbatch --job-name=M taska/train.slurm taska/configs/M.yaml
@@ -88,19 +124,6 @@ scp magnolia1:~/inside-oft/taska/checkpoints/G/history.json       taska/checkpoi
 scp 'magnolia1:~/inside-oft/taska/checkpoints/M/{init,final}.pt' taska/checkpoints/M/
 scp magnolia1:~/inside-oft/taska/checkpoints/M/history.json       taska/checkpoints/M/
 ```
-
-## Quick sanity check before the big run
-
-Before submitting a 4-hour job, test the pipeline with a tiny config (1000 epochs ≈ 1 min):
-
-```bash
-# on the cluster, in an interactive GPU session if available, or as a short sbatch
-cp taska/configs/G.yaml taska/configs/G_smoke.yaml
-# edit G_smoke.yaml: num_epochs: 1000, out_dir: taska/checkpoints/G_smoke
-sbatch --time=00:15:00 --job-name=Gsmoke taska/train.slurm taska/configs/G_smoke.yaml
-```
-
-If that completes with non-NaN losses and saves checkpoints, the real run will work.
 
 ## Troubleshooting
 

@@ -1,0 +1,16 @@
+# Smoke-test config: same as G but only 500 epochs.
+# Verifies the pipeline works end-to-end. Not enough epochs to grok.
+p: 113
+frac_train: 0.3
+d_model: 128
+num_heads: 4
+num_layers: 1
+
+lr: 0.001
+weight_decay: 1.0
+num_epochs: 500
+seed: 0
+
+log_every: 50
+save_every: 250
+out_dir: taska/checkpoints/G_smoke
