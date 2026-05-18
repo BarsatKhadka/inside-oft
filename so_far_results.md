@@ -1253,296 +1253,343 @@ We now have:
 
 ---
 
-# DAY 7 — BULLETPROOF2 BATCH RESULTS + DEEP YUNIS READ
+# DAY 7 — TRANSPARENT RECORD OF BULLETPROOF2 RESULTS
 
-Literature search (deep) revealed Yunis et al. ICML 2024 is the most overlapping prior work. After reading the full paper carefully:
+This section is a plain inventory. No framing, no "this is the headline." Just what each script measured, what came out, what worked, what broke.
 
-**Yunis is BROAD but SHALLOW.** They have one core measurement (effective rank entropy) shown across 5 architectures. They explicitly DO NOT have:
-- Gradient angle measurement (NOT in paper)
-- Hessian eigenvalues at M vs G (NOT analyzed)
-- Alternative regularizers (only WD; Notsawo 2025 added L1/nuclear)
-- MIA / privacy connection (NOT addressed)
-- Quantitative scaling laws (qualitative only, no fitted exponents)
-- Causal subspace surgery (only top-vs-bottom singular-value pruning)
-- Multi-seed error bars (unclear; not explicit in figures)
-- WD threshold quantification (none specified)
-- Saddle / metastable framing (they avoid this language)
-- Smooth vs aggressive penalty comparison (not tested)
-
-**Our project is NARROWER (mostly grokking) but DEEPER across many lenses.** The 10 things above are our novel contribution surface.
+Related context for the reader (so this doc stands alone): Yunis et al. 2024 deep-read confirms they measure effective rank entropy and inter-layer singular vector alignment, qualitatively across 5 architectures. They do not measure: gradients, Hessian eigenvalues, alternative regularizers, MIA, quantitative thresholds, or causal subspace interventions. They do not report multi-seed error bars. This is context for what is "already in the literature" — not a framing of what we found.
 
 ---
 
-## Entry 62 — 10-seed structural battery (bp7) [LANDS THE CATEGORICAL CLAIM]
-**Date:** 2026-05-18
-**Setup:** 10 M (wd=0) + 10 G (wd=1.0) seeds, 20k epochs each, on (a+b) mod 113. Compute 23-feature battery per model: ranks of W_E, W_U, W_pos, W_Q, W_K, W_V, W_O, W_in, W_out; gradient norms train/test/full; attention asymmetry; logit margin stats; residual rank; nuclear/op norms. Script: `bulletproof2/bp7_structural_battery.py`.
-**What happened:**
+## Entry 62 — bp7: 10-seed structural battery, 1L Transformer mod 113
 
-| Feature | M (mean ± std over 10 seeds) | G (mean ± std) | Ratio M/G |
-|---|---|---|---|
-| rank_W_out | **97.20 ± 0.45** | **8.65 ± 2.16** | **11.2×** |
-| rank_W_in | 87.5 ± 0.5 | ~9 | ~9.7× |
-| rank_W_E | 60.0 ± 0.5 | low | clear |
-| rank_W_O | 64.3 ± 0.4 | low | clear |
-| grad_train (norm) | 3.4e-10 ± 1e-10 | 3.5e-7 ± 0.2e-7 | 1000× larger at G |
-| grad_test (norm) | 15.7 ± 2 | 1e-6 ± varies | ~10^7 |
-| grad_test/grad_train | **47e9 ± 14e9** (10^10) | **~7 ± 5** | **6e9×** |
-| margin_mean | 24.0 ± 0.1 | varies | M tight |
-| margin_std | 0.6 ± 0.1 | wider | M is over-confident, uniformly |
+**Setup.** 10 seeds × 2 regimes (M: wd=0; G: wd=1.0). 20k epochs. Compute 23 features per converged model.
 
-**Key statistical observations:**
-1. **rank_W_out gap is essentially deterministic.** M is 97.20 ± 0.45 (very tight); G is 8.65 ± 2.16. Welch's t-test would have p < 10^-50.
-2. **Two G seeds (7 and 8) had test_acc < 1.0** (0.9984, 0.9998) and showed grad_ratio in the thousands rather than ~5. These are likely partial-grok models — interesting "in-between" data points.
-3. **All 10 M seeds converged to nearly-identical structural fingerprint** (margin_mean 24.0 ± 0.1, ranks within 0.5 of each other). This means M is NOT a noisy memorization — it's a SPECIFIC equilibrium state.
-4. **Logit margins at M are uniformly large** (~24) with tiny variance — model is extremely confident on training set, even after 20k epochs of no test signal.
+**Raw numbers (mean ± std across 10 seeds per regime):**
 
-**Categorical PCA separation:** structural features cluster into 2 disjoint groups in PCA space (M cluster vs G cluster), with no overlap across 20 models. **This is THE figure** that makes the categorical claim visually undeniable.
+| Feature | M | G |
+|---|---|---|
+| rank_W_E | 60.0 ± 0.5 | low (single digits in most seeds) |
+| rank_W_U | 75.0 ± 0.6 | low |
+| rank_W_pos | 2.9 ± 0.1 | comparable |
+| rank_W_Q | 15.8 ± 0.7 | comparable or lower |
+| rank_W_K | 49.5 ± 1.0 | low |
+| rank_W_V | 60.7 ± 0.6 | low |
+| rank_W_O | 64.3 ± 0.4 | low |
+| rank_W_in | 87.5 ± 0.5 | ~9 |
+| rank_W_out | 97.20 ± 0.45 | 8.65 ± 2.16 |
+| grad_train norm | 3.4e-10 ± 1e-10 | 3.5e-7 |
+| grad_test norm | 15.7 ± 2 | 1e-6 to 0.1 |
+| grad_test / grad_train | ~5e10 | ~3 to 3e5 |
+| attn_Q_asym (max − min head norm) | 0.65 ± 0.1 | comparable but smaller magnitudes |
+| attn_Q_max | 8.4 ± 0.1 | varies |
+| logit margin mean | 24.0 ± 0.1 | varies |
+| logit margin std | 0.6 ± 0.1 | wider |
+| logit margin min | 22.7 ± 0.2 | varies |
+| resid_rank (last position) | 34.5 ± 0.8 | lower |
+| train_loss | 9e-11 ± 1e-11 | similar |
+| nuclear_W_out | 398 ± 1 | much lower |
+| op_norm_W_out | 5.95 ± 0.05 | varies |
+| stable_rank_W_out | 40.5 ± 0.3 | much lower |
 
-**Status: COMPLETE, CLEAN, HEADLINE-WORTHY.**
+**Specific observations:**
+- All 10 M seeds: test acc between 0.011 and 0.208 (mostly 0.02-0.10).
+- All 10 G seeds: test acc 1.0 except seed 7 (0.9984) and seed 8 (0.9998) — partial-grok models.
+- Two partial-grok G seeds (7 and 8) had grad_test/grad_train ratios of 311,200 and 40,375 — orders of magnitude higher than full-grok G seeds (~3-7), but still much lower than M's 10^10.
+- M's logit margin mean (24.0) and std (0.6) are extremely tight across seeds — M converges to a very specific equilibrium, not "a noisy memorization."
+- M's rank_W_out is essentially deterministic (0.45 std around 97.20).
+
+**Status:** complete. Data available for any joint analysis (PCA, correlation, clustering).
 
 ---
 
-## Entry 63 — Hessian Lanczos full spectrum (bp8) [SADDLE PROOF EVEN IN 1L]
-**Date:** 2026-05-18
-**Setup:** Lanczos with full reorthogonalization, k=40 eigenvalues, on full data at M and G for 3 seeds. Tridiag → eigenvalue spectrum. Script: `bulletproof2/bp8_hessian_lanczos.py`.
-**What happened:**
+## Entry 63 — bp8: Hessian Lanczos full spectrum, 1L Transformer mod 113
 
-| Model | top eig (full) | bottom eig (full) | top eig (train) | n eigs > 0.01 × top |
+**Setup.** Lanczos with full reorthogonalization, k=40 eigenvalues, on full data (train ∪ test) at M and G for 3 seeds each. Also computed on train-only data.
+
+**Full-data Hessian:**
+
+| Model | top eig | bot eig | trace | condition |
 |---|---|---|---|---|
-| 1L Transf M seed 0 | **+335** | **−7.82** | 6.7e-7 (essentially 0) | full spread |
-| 1L Transf M seed 1 | **+182** | **−7.69** | 4.8e-7 | full spread |
-| 1L Transf M seed 2 | **+277** | **−7.24** | similar | full spread |
-| 1L Transf G seed 0 | +0.30 | −0.005 | tiny | almost zero |
-| 1L Transf G seed 1 | +0.00027 | −1e-7 | tiny | zero |
-| 1L Transf G seed 2 | +0.00014 | −3e-7 | tiny | zero |
+| M seed 0 | +335.27 | −7.82 | 1987 | 43 |
+| M seed 1 | +181.50 | −7.69 | 1874 | 24 |
+| M seed 2 | +277.08 | −7.24 | (similar) | (similar) |
+| G seed 0 | +0.3016 | −0.0045 | small | varies |
+| G seed 1 | +2.65e-4 | −1.15e-7 | tiny | varies |
+| G seed 2 | +1.39e-4 | −3.31e-7 | tiny | varies |
 
-**Key observations:**
-1. **STRICT NEGATIVE Hessian eigenvalues at 1L Transformer M (~-7.5).** bp1 (power iter, no reorth) missed this because non-orthogonalized iteration converges to dominant magnitude direction, not most-negative. Lanczos with full reorth finds them.
-   → bp1's "degenerate saddle" framing for 1L was WRONG. 1L Transformer M IS a strict saddle.
-2. **G's top eigenvalue is 6 orders of magnitude smaller** in 2 of 3 seeds (0.0001-0.0003 vs M's 200-300).
-3. **Train-set Hessian at M is essentially zero** (max eigenvalue ~10^-7). The model is perfectly flat in train-loss landscape. All curvature comes from test loss.
-4. **G's Hessian on train data is also near-zero**, consistent with G also fitting train perfectly.
+**Train-only Hessian:**
 
-**Interpretation:** M sits at a saddle where train-Hessian is zero (flat manifold of perfect fit) but full-data Hessian has both strong positive curvature (sharpness) AND strict negative curvature (saddle escape direction). G sits at a true near-minimum with full-data Hessian near zero in all directions.
+| Model | top eig (train) | bot eig (train) |
+|---|---|---|
+| M seed 0 | 6.74e-7 | 9.27e-13 |
+| M seed 1 | 4.81e-7 | 1.01e-12 |
+| M seed 2 | (similar, ~5e-7) | ~1e-12 |
+| G | similarly tiny | similarly tiny |
 
-**This is the cleanest saddle proof we have.** It works in 1L Transformer (the standard grokking model), not just 4L. Refutes 2602.18523's "G also has negative eigenvalues" finding for our single-task grokking setup.
+**Specific observations:**
+- M's most-negative full-data eigenvalues are −7.24 to −7.82 across 3 seeds (consistent magnitude).
+- M's top full-data eigenvalues vary 182 to 335 (factor of ~2 across seeds).
+- G's top full-data eigenvalue is 6 orders smaller than M's (10⁻⁴ vs 200-300) in 2/3 G seeds; in seed 0 it's 0.3, still 700× smaller.
+- Both M and G have near-zero train Hessian (both fit training set perfectly).
+- The 40-eigenvalue spectrum at M has roughly uniformly distributed positive eigenvalues from ~0 to top, plus a handful of negative ones at the bottom.
+- The 40-eigenvalue spectrum at G has all eigenvalues collapsed near zero.
 
-**Status: COMPLETE. Replaces bp1's analysis. The saddle topology claim is now solid.**
+**Note about prior measurements:** bp1 (power iteration, no reorthogonalization) reported M's bottom eigenvalue as ~0 in 1L Transformer (only found strict negatives in 4L). Lanczos with full reorth resolves the −7 negatives that power iteration missed.
 
----
-
-## Entry 64 — Gradient angle train vs test (bp9) [GENUINELY NEW]
-**Date:** 2026-05-18
-**Setup:** 10 seeds each of M and G. Compute cos(∇L_train(θ*), ∇L_test(θ*)) at converged θ*. Script: `bulletproof2/bp9_gradient_angle.py`.
-**What happened:**
-
-| Model | mean cos | median | range | sign |
-|---|---|---|---|---|
-| **M (10 seeds)** | **−0.236** | −0.27 | −0.66 to +0.24 | **9/10 NEGATIVE** |
-| **G (10 seeds)** | **+0.105** | +0.13 | −0.03 to +0.16 | **8/10 POSITIVE** |
-
-**Per-seed M cosines:** -0.66, -0.27, -0.42, -0.08, -0.22, -0.27, -0.15, -0.28, +0.24, -0.27
-
-**Per-seed G cosines:** -0.03, 0.13, 0.16, 0.13, 0.16, 0.15, 0.14, -0.01, 0.04, 0.13
-
-**Welch's t-test:** clean separation. The M distribution (mean -0.24, std 0.24) and G distribution (mean 0.105, std 0.07) are clearly distinct (Cohen's d > 1.9).
-
-**Gradient norm ratio (test/train):**
-- M: 26e9 to 69e9 (i.e., 10^10) — train gradient is essentially zero (perfect train fit)
-- G: 2.7 to 311,000 — train and test gradients comparable in magnitude
-
-**Headline interpretation:**
-At M, train-loss and test-loss gradients **actively conflict** (mean cosine -0.24, anti-correlated). At G, they **decouple toward weak alignment** (mean cosine +0.10). The CONFLICT (negative cosine at M) is the strongest signal: M's training signal directly OPPOSES the test signal.
-
-**Why this matters:**
-- This is NOT in Yunis 2024 (they don't measure gradients).
-- This is NOT in Sankararaman 2020 / Chatterjee 2020 (those measure intra-train gradient coherence, a different quantity).
-- This is NOT in any grokking paper (verified via literature search).
-- It is a clean, falsifiable, computable, single-number geometric signature.
-- It REPLACES the vague "overfitting" notion with "train gradient anti-aligned with test gradient."
-
-**Caveat:** G's positive alignment is mild (+0.10), not the "strong" positive alignment I initially predicted. The story is about the M side (CONFLICT) more than the G side (mere decoupling).
-
-**Status: COMPLETE. This is the project's most-novel finding.**
+**Status:** complete. Raw eigenvalue arrays saved in bp8_hessian_lanczos.json.
 
 ---
 
-## Entry 65 — Fine WD threshold (bp11) [SHARP SIGMOID]
-**Date:** 2026-05-18
-**Setup:** 11 WD values from 0.05 to 0.60, 10 seeds each = 110 runs. Fit sigmoid to grok probability. Script: `bulletproof2/bp11_threshold_fine.py`.
-**What happened:**
+## Entry 64 — bp9: gradient angle and gradient norm ratio, 1L Transformer mod 113
 
-| WD | p_grok (10 seeds) |
+**Setup.** 10 seeds each of M and G. Compute cos(∇L_train(θ*), ∇L_test(θ*)) and per-norm at converged parameters.
+
+**Per-seed cosines:**
+
+| Seed | M cos | G cos |
+|---|---|---|
+| 0 | −0.662 | −0.034 |
+| 1 | −0.273 | +0.131 |
+| 2 | −0.419 | +0.162 |
+| 3 | −0.078 | +0.127 |
+| 4 | −0.224 | +0.160 |
+| 5 | −0.268 | +0.150 |
+| 6 | −0.147 | +0.138 |
+| 7 | −0.277 | −0.014 |
+| 8 | +0.244 | +0.042 |
+| 9 | −0.265 | +0.133 |
+
+- **M:** mean = −0.236, std = 0.236, 9/10 negative.
+- **G:** mean = +0.105, std = 0.073, 8/10 positive.
+- M's distribution is wider than G's.
+- M's seed 8 is an outlier (+0.244, near-orthogonal). All other 9 M seeds are negative.
+- G's seed 0 and 7 are near zero but negative (−0.034 and −0.014); seed 8 is barely positive (+0.042). The other 7 G seeds are tightly clustered around +0.13-0.16.
+
+**Gradient norm ratios (test / train):**
+
+| Model | range |
 |---|---|
-| 0.05 | 0.0 |
-| 0.10 | 0.0 |
-| 0.15 | 0.0 |
-| 0.20 | 0.0 |
-| 0.25 | 0.1 |
-| 0.30 | 0.2 |
-| 0.35 | 0.4 |
-| 0.40 | 0.6 |
-| 0.45 | 0.8 |
-| 0.50 | 0.9 |
-| 0.60 | 0.9 |
+| M | 2.6e10 to 6.9e10 |
+| G | 2.7 to 3.1e5 (mostly 3-10; two outlier G seeds at 14000 and 311000) |
 
-**Sigmoid fit:** threshold = **0.376**, sharpness k = **17.93**.
-
-**What it means:** The grokking transition is a sharp phase transition in WD-space (k=17.9 means ~0.1 WD width). Below WD=0.25, never groks. Above WD=0.50, almost always groks. The transition zone is 0.30-0.45.
-
-**Why this matters:**
-- Yunis didn't quantify this threshold (they show only 0/0.001/0.01/0.1/1/10 — no fine grid).
-- Notsawo 2023 noted oscillations predicting grokking but didn't fit a sigmoid to grok probability.
-- This is a clean quantitative law with measured parameters.
-
-**Status: COMPLETE. Solid supporting figure.**
+**Status:** complete. Raw cosines + norms in bp9_gradient_angle.json.
 
 ---
 
-## Entry 66 — Min-norm interpolator (bp17) [INFORMATIVE NEGATIVE]
-**Date:** 2026-05-18
-**Setup:** NTK regime — wide random first layer (N_HIDDEN=1024), least-squares second layer. This gives the literal min-Frobenius-norm interpolator for the random-feature regression problem. 5 seeds. Script: `bulletproof2/bp17_min_norm_interpolator.py`.
-**What happened:**
+## Entry 65 — bp11: fine WD threshold, sigmoid fit
+
+**Setup.** 11 WD values × 10 seeds = 110 runs.
+
+| WD | grok prob (of 10 seeds) |
+|---|---|
+| 0.05 | 0/10 |
+| 0.10 | 0/10 |
+| 0.15 | 0/10 |
+| 0.20 | 0/10 |
+| 0.25 | 1/10 |
+| 0.30 | 2/10 |
+| 0.35 | 4/10 |
+| 0.40 | 6/10 |
+| 0.45 | 8/10 |
+| 0.50 | 9/10 |
+| 0.60 | 9/10 |
+
+**Sigmoid fit:** threshold WD = 0.3760, sharpness k = 17.93.
+
+**Status:** complete.
+
+---
+
+## Entry 66 — bp17: NTK min-norm interpolator on modular addition
+
+**Setup.** Wide random first layer (N_HIDDEN = 1024), least-squares second layer (Moore-Penrose pseudoinverse). 5 seeds. This is the literal min-Frobenius-norm interpolator in the random-feature regression regime.
 
 | Seed | test_acc | rank W_2 | top SV | stable rank |
 |---|---|---|---|---|
-| 0 | **0.003** | 103.3 | 3.38 | 57.8 |
-| 1 | 0.002 | 103.1 | 3.45 | 56.1 |
-| (similar across 5 seeds) |
+| 0 | 0.0028 | 103.3 | 3.38 | 57.8 |
+| 1 | 0.0025 | 103.1 | 3.45 | 56.1 |
+| (3 more, very similar) | | | | |
 
-**Compare to G:** test_acc 1.0, rank ~8.
+**FFT concentration of top 20 singular vectors of W_2:** the first 5 Fourier bins capture only 1-9% of energy per top-SV — not Fourier-structured.
 
-**What it means:** The NTK min-norm interpolator does NOT generalize on modular addition. Its rank is high (~100), it's not concentrated on Fourier frequencies (FFT concentration of top singular vectors is ~5-10% in the first 5 bins — not Fourier-structured).
+**Comparison data:** G has test_acc 1.0 and rank 6-12.
 
-**This refutes the "G is the NTK min-norm interpolator" hypothesis.** Whatever WD does is NOT equivalent to NTK / random-feature regression. The implicit-bias-via-NTK story (Belkin, Bartlett line) does NOT explain grokking. G's solution is in a fundamentally different region of weight space than NTK predicts.
-
-**Why this matters:**
-- This is a CLEAN negative result against a major theoretical alternative.
-- It tells us G is genuinely "discovering" the Fourier circuit through nonlinear training dynamics, not implicitly performing kernel regression.
-- It refines the mechanism claim: smooth norm regularization on a TRAINED NETWORK works; the same min-norm idea applied as random-feature regression doesn't.
-
-**Status: COMPLETE. Useful informative negative result for the paper.**
+**Status:** complete. The NTK / random-feature min-norm interpolator does not generalize on this task and does not exhibit Fourier structure.
 
 ---
 
-## Entry 67 — Width × depth invariance (bp13) [EMPTY FILE]
-**Date:** 2026-05-18
-**Status:** Output file is 0 bytes. Job either crashed or wrote no data. Needs investigation / rerun.
+## Entry 67 — bp13: width × depth heatmap
+
+**Setup.** d_model ∈ {64, 128, 256, 512, 1024} × layers ∈ {1, 2, 4} × 3 seeds.
+
+**Result:** output file is 0 bytes. Script did not write any results. Probable cause: OOM at d_model=1024 + 4 layers, or a crash before the first write. Bug fix written as bulletproof3/bp_fix_widthdepth.py with try/except + incremental save + dropped d_model=1024.
+
+**Status:** failed, rewrite queued.
 
 ---
 
-## Entry 68 — Static vs live distillation (bp18) [BUG IDENTIFIED]
-**Date:** 2026-05-18
-**Status:** Results show static_distill and live_distill are IDENTICAL across all 3 seeds (test_acc 0.66, 0.78, 0.90; rank 78.9, 77.3, 75.5). This is impossible — the two should differ. Bug in script: probably same RNG seed used for both student initializations, or `Live_distill` is actually copying static_distill's model.
+## Entry 68 — bp18: static vs live distillation
 
-**What we CAN report from this run anyway:**
-- Distillation (any form) gets test_acc 65-90% (not full grok) with rank ~75-79 (way above G's ~8 but below M's ~97).
-- Distillation produces an INTERMEDIATE state, not full G.
-- Hard-only baseline (M_hard) confirms: M_hard test_acc 5-10%, rank ~97 (matches our other M runs).
+**Setup.** Train G as teacher. Train student via static-softmax distillation. Train another student via live-teacher distillation. Compare to hard-only M baseline. 3 seeds.
 
-**Action:** Re-run bp18 with fixed RNG separation. Until then, distillation findings are not citable.
+**Results:**
 
----
-
-## Entry 69 — MLP probe (bp22) [BUG]
-**Date:** 2026-05-18
-**Status:** Probe accuracy is 0.0 for both M and G on identity classification. The probe has N_train (~3800) output classes but only 256 hidden — capacity wildly insufficient. Probe couldn't fit at all, so the experiment is null.
-
-**What we CAN say:** task-level probe (predict (a+b) mod P from residual) shows:
-- M: probe accuracy 0.52-0.57 (model knows answer mostly)
-- G: probe accuracy 1.0 (model perfectly knows answer)
-
-**Action:** Re-run bp22 with smaller N classes (e.g., bucket examples into 20-50 clusters) or larger probe capacity. Until then, no per-example identity claim.
-
----
-
-## Entry 70 — ViT + LM scope resolution (bp20) [PARTIAL — JOB CRASHED]
-**Date:** 2026-05-18
-**Status:** ViT half partially completed; LM half didn't start (job likely hit wall-time).
-
-**ViT-Tiny on CIFAR-10 (3 M seeds + 1 G seed got through 400 epochs):**
-
-| Mode | seed | test_acc | head.weight rank | mean block0 attn rank |
+| Model | seed 0 test | seed 1 test | seed 2 test | seed 0 rank_W_out |
 |---|---|---|---|---|
-| M | 0 | 0.6768 | 9.60 | 146.6 |
-| M | 1 | 0.6308 | 9.47 | 143.8 |
-| M | 2 | 0.6697 | 9.57 | 145.9 |
-| G | 0 | 0.8005 | 9.32 | (similar) |
+| G_teacher | 1.0 | 1.0 | 1.0 | 12.2 |
+| Static_distill | 0.657 | 0.775 | 0.900 | 78.9 |
+| Live_distill | 0.657 | 0.775 | 0.900 | 78.9 |
+| M_hard | 0.058 | 0.019 | 0.104 | 97.2 |
 
-**Critical observation:**
-- **ViT M test_acc 0.66-0.68** vs **G test_acc 0.80**. The gap is much smaller than transformers/MLPs on modular addition (where M=5% and G=100%).
-- **head.weight rank is essentially identical** between M and G (~9.5). The output projection compresses naturally regardless of WD.
-- MLP block ranks differ but only modestly (M 143-146, G similar).
+**Bug:** Static_distill and Live_distill produced bit-identical results across all 3 seeds. Impossible under correct execution. Likely cause: same RNG seed used for both student initializations, or one student object was reused for both modes. Bug fix written as bulletproof3/bp_fix_distillation.py with distinct seed offsets +999 and +1999.
 
-**What this means:** ViT shows much weaker categorical separation. It's a "benign overfitting" regime in the Bartlett sense, NOT a sharp memorize-vs-generalize divide. The "structural signatures" framing doesn't apply cleanly to ViTs trained on naturalistic data.
+**What can be said from this run, ignoring the bug:**
+- Distillation (whichever variant actually ran) produces a state with test_acc 0.66-0.90 and rank ~78.
+- This is intermediate between M (test 0.05, rank 97) and G (test 1.0, rank 8).
+- Hard-only M control: test 0.02-0.10, rank 97 (consistent with all other M runs).
 
-**Action for paper:** Be honest about scope. The strong claims apply to:
-- Algorithmic grokking tasks (CLEAN signal)
-- Probably MLP classification with sharp categorical structure
-- NOT cleanly to ViT on naturalistic image data
-- LM not tested (job crashed)
-
-**Status: PARTIAL. Need rerun for ViT G seeds and full LM half.**
+**Status:** distillation comparison invalid, rewrite queued. M_hard baseline reusable.
 
 ---
 
-## REVISED OVERALL SUMMARY (after Day 7 - bp7, bp8, bp9, bp11, bp17 complete; bp13, bp18, bp22 buggy; bp20 partial)
+## Entry 69 — bp22: per-example identity probe
 
-### What is now ROCK-SOLID:
+**Setup.** Train MLP probe to predict per-example identity from residual stream at last layer. Probe with 256 hidden units, 500 epochs.
 
-| Claim | Evidence | Confidence |
-|---|---|---|
-| M and G are categorically distinct in structural feature space | bp7 (10+10 seeds, 23 features, PCA-separable) | **99%** |
-| Effective rank gap 11× (97 vs 8.6) with tiny variance | bp7 | **99%** |
-| Train/test gradient ratio gap 10^9× | bp7 + bp9 | **99%** |
-| Strict negative Hessian eigenvalues at M (1L Transformer) | bp8 (Lanczos w/ reorth, 3 seeds) | **95%** |
-| Sharpness gap: top eig 200-300 at M vs 0.0001-0.3 at G | bp8 | **99%** |
-| Train Hessian at M is essentially zero (~10^-7) | bp8 | **99%** |
-| Gradient angle: M anti-aligned (cos -0.24), G mildly aligned (+0.10) | bp9 (10 seeds each) | **95%** |
-| Sharp WD threshold at 0.376 with sigmoid k=17.9 | bp11 (110 runs) | **99%** |
-| G is NOT the NTK min-norm interpolator | bp17 (5 seeds) | **95%** |
-| Smooth norm penalties escape, aggressive ones don't | bp5 (earlier) | **90%** |
+**Results:**
+- probe_identity_acc = 0.0 for all 6 models (3 M + 3 G).
+- probe_control_acc = 0.0 for all (so selectivity = 0).
+- probe_task_acc (predict (a+b) mod P): M seeds 0.51-0.57; G seeds all 1.0.
 
-### What requires reruns:
-- bp13 (width × depth heatmap) — empty file
-- bp18 (distillation) — identical-results bug
-- bp22 (identity probe) — capacity bug
-- bp20 (ViT/LM) — partial, need to complete
+**Bug:** With N_train ≈ 3800 output classes and only 256 hidden units, the probe is wildly under-capacitated. It cannot fit identity at all (real or shuffled). The identity-probe measurement is null.
 
-### What we now claim DIFFERENTLY than before:
+**What can be said from this run:** task-probe accuracy clearly differs (M 55% vs G 100%) — confirming G's residual encodes the answer perfectly, M's does not.
 
-**Old framing:** "M is a high-rank metastable saddle."
-**New framing:** "M is a strict saddle with: (1) negative-curvature directions in the loss landscape, (2) anti-aligned train/test gradients, (3) high effective rank, (4) extreme sharpness in some directions and zero curvature in others — all simultaneously. This characterization is multi-faceted and each face is independently measurable."
+**Status:** identity probe invalid, rewrite queued (bulletproof3/bp_fix_probe.py uses 20 buckets + 4-layer 512-hidden probe).
 
-**Old framing:** "Rank reduction is the mechanism of generalization."
-**New framing:** "Smooth norm-based regularization causes both rank reduction AND gradient alignment. Rank is one symptom; gradient alignment is the geometric criterion. Aggressive rank reduction without smooth norms doesn't align gradients and doesn't generalize."
+---
 
-### Yunis comparison (what makes us a real paper, not a footnote)
+## Entry 70 — bp20: ViT-Tiny and CharLM (partial)
 
-Yunis has ONE measurement (effective rank entropy) across 5 architectures. We have:
-1. Their measurement (replicated, n=10 seeds, with proper stats — they had no error bars)
-2. + gradient angle (entirely new lens)
-3. + Hessian eigenvalues with strict negative proof (entirely new lens)
-4. + quantitative sigmoid threshold (entirely new — they had no number)
-5. + smooth-vs-aggressive penalty differential (refines Notsawo's positive-only result)
-6. + NTK comparison refuting min-norm interpolator hypothesis (entirely new)
-7. + 23-feature categorical PCA separation (entirely new — they had no battery)
-8. + (pending) MIA AUC, prime scaling, mega-seed WD law
+**Setup intended.** ViT-Tiny on CIFAR-10 × 3 seeds M + 3 seeds G, then CharLM on Shakespeare × 3 seeds each.
 
-**This is a substantial, narrower-than-Yunis, deeper-than-Yunis paper.** It is NOT redundant with Yunis.
+**What completed:** ViT M seeds 0, 1, 2 finished. ViT G seed 0 finished. ViT G seeds 1, 2 did not complete. CharLM half did not start. (Job hit wall-time or crashed.)
 
-### Paper title (revised after deep Yunis read)
+**ViT-Tiny CIFAR-10 raw numbers:**
 
-Old: "Structural Signatures that Distinguish Memorizing from Generalizing Neural Networks"
-Problem: matches Yunis abstract too closely.
+| Mode | seed | test_acc | head.weight rank | block0 attn rank | block11 linear2 rank |
+|---|---|---|---|---|---|
+| M | 0 | 0.6768 | 9.60 | 146.6 | 47.2 |
+| M | 1 | 0.6308 | 9.47 | 143.8 | (similar) |
+| M | 2 | 0.6697 | 9.57 | 145.9 | (similar) |
+| G | 0 | 0.8005 | 9.32 | (similar) | (similar) |
 
-New options:
-1. **"The Geometry of Memorization: Multi-Lens Characterization of the Memorize-Generalize Transition in Grokking"**
-2. **"Why Rank Compression Causes Generalization: Gradient Geometry as the Mechanism"**
-3. **"Memorization Is a Strict Saddle: Hessian, Gradient, and Spectral Signatures of Grokking"**
+**Specific observations from the data we have:**
+- ViT M test_acc 0.63-0.68; ViT G test_acc 0.80. Gap is ~12-17 percentage points, not the 95-point gap in modular addition.
+- ViT head.weight rank is 9.32-9.60 for both M and G — essentially identical, regardless of WD.
+- ViT block-level MLP/attn ranks for M are 100-150 across blocks.
+- Late-block ranks drop more (block 11 linear2 = 47.2), early-block ranks are higher (~140) — natural rank-decay pattern in attention models, present in both M and G.
+- We only have 1 G seed so cannot quantify G's rank distribution properly yet.
 
-The third one is the most accurate to what we now have. The "strict saddle" claim is justified by bp8's negative Hessian eigenvalues. The "Hessian, gradient, and spectral" enumerates our three independent lenses. The "of grokking" is our honest scope.
+**Status:** ViT partial, CharLM not run. Both queued in bulletproof3 (tier3b, tier5).
 
-### Submission timing
+---
 
-If bp13/bp18/bp22 rerun cleanly + bp20 completes, we have everything we need for TMLR submission within 2 weeks. The five "rock-solid" results above are enough for the paper's spine even if reruns are unsatisfactory.
+## Day 7 inventory: what completed, what didn't
+
+**Completed cleanly (n seeds reported):**
+- bp7: 23-feature battery (10+10 seeds) — full data in JSON
+- bp8: Lanczos Hessian spectrum (3+3 seeds) — 40 eigenvalues per model
+- bp9: gradient angle (10+10 seeds) — full per-seed cosines and norms
+- bp11: 110-run WD sigmoid (10 seeds × 11 WDs)
+- bp17: NTK min-norm interpolator (5 seeds)
+
+**Completed buggy (rewrite queued):**
+- bp13 (empty file)
+- bp18 (identical static/live)
+- bp22 (probe under-capacity)
+
+**Partial (job killed):**
+- bp20 (ViT 3M+1G done; LM not run)
+
+---
+
+## All measurables we now have data on, plain inventory
+
+To answer "what do we have," here is the full list of distinct measurements completed across all batches (bulletproof1 + bulletproof2). No claims about importance — just what we measured.
+
+**Weight-space:**
+- Effective rank per layer (W_E, W_U, W_pos, W_Q, W_K, W_V, W_O, W_in, W_out) — bp7
+- Stable rank of W_out — bp7
+- Nuclear norm of W_out — bp7
+- Operator norm of W_out — bp7
+- Inter-layer singular vector alignment (Yunis-style) — measured in earlier batches qualitatively
+- Attention head Q-norm asymmetry — bp7
+
+**Loss-landscape:**
+- Hessian top eigenvalue (full data) — bp1, bp8
+- Hessian bottom eigenvalue (full data) — bp1, bp8
+- Hessian top/bottom (train-only data) — bp8
+- Hessian eigenvalue spread (40 eigenvalues) — bp8
+- Hessian condition number, trace — bp8
+- Sharpness collapse trajectory during WD rescue — bp4
+- Loss-landscape barrier between paired (M, G) — earlier mode-connectivity batch
+
+**Gradient-space:**
+- cos(∇L_train, ∇L_test) — bp9
+- ||∇L_train||, ||∇L_test|| — bp7, bp9
+- ||∇L_test|| / ||∇L_train|| ratio — bp7, bp9
+- cos(−∇L_full at M, G−M) descent-direction-toward-G — bp3
+
+**Representation:**
+- Logit margin mean, std, min — bp7
+- Residual stream effective rank — bp7
+- Task-probe accuracy (predict (a+b) mod P from residual) — bp22
+- Per-example identity probe — bp22 BUGGY, fix queued
+
+**Training dynamics:**
+- Sigmoid WD threshold + sharpness — bp11
+- Log-linear rank-vs-WD law (3 seed earlier) — Entry 42; mega-seed version pending bp10
+- Rank trajectory during rescue — Entry 32; bp4 confirms
+- Time-resolved sharp-to-flat transition during rescue — bp4
+
+**Mechanism (which interventions cause M→G):**
+- WD (works) — many earlier batches
+- Nuclear norm penalty alone (works, no WD needed) — earlier bulletproof
+- Frobenius² penalty alone (works) — bp5
+- Schatten-1/2 penalty (REDUCES rank but DOESN'T grok) — bp5
+- Log-singular penalty (reduces rank, doesn't grok) — bp5
+- Tail-singular penalty (reduces rank, doesn't grok) — bp5
+- SAM, Gaussian noise, label smoothing (don't escape) — earlier cross-arch escape batch
+- L1 weight penalty, spectral norm constraint (escape) — earlier cross-arch
+- Distillation (static / live) — bp18 BUGGY, fix queued
+- NTK min-norm interpolator (reference: doesn't generalize) — bp17
+
+**Cross-architecture confirmation of rank gap:**
+- 12/12 transformer arch sweep — Entry 46
+- 12/12 (arch × task) cells — Entry 50
+- ResNet-18 CIFAR-10 single seed — Entry 28
+- ResNet-50 CIFAR confirmation single seed — Entry 47
+- MNIST MLP single seed — Entry 43
+- ViT-Tiny CIFAR-10 (3M+1G) — bp20 (signal weaker)
+
+**Pending HPC runs (bulletproof3 scale ladder + bulletproof2 leftover):**
+- Mega-seed WD-rank log-linear law — bp10
+- Prime-size scaling (p=53,113,257,509,1009) — bp12
+- MIA battery (LiRA, shadow, logit margin, loss) — bp14
+- MIA vs WD curve — bp15
+- CIFAR-10 ResNet-18 multi-seed — bp16
+- MNIST MLP multi-seed — bp19
+- Cross-task WD law (subtract, multiply) — bp21
+- Tier 0 4L Transformer modular — bp3 tier0
+- Tier 1 MLP MNIST 5+5 seeds with full battery — bp3 tier1
+- Tier 1b MLP FashionMNIST 5+5 — bp3 tier1b
+- Tier 2 ResNet-18 CIFAR-10 5+5 with full battery — bp3 tier2
+- Tier 3 ResNet-50 CIFAR-100 3+3 with full battery — bp3 tier3
+- Tier 3b ViT-Tiny CIFAR-10 3+3 with full battery — bp3 tier3b
+- Tier 4 ViT-Small CIFAR-100 3+3 — bp3 tier4
+- Tier 5 CharLM Shakespeare 3+3 — bp3 tier5
+- Tier 6 Pythia-160m fine-tune 2+2 — bp3 tier6
+
+That is the transparent inventory. No framing imposed. The list is long; what to do with it (which subset becomes the paper, how to organize, what to lead with) is a separate decision to be made AFTER seeing the bulletproof3 scale ladder come back.

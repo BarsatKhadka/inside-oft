@@ -151,7 +151,9 @@ def _auc(scores, labels):
     n_pos = y.sum(); n_neg = len(y) - n_pos
     if n_pos == 0 or n_neg == 0:
         return 0.5
-    return float(np.trapz(np.cumsum(y) / n_pos, np.cumsum(1 - y) / n_neg))
+    # np.trapz removed in numpy 2.x; use trapezoid if available, fall back to trapz
+    trap = getattr(np, 'trapezoid', None) or np.trapz
+    return float(trap(np.cumsum(y) / n_pos, np.cumsum(1 - y) / n_neg))
 
 
 def mia_loss_auc(train_losses_arr: np.ndarray, test_losses_arr: np.ndarray) -> float:
