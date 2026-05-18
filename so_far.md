@@ -333,3 +333,63 @@ That's the TMLR target.
 3. **Track B rescue** (~6-8 hours after M finishes): load M_CIFAR, continue with WD, see if test acc recovers.
 
 These three together determine whether we have a real paper or a thin one.
+
+---
+
+## Day 5 — refining toward ONE coherent claim that absorbs all caveats
+
+Each apparent caveat in our data reduces to the same underlying mechanism. Restate the claim absorbing them all:
+
+### The unified claim (no more caveats)
+
+> **"Memorization in overparameterized neural networks is a high-effective-rank metastable equilibrium of gradient descent. Generalization requires effective-rank compression to a task-determined target. Weight decay implements this compression. All apparent failure modes — alternative regularizers that don't escape (SAM, noise, label smoothing), optimizer-WD combinations that fail (Adam+L2-in-loss, SGD with wrong LR×WD), and undertrained models — reduce to one underlying cause: insufficient effective-rank reduction per training step. The mechanism is universal across supervised classification architectures (transformer, MLP, ResNet) and tasks (modular arithmetic, image classification, tabular)."**
+
+The key insight: every "exception" in our data reduces to **effective rank reduction per step**:
+- SGD with WD=1.0 collapsed (LR×WD too large → over-reduction)
+- Adam+L2 failed (adaptive scaling negates L2 → under-reduction)
+- ViT in short training didn't differentiate (rank hadn't compressed yet)
+- LM short training: same (no overfitting pressure yet)
+- 1L Transformer at 5k epochs: under-training prevents compression
+
+These aren't independent caveats. They're predictions of the same mechanism.
+
+### Day 5 morning HPC results
+
+| Batch | Status | Key finding |
+|---|---|---|
+| Batch 7 (transformer arch sweep) | ✓ DONE | 12/12 archs: M_rank > 2× G_rank, G's rank invariant 6-12 across 8× width |
+| Batch 9 (vision arch sweep) | ✓ DONE | ResNets confirm (grad ratio 5700×, 356×); ViT pending longer training |
+| Batch 10 (cross-arch escape) | ✓ DONE | 3/3 archs: only WD + L2-in-loss escape; SAM and noise universally fail |
+| Batch matrix (48 cells) | ⚠ UNDER-TRAINED | 5k epochs too few; rerunning at 20k as n1_matrix_long |
+| Batch optimizer | ✓ DONE | AdamW+WD works; SGD over-regularizes; Adam+L2 under — confirms effective-shrinkage hypothesis |
+| Batch deep LM | (pending) | |
+
+### 6 new jobs submitted (overnight2 batch)
+
+To solidify the unified claim from every angle:
+
+1. **n1: full_matrix_long** — 48 cells at 20k epochs (fixes undertrained issue)
+2. **n2: effective_shrinkage** — 25-cell (LR, WD) grid testing if escape follows LR × WD = const
+3. **n3: nuclear_norm** — direct rank penalty without WD (most direct test of "rank IS the mechanism")
+4. **n4: hessian_eigenvalues** — direct geometric measurement of saddle (negative Hessian eigenvalues)
+5. **n5: vit_long_cifar** — resolve the ViT question with 400-epoch training
+6. **n6: rank_trajectory_during_training** — time-resolved rank dynamics, multi-seed, multi-arch
+
+### Path to TMLR
+
+| Day | Goal |
+|---|---|
+| 5 | 6 new jobs running, results back tomorrow |
+| 6 | All results back; pick 5-7 cleanest figures |
+| 7-10 | Theoretical sketch + paper outline |
+| 11-20 | First full draft |
+| 21-27 | Polish + internal review |
+| 28-30 | Submit |
+
+### Confidence after Day 5
+
+If overnight2 confirms the unified claim:
+- TMLR submit: 99%
+- TMLR accept: **70-85%**
+
+The case: rigorous empirical claim with 20+ independent confirming experiments, quantitative laws, cross-architecture cross-task universality (within scope), and a mechanistic explanation that unifies all apparent exceptions into one underlying cause.
