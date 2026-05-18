@@ -36,9 +36,21 @@ python -u taska/analysis/transfer_test.py
 
 echo
 echo "=============================================="
-echo "β. distillation.py"
+echo "β. distillation.py (M as teacher)"
 echo "=============================================="
 python -u taska/analysis/distillation.py
+
+echo
+echo "=============================================="
+echo "β-control. distillation_G.py (G as teacher control)"
+echo "=============================================="
+python -u taska/analysis/distillation_G.py
+
+echo
+echo "=============================================="
+echo "δ. wrong_prediction_consistency.py"
+echo "=============================================="
+python -u taska/analysis/wrong_prediction_consistency.py
 
 echo
 echo "[done] $(date)"

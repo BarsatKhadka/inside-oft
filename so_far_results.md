@@ -273,18 +273,131 @@ This is now a real paper claim with empirical evidence and a clean mechanism.
 
 ---
 
-## Entry 19 — [pending: structural comparison of rescued_M vs G]
+## Entry 19 — Local generalization: does M have any smoothness?
+**Date:** 2026-05-17
+**Setup:** For each of 12,769 (a, b) pairs, compute its cyclic L1 distance to the nearest training pair. Bin predictions by distance. Measure: accuracy and mean absolute cyclic error of M's predictions at each distance. Script: `taska/analysis/local_generalization.py`.
+**What I expected:** If M has local smoothness, accuracy drops gradually with distance and absolute error stays smaller than uniform.
+**What happened:**
+| Distance | n pairs | M acc | M mean abs err | G acc |
+|---|---|---|---|---|
+| 0 (training) | 3830 | **100%** | 0 | 100% |
+| 1 | 6832 | **6.12%** | **26.14** | 100% |
+| 2 | 2020 | 6.34% | 26.35 | 100% |
+| 3 | 85 | 3.53% | 27.41 | 100% |
+| 4 | 2 | 0% | 14.50 | 100% |
 
-Take rescued M_50000 (after 20k epochs of WD training). Compute rank, probe sel(a), mode connectivity barrier to G. Does rescue produce the SAME generalizing solution as G? Or a different generalizing solution?
+**What it means:** M has **ZERO local generalization.** The moment you move ONE token-distance away from a training pair, accuracy collapses to chance (~6%) and mean absolute error of ~26 (out of P/4=28 random baseline). M is a pure point hash table — no implicit interpolation, no nearby-input-similar-output structure. Treats `(7, 23)` and `(7, 24)` as completely unrelated inputs.
+
+People often assume neural nets get "free" generalization via implicit smoothness; we show that's FALSE for overfit-style memorization. The memorization is genuinely per-pair, not per-region.
 
 ---
 
-## Entry 20 — [pending: minimum WD threshold for rescue]
+## Entry 20 — Per-example memorization quality
+**Date:** 2026-05-17
+**Setup:** For each training pair, compute logit margin = logit[correct] - max(logit[wrong]). Distribution of margins tells us if some pairs are more strongly memorized than others. Same on test pairs (where margin is usually negative). Script: `taska/analysis/memorization_quality.py`.
+**What I expected:** M's margins might be uniform (all memorized equally), or long-tailed (some pairs better than others).
+**What happened:**
+- **M training margins:** mean 25.1, range 23.8 to 42.7 (factor 1.8 between weakest and strongest)
+- **M test margins:** median **−55**, min **−206** (M is *confidently wrong* on test, not uncertain)
+- **G training margins:** mean 17.5, range 14.7 to 20.8 (factor 1.4)
+- **G test margins:** mean 16.9, similar to train (G generalizes uniformly)
 
-Sweep WD ∈ {0.01, 0.05, 0.1, 0.5, 1.0, 2.0}. At what WD does rescue stop working?
+**What it means:** Two findings.
+1. M's memorization is mostly uniform but has variance — some pairs are memorized 1.8× more strongly than others. Not obviously systematic (no clear pattern in best/worst pairs).
+2. **M's test confidence is huge AND wrong.** Margins of -55 to -206 mean M asserts the wrong answer on test with extreme confidence. This is the precise mechanism that makes membership inference trivial: a high-confidence prediction (correct or wrong) from M = M has a strong opinion = M has seen this pair before. G shows no such signature.
 
 ---
 
-## Entry 21 — [pending: Track B rescue]
+## Entry 21 — Neuron organization
+**Date:** 2026-05-17
+**Setup:** For each of 512 MLP neurons, compute per-input activation across all 12,769 pairs. "Selectivity" = fraction of total activation captured by top 1% of inputs (high = specialized neuron, firing on few inputs only). Compare M to G. Script: `taska/analysis/neuron_organization.py`.
+**What I expected:** If M's neurons are specialized lookup-detectors, selectivity should be much higher than G's.
+**What happened:**
+- **M selectivity distribution:** mean ~0.08, long tail to 0.40+. Some neurons highly specialized.
+- **G selectivity distribution:** tightly clustered around 0.04 (~uniform-firing baseline at 0.01). G's neurons are MUCH less specialized.
+- Activation heatmap: M's top 100 neurons fire sparsely on small subsets of inputs. G's top 100 neurons fire in STRUCTURED PERIODIC bands (the Fourier circuit's components).
 
-The big test. Does standard CIFAR overfitting (not grokking-style) also rescue when you add WD and continue? If yes, our finding generalizes beyond modular addition. Headline-tier.
+**What it means:** Confirms structural difference at neuron level. **M's neurons are specialized pattern-detectors** (firing on small sets of training pairs). **G's neurons are uniformly-firing Fourier components** that participate broadly across all inputs. Same architecture, different functional role per neuron.
+
+---
+
+## Entry 22 — Attention patterns
+**Date:** 2026-05-17
+**Setup:** For both M and G, compute average attention pattern at position 2 (above "="), separately for train and test inputs. 4 heads × 3 source positions. Script: `taska/analysis/attention_analysis.py`.
+**What I expected:** Maybe M's attention differs on train vs test (gating). Or maybe M's attention is more concentrated.
+**What happened:**
+- **G's attention is symmetric across heads:** heads 1, 2, 3 attend 50/50 between positions 0 (a) and 1 (b). Head 0 has tiny attention to position 2.
+- **M's attention is ASYMMETRIC and varied per head:** head 0 = 46/54, head 1 = 32/68, **head 2 = 90/10**, head 3 = 38/62. Different heads have learned different routing.
+- **Same patterns on train and test for both models.** Attention itself is NOT a membership detector.
+
+**What it means:** Structural difference at the attention level. **G's heads have converged to symmetric Fourier-like routing** (a and b treated equally). **M's heads have differentiated into asymmetric routings** — head 2 in particular has become a strong "look at a" detector while head 1 is mostly "look at b". This is a real difference but its functional meaning isn't yet clear. Possibly each head specializes for different memorization sub-circuits.
+
+Notably: attention pattern doesn't differ between train and test, so the membership gating must live downstream (MLP), not in attention.
+
+---
+
+## Entry 23 — Capacity test (compressibility)
+**Date:** 2026-05-17
+**Setup:** Apply low-rank truncation and quantization to W_E + W_in + W_out simultaneously. Sweep rank k and bit-precision. Measure: at what compression level does train accuracy collapse? Script: `taska/analysis/capacity_test.py`.
+**What I expected:** G compressible (low intrinsic dim), M not (needs full capacity to memorize 3830 pairs).
+**What happened:**
+- **G survives truncation to rank ≈ 20 with 100% train acc.** Even rank 10 gives 65%. G is genuinely low-rank.
+- **M needs rank ≈ 100+ to maintain train acc.** At rank 50: only 60%. M uses most of its capacity to memorize.
+- **G survives quantization to 8 levels (3 bits) with 100% train acc.**
+- **M needs 16 levels (4 bits) for 100% train acc.**
+- M's test accuracy stays at ~6% regardless of compression (predictably).
+
+**What it means:** Quantifies the "M uses way more capacity than G" claim. M needs ~5× more rank and ~2× more bit-precision to maintain memorization. **G uses ~26 kbits of capacity for its solution; M uses ~6× more.** Most of M's parameters are doing work, but the work is per-pair lookup, not algorithmic.
+
+---
+
+## Entry 24 — Transfer test: does M's frozen body help learn (a-b) mod p?
+**Date:** 2026-05-17
+**Setup:** Freeze the body (embed + attention + MLP) of M, G, or random init, and train ONLY a fresh unembedding W_U on the new task `(a - b) mod p`. Compare to full fresh end-to-end training on the new task. 10k epochs each. Script: `taska/analysis/transfer_test.py`.
+**What I expected:** If M's representations are useful generally, frozen-M + fresh-U should learn the new task. Honest prior: ~30% chance.
+**What happened: NEGATIVE result.**
+| Config | Final test acc on (a-b) mod p |
+|---|---|
+| M frozen + fresh W_U | **0.5%** |
+| G frozen + fresh W_U | **18.7%** |
+| Random frozen + fresh W_U | 0.1% (chance) |
+| Full fresh end-to-end | 100% (reaches 95% at epoch 9600) |
+
+**What it means:** M's representations don't transfer at all (worse than chance!). G transfers modestly — its Fourier-rotation structure has some overlap with subtraction — but neither comes close to learning. **"Overfit models as pretrained encoders" is dead.** M's structure is too task-specific to reuse.
+
+Interesting nuance: G > M for transfer. G learned a more general "rotational" encoding; M learned input-specific lookup with no transferable features.
+
+---
+
+## Entry 25 — Distillation: does M as a teacher accelerate fresh student grokking?
+**Date:** 2026-05-17
+**Setup:** Train a fresh student from random init on (a+b) mod p with loss = CE + λ × KL(student || M). Sweep λ ∈ {0, 0.1, 0.5, 1.0, 2.0}. λ=0 is the control (no distillation). 20k epochs. Script: `taska/analysis/distillation.py`.
+**What I expected:** ~10% chance distillation helps (M's outputs include confidently-wrong test predictions, should hurt).
+**What happened: POSITIVE result with caveat.**
+| λ | Epoch to reach 95% test acc | Speedup vs λ=0 |
+|---|---|---|
+| 0.0 | 8600 | baseline |
+| 0.1 | 7800 | 9% faster |
+| **0.5** | **6000** | **30% faster** |
+| 1.0 | 6800 | 21% faster |
+| 2.0 | 6200 | 28% faster |
+
+**What it means:** Distilling from M accelerates fresh student grokking by ~30%. Real measurable speedup.
+
+**Important caveat:** distillation is computed only on TRAINING data, where M is correct. So part of this speedup might be just "double training signal" effect (M's training predictions match labels, adding redundant supervision). The other part is M's full logit *distribution* — the shape of its softmax over 113 classes — which contains soft-target information beyond hard labels.
+
+To distinguish: need a control with G as teacher. If G-distillation gives similar 30% speedup → it's just soft-target effect. If M >> G → M has unique useful structure. **Not yet run.**
+
+Also: total compute is WORSE. Training M takes 50k epochs + distillation 6k epochs = 56k total, vs ~10.8k for fresh G. Practical value zero. Scientific interest only.
+
+---
+
+## Entry 26 — [pending: G-distillation control]
+
+Same as Entry 25 but using G as teacher instead of M. Determines whether the 30% speedup is M-specific or generic soft-target effect.
+
+---
+
+## Entry 27 — [pending: Track B rescue (CIFAR + ResNet)]
+
+The big test. Does standard CIFAR overfitting (not grokking-style) also rescue when you add WD and continue training? If yes → our trajectory_rescue finding generalizes to vision. Headline-tier.

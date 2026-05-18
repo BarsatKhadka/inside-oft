@@ -121,14 +121,41 @@ This is the cleanest positive result of the project. See Entry 18.
 
 > **"Overfitting in modular addition is FULLY REVERSIBLE by adding weight decay and continuing training, even from arbitrarily deep memorization. M's memorizing solution sits at a saddle whose dominant unstable direction is precisely toward generalization. Weight decay during continued training provides the natural force that follows this direction. Surgical interventions on the frozen weights cannot escape the saddle because they move in arbitrary directions; gradient descent + weight decay moves in the right direction."**
 
-This is a positive, mechanistic claim with a clean intervention recipe. It's no longer "characterization." It's a finding.
+But honestly: rescue takes ~11k epochs from any starting point, which is the same as training G from scratch. So M provides ZERO head start — the "rescue" claim is geometrically interesting but practically uninteresting (you'd have been faster just training G from scratch).
+
+## Additional day-1+2 findings
+
+After the rescue, ran a battery of characterization experiments (Entries 19-25):
+
+| Experiment | Result | Verdict |
+|---|---|---|
+| Local generalization | M's accuracy drops to chance ONE step from training pair | M is point lookup, ZERO smoothness |
+| Memorization quality | M margins range 23.8-42.7 on train; -55 to -206 on test | M is "confidently wrong" on test → MIA signature |
+| Neuron organization | M's neurons highly selective (long tail to 0.4+); G's tight at 0.04 | Structural: M = pattern-detectors, G = Fourier components |
+| Attention | M's heads asymmetric (head 2 = 90/10); G's symmetric (50/50) | Real difference, function unclear |
+| Capacity (compressibility) | G survives rank=20 + 3-bit quant; M needs rank=100 + 4-bit | M uses ~5× more capacity than G |
+| Transfer test (α) | M frozen + fresh U on (a-b) mod p: 0.5%; G: 18.7% | M doesn't transfer; G barely transfers |
+| Distillation (β) | Distilling from M speeds fresh student grokking by 30% | Real positive, but possibly just soft-target effect |
+
+The distillation result (β) is the smallest-but-cleanest positive finding so far: M as a teacher accelerates fresh student grokking by 30%. Caveat: needs a G-distillation control to verify it's M-specific.
+
+## Net assessment after day 2
+
+We have many measurements but no SINGLE killer finding. Best candidates for a paper:
+
+1. **Saddle + rescue story** — true, mechanistically grounded, but practically meaningless (no compute saving).
+2. **Distillation speedup** — real, novel, but small (30%) and unverified vs G-as-teacher.
+3. **Capacity/structural characterization** — comprehensive but no surprises.
+4. **Membership inference mechanism** — clean negative result on "what's useful in M" combined with positive result on "M perfectly leaks training set membership."
+
+A paper combining 1+2+4 would be a careful structural-characterization paper. TMLR-acceptable. Not exciting.
+
+The thing that could change this picture: **Track B rescue.** If standard CIFAR overfitting also fully rescues with WD, the finding generalizes and becomes a real claim about deep learning rather than about grokking.
 
 ## Next experiments (priority order)
 
-1. **Compare rescued M to G structurally** (~30 min): take rescued_M_50000, compute rank, probe sel(a), mode connectivity barrier to G. Does rescue produce *the same* generalizing solution, or a different one? Either is interesting.
+1. **G-distillation control** (~1 hour): does fresh student learn faster with G as teacher? Tells us if the distillation speedup is M-specific or generic.
+2. **Track B baselines** (~6-8 hours each on HPC): train CIFAR ResNet-18 with WD (G) and without (M). Watch test loss climb for M. Currently submitted.
+3. **Track B rescue** (~6-8 hours after M finishes): load M_CIFAR, continue with WD, see if test acc recovers.
 
-2. **Minimum WD for rescue** (~1 hour): sweep WD ∈ {0.01, 0.1, 0.5, 1.0, 2.0}. Where is the threshold below which rescue fails?
-
-3. **Track B rescue** (~2 days): the BIG question. Does standard CIFAR overfitting (no grokking) also rescue when you add WD mid-training? This would generalize the finding beyond modular addition. If yes — headline TMLR result. If no — finding is grokking-specific, still publishable but narrower.
-
-4. **Run pending HPC scripts** (A-E above) for additional supporting analyses.
+These three together determine whether we have a real paper or a thin one.
