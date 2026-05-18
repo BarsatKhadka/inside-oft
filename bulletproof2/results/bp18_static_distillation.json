@@ -1,0 +1,82 @@
+{
+  "G_teacher": [
+    {
+      "seed": 0,
+      "test_acc": 1.0,
+      "train_acc": 1.0,
+      "rank_W_out": 12.184733390808105
+    },
+    {
+      "seed": 1,
+      "test_acc": 1.0,
+      "train_acc": 1.0,
+      "rank_W_out": 5.947475433349609
+    },
+    {
+      "seed": 2,
+      "test_acc": 1.0,
+      "train_acc": 1.0,
+      "rank_W_out": 8.002143859863281
+    }
+  ],
+  "Static_distill": [
+    {
+      "seed": 0,
+      "test_acc": 0.6568967700004578,
+      "train_acc": 1.0,
+      "rank_W_out": 78.87430572509766
+    },
+    {
+      "seed": 1,
+      "test_acc": 0.7753663659095764,
+      "train_acc": 1.0,
+      "rank_W_out": 77.31194305419922
+    },
+    {
+      "seed": 2,
+      "test_acc": 0.8998769521713257,
+      "train_acc": 1.0,
+      "rank_W_out": 75.4906997680664
+    }
+  ],
+  "Live_distill": [
+    {
+      "seed": 0,
+      "test_acc": 0.6568967700004578,
+      "train_acc": 1.0,
+      "rank_W_out": 78.87430572509766
+    },
+    {
+      "seed": 1,
+      "test_acc": 0.7753663659095764,
+      "train_acc": 1.0,
+      "rank_W_out": 77.31194305419922
+    },
+    {
+      "seed": 2,
+      "test_acc": 0.8998769521713257,
+      "train_acc": 1.0,
+      "rank_W_out": 75.4906997680664
+    }
+  ],
+  "M_hard": [
+    {
+      "seed": 0,
+      "test_acc": 0.05828392505645752,
+      "train_acc": 1.0,
+      "rank_W_out": 97.2143783569336
+    },
+    {
+      "seed": 1,
+      "test_acc": 0.01868217997252941,
+      "train_acc": 1.0,
+      "rank_W_out": 97.12078094482422
+    },
+    {
+      "seed": 2,
+      "test_acc": 0.10359100997447968,
+      "train_acc": 1.0,
+      "rank_W_out": 97.11175537109375
+    }
+  ]
+}
