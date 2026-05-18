@@ -1,0 +1,20 @@
+{
+  "seed0": {
+    "cos_grad_vs_GminusM": -0.20500338077545166,
+    "cos_negGrad_vs_GminusM": 0.20500338077545166,
+    "grad_norm": 12.611063003540039,
+    "delta_norm": 73.44479370117188
+  },
+  "seed1": {
+    "cos_grad_vs_GminusM": -0.2520866394042969,
+    "cos_negGrad_vs_GminusM": 0.2520866394042969,
+    "grad_norm": 11.574209213256836,
+    "delta_norm": 74.93777465820312
+  },
+  "seed2": {
+    "cos_grad_vs_GminusM": -0.21991084516048431,
+    "cos_negGrad_vs_GminusM": 0.21991084516048431,
+    "grad_norm": 11.414958953857422,
+    "delta_norm": 71.96507263183594
+  }
+}
