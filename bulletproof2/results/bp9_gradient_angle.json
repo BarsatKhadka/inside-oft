@@ -1,0 +1,206 @@
+{
+  "M": [
+    {
+      "seed": 0,
+      "wd": 0.0,
+      "final_test_acc": 0.05828392505645752,
+      "cos_grad_train_test": -0.6620897650718689,
+      "angle_deg": 131.45944556186114,
+      "grad_train_norm": 3.034439088889229e-10,
+      "grad_test_norm": 19.27886199951172,
+      "grad_ratio": 63324839936.0
+    },
+    {
+      "seed": 1,
+      "wd": 0.0,
+      "final_test_acc": 0.01868217997252941,
+      "cos_grad_train_test": -0.2727402448654175,
+      "angle_deg": 105.82739266782717,
+      "grad_train_norm": 3.397570280672113e-10,
+      "grad_test_norm": 15.593462944030762,
+      "grad_ratio": 45761236992.0
+    },
+    {
+      "seed": 2,
+      "wd": 0.0,
+      "final_test_acc": 0.10359100997447968,
+      "cos_grad_train_test": -0.41903752088546753,
+      "angle_deg": 114.77383706512167,
+      "grad_train_norm": 2.471892412980736e-10,
+      "grad_test_norm": 14.954839706420898,
+      "grad_ratio": 60255793152.0
+    },
+    {
+      "seed": 3,
+      "wd": 0.0,
+      "final_test_acc": 0.20807696878910065,
+      "cos_grad_train_test": -0.07804680615663528,
+      "angle_deg": 94.47630488725633,
+      "grad_train_norm": 4.964894051440183e-10,
+      "grad_test_norm": 12.95180892944336,
+      "grad_ratio": 26034341888.0
+    },
+    {
+      "seed": 4,
+      "wd": 0.0,
+      "final_test_acc": 0.11321177333593369,
+      "cos_grad_train_test": -0.22369840741157532,
+      "angle_deg": 102.92635164301922,
+      "grad_train_norm": 3.846136742424733e-10,
+      "grad_test_norm": 16.16462516784668,
+      "grad_ratio": 41919221760.0
+    },
+    {
+      "seed": 5,
+      "wd": 0.0,
+      "final_test_acc": 0.010515717789530754,
+      "cos_grad_train_test": -0.26752087473869324,
+      "angle_deg": 105.51679755881338,
+      "grad_train_norm": 2.9176003280007023e-10,
+      "grad_test_norm": 13.587270736694336,
+      "grad_ratio": 46410948608.0
+    },
+    {
+      "seed": 6,
+      "wd": 0.0,
+      "final_test_acc": 0.043852780014276505,
+      "cos_grad_train_test": -0.14705699682235718,
+      "angle_deg": 98.45641352225451,
+      "grad_train_norm": 4.1029826758354204e-10,
+      "grad_test_norm": 18.826763153076172,
+      "grad_ratio": 45773991936.0
+    },
+    {
+      "seed": 7,
+      "wd": 0.0,
+      "final_test_acc": 0.03456762433052063,
+      "cos_grad_train_test": -0.2767459452152252,
+      "angle_deg": 106.06608815681777,
+      "grad_train_norm": 2.385791841863494e-10,
+      "grad_test_norm": 16.40733528137207,
+      "grad_ratio": 68483973120.0
+    },
+    {
+      "seed": 8,
+      "wd": 0.0,
+      "final_test_acc": 0.07103703171014786,
+      "cos_grad_train_test": 0.24410995841026306,
+      "angle_deg": 75.87075885146392,
+      "grad_train_norm": 5.01870545122074e-10,
+      "grad_test_norm": 15.434349060058594,
+      "grad_ratio": 30692491264.0
+    },
+    {
+      "seed": 9,
+      "wd": 0.0,
+      "final_test_acc": 0.017004139721393585,
+      "cos_grad_train_test": -0.26534512639045715,
+      "angle_deg": 105.38746126676291,
+      "grad_train_norm": 3.569879669651499e-10,
+      "grad_test_norm": 14.181468963623047,
+      "grad_ratio": 39614373888.0
+    }
+  ],
+  "G": [
+    {
+      "seed": 0,
+      "wd": 1.0,
+      "final_test_acc": 1.0,
+      "cos_grad_train_test": -0.03435743972659111,
+      "angle_deg": 91.96892378483017,
+      "grad_train_norm": 3.7865061131014954e-07,
+      "grad_test_norm": 0.005301110912114382,
+      "grad_ratio": 13999.9697265625
+    },
+    {
+      "seed": 1,
+      "wd": 1.0,
+      "final_test_acc": 1.0,
+      "cos_grad_train_test": 0.13118697702884674,
+      "angle_deg": 82.46181144696132,
+      "grad_train_norm": 3.299182367300091e-07,
+      "grad_test_norm": 1.0336805189581355e-06,
+      "grad_ratio": 3.133131980895996
+    },
+    {
+      "seed": 2,
+      "wd": 1.0,
+      "final_test_acc": 1.0,
+      "cos_grad_train_test": 0.1617451310157776,
+      "angle_deg": 80.69179560253292,
+      "grad_train_norm": 3.4568262208267697e-07,
+      "grad_test_norm": 1.941823711604229e-06,
+      "grad_ratio": 5.617343902587891
+    },
+    {
+      "seed": 3,
+      "wd": 1.0,
+      "final_test_acc": 1.0,
+      "cos_grad_train_test": 0.1268412172794342,
+      "angle_deg": 82.71290378779487,
+      "grad_train_norm": 3.3887545214383863e-07,
+      "grad_test_norm": 2.6559000616543926e-06,
+      "grad_ratio": 7.837369918823242
+    },
+    {
+      "seed": 4,
+      "wd": 1.0,
+      "final_test_acc": 1.0,
+      "cos_grad_train_test": 0.1601119339466095,
+      "angle_deg": 80.78660667488109,
+      "grad_train_norm": 3.445960317094432e-07,
+      "grad_test_norm": 1.1149896863571485e-06,
+      "grad_ratio": 3.235633611679077
+    },
+    {
+      "seed": 5,
+      "wd": 1.0,
+      "final_test_acc": 1.0,
+      "cos_grad_train_test": 0.14982181787490845,
+      "angle_deg": 81.38339921135844,
+      "grad_train_norm": 3.4466236797925376e-07,
+      "grad_test_norm": 9.333954267276567e-07,
+      "grad_ratio": 2.708136558532715
+    },
+    {
+      "seed": 6,
+      "wd": 1.0,
+      "final_test_acc": 1.0,
+      "cos_grad_train_test": 0.137594535946846,
+      "angle_deg": 82.09132377888716,
+      "grad_train_norm": 3.486673563202203e-07,
+      "grad_test_norm": 2.3157679152063793e-06,
+      "grad_ratio": 6.641749858856201
+    },
+    {
+      "seed": 7,
+      "wd": 1.0,
+      "final_test_acc": 0.9984338879585266,
+      "cos_grad_train_test": -0.013924980536103249,
+      "angle_deg": 90.79786840106038,
+      "grad_train_norm": 3.509622104047594e-07,
+      "grad_test_norm": 0.1092202439904213,
+      "grad_ratio": 311201.40625
+    },
+    {
+      "seed": 8,
+      "wd": 1.0,
+      "final_test_acc": 0.999776303768158,
+      "cos_grad_train_test": 0.04207407310605049,
+      "angle_deg": 87.58862137876018,
+      "grad_train_norm": 3.96983068640111e-07,
+      "grad_test_norm": 0.01602834276854992,
+      "grad_ratio": 40375.28125
+    },
+    {
+      "seed": 9,
+      "wd": 1.0,
+      "final_test_acc": 1.0,
+      "cos_grad_train_test": 0.13346344232559204,
+      "angle_deg": 82.33022241587179,
+      "grad_train_norm": 3.246691733238549e-07,
+      "grad_test_norm": 1.253477307727735e-06,
+      "grad_ratio": 3.860771417617798
+    }
+  ]
+}
