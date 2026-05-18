@@ -10,7 +10,18 @@
       "Bash(tar tzf *)",
       "Bash(grep -n 'f.\\\\\\\\\".*WD\\\\|f.[^\"]*\\\\\\\\\"' overnight2/effective_shrinkage.py)",
       "Bash(grep -n '\\\\\\\\\"' overnight2/nuclear_norm.py)",
-      "Bash(grep *)"
+      "Bash(grep *)",
+      "WebSearch",
+      "WebFetch(domain:arxiv.org)",
+      "WebFetch(domain:openreview.net)",
+      "WebFetch(domain:ar5iv.labs.arxiv.org)",
+      "WebFetch(domain:www.semanticscholar.org)",
+      "WebFetch(domain:proceedings.iclr.cc)",
+      "WebFetch(domain:ttic.edu)",
+      "WebFetch(domain:www.emergentmind.com)",
+      "WebFetch(domain:proceedings.mlr.press)",
+      "Bash(cat)",
+      "Bash(bash /tmp/make_slurm.sh)"
     ]
   }
 }
