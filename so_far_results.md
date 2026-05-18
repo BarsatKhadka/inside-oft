@@ -392,12 +392,144 @@ Also: total compute is WORSE. Training M takes 50k epochs + distillation 6k epoc
 
 ---
 
-## Entry 26 — [pending: G-distillation control]
+## Entry 26 — G-distillation control
+**Date:** 2026-05-17
+**Setup:** Same as Entry 25 (distillation from teacher → fresh student grokking) but using **G as teacher instead of M**. Sweep λ ∈ {0, 0.1, 0.5, 1.0, 2.0}. Compare to M-distillation results from Entry 25. Script: `taska/analysis/distillation_G.py`.
+**What I expected:** If M's 30% speedup is M-specific (M has unique info), G-distillation should give SIMILAR speedup. If M-distillation is just generic soft-target effect, G-distillation should give MUCH stronger speedup (G's outputs are clean generalizations).
+**What happened:**
+| λ | M-distillation (epoch grok) | G-distillation (epoch grok) | G speedup over M |
+|---|---|---|---|
+| 0.0 | 8600 | 8600 | same control |
+| 0.1 | 7800 | 6800 | G slightly faster |
+| 0.5 | 6000 | **1200** | **5× faster** |
+| 1.0 | 6800 | **600** | **11× faster** |
+| 2.0 | 6200 | **400** | **15× faster** |
 
-Same as Entry 25 but using G as teacher instead of M. Determines whether the 30% speedup is M-specific or generic soft-target effect.
+**What it means:** G is a *vastly* better teacher than M. At λ=2.0, G-distillation groks 15× faster than M-distillation. **The M-distillation speedup is just the generic dark-knowledge effect — M provides minimal information beyond what a soft target alone provides.** M is NOT a useful teacher in any meaningful sense.
+
+This kills the "overfit models contain transferable info" angle from the distillation direction.
 
 ---
 
-## Entry 27 — [pending: Track B rescue (CIFAR + ResNet)]
+## Entry 27 — Cross-seed wrong-prediction consistency (δ)
+**Date:** 2026-05-17
+**Setup:** For each of 4349 test inputs unseen by ALL 3 M-models (intersection of test splits across seeds 0, 1, 2), get each M's prediction. Measure: how often do all 3 M's predict the same WRONG answer? Compare to chance (1/113 = 0.88%). Script: `taska/analysis/wrong_prediction_consistency.py`.
+**What I expected:** If M's wrong predictions share structure across seeds (e.g., M's discover similar "wrong-answer rules"), agreement should be much higher than chance. Honest prior: ~25% chance of finding shared structure.
+**What happened:**
+- Pairwise M-M agreement on unseen inputs: 0.97% - 1.26% (chance is 0.88%)
+- All 3 M's agree: 0.07% (chance = 1/113² = 0.008%)
+- Among inputs where ALL 3 are wrong: only 0.05% give the same wrong answer
 
-The big test. Does standard CIFAR overfitting (not grokking-style) also rescue when you add WD and continue training? If yes → our trajectory_rescue finding generalizes to vision. Headline-tier.
+**What it means:** M's wrong predictions are essentially **independent across seeds**. Each M is its own unique pattern of confident-wrongness. The "memorizing solutions discover shared wrong-structure" hypothesis is FALSE. M's are *structured in aggregate* (same rank, same probe, same saddle topology) but *random in specifics* (each instantiation idiosyncratic).
+
+This rules out one possible angle and confirms the "structured randomness" interpretation.
+
+---
+
+## Entry 28 — Track B analysis: do structural signatures transfer to CIFAR? [BIG]
+**Date:** 2026-05-17
+**Setup:** Train ResNet-18 on CIFAR-10 in two regimes — G_CIFAR (WD=5e-4 + augmentation), M_CIFAR (no WD, no augmentation, 400 epochs). Compute Track A's full structural battery: margin distribution, effective rank of selected weight matrices, gradient norms on train vs test (saddle test), MIA probe accuracy. Compare M_CIFAR to G_CIFAR. Script: `trackb/analysis_trackb.py`.
+**What I expected:** If the structural signatures of memorization are regime-invariant, M_CIFAR should show the same patterns as M_TrackA: higher rank, saddle topology, train-vs-test margin asymmetry, MIA leak.
+**What happened: structural signatures CONFIRMED in CIFAR even though M_CIFAR generalizes to 82% (vs Track A's 6%).**
+
+| Signature | M_CIFAR | G_CIFAR | M_TrackA (for ref) |
+|---|---|---|---|
+| Test accuracy | 82.4% | 88.2% | 6.1% |
+| W_out / fc effective rank | 8.8 (small fc) | 8.2 | (different arch) |
+| layer4.1.conv2 effective rank | **363** | **14.6** | (different arch) |
+| ‖∇‖ on train | 0.000155 | 60.5 (still some WD residual) | ~10⁻¹⁰ |
+| ‖∇‖ on test | **29.4** | 62.6 | **~17** |
+| Saddle ratio (test/train grad) | **190,000×** | ~1× | **~6,000,000×** |
+| MIA probe (chance = 0.50) | 53.7% | 51.9% | (different probe) |
+| Margin distribution | broad on train, negative tail on test | narrow on both | broad, very negative on test |
+
+**Key findings:**
+1. **The deep conv layer (layer4.1.conv2) has 25× more effective rank in M than G.** This is *bigger* than the Track A 5× difference. Even though M_CIFAR generalizes much better than M_TrackA, its computational structure is dramatically more spread-out.
+2. **Saddle topology is preserved in CIFAR.** M's gradient asymmetry is 190,000× vs G's ~1×. Track A's was 6M× — same direction, just less extreme.
+3. **MIA leak is real but small** (3.8 percentage points above chance). In benign overfitting, the membership signature is present but weak.
+4. **Margin asymmetry preserved.** M_CIFAR has confidently-wrong test predictions; G_CIFAR has uniform margins.
+
+**What it means:** The structural signatures of memorization are **regime-invariant**. They appear in catastrophic memorization AND benign overfitting. The model can generalize well (82%) while still being structurally a memorizing-type solution.
+
+This is what makes the work more than a rediscovery of double descent / benign overfitting. Benign overfitting (Belkin 2019, Nakkiran 2020) shows that perfect-fit models can generalize. We add: even when they do, they have a *distinctive internal structure* visible to anyone who measures rank, gradients, or margins.
+
+---
+
+## Entry 29 — Mode connectivity in Track B
+**Date:** 2026-05-17
+**Setup:** Linear interpolation between M_CIFAR and G_CIFAR in weight space, evaluate train+test loss/acc at each alpha. Script: `trackb/mode_connectivity_trackb.py`.
+**What I expected:** If M and G are in different basins (as in Track A), should see a clear barrier. If they're in the same basin (because both work decently in benign regime), should see a flat or low-barrier path.
+**What happened:** Clear barrier. At alpha=0.2, loss spikes to ~10 (vs ~0 at M and ~0.5 at G). Accuracy drops to ~10% (chance for 10-class CIFAR) for alpha ∈ [0.2, 0.9].
+**What it means:** **Even in benign overfitting, M_CIFAR and G_CIFAR are in genuinely different basins.** The linear path between them goes through a high-loss region where the model can't predict anything coherently. This confirms that the basin separation is regime-invariant, not specific to grokking.
+
+---
+
+## Entry 30 — Saddle escape mechanisms: what ELSE escapes M's saddle? [KEY]
+**Date:** 2026-05-17
+**Setup:** Take M_seed0 at epoch 50,000 (fully memorized). Test 5 alternative continuation regimes for 20,000 epochs each:
+  1. Nothing (control, WD=0)
+  2. WD=1.0 (control, known to escape)
+  3. Random Gaussian noise injected each step (std=0.001)
+  4. SAM (sharpness-aware minimization, rho=0.05)
+  5. Add 50 held-out labeled pairs to training (WD=0)
+
+Script: `taska/analysis/saddle_escape_mechanisms.py`.
+**What I expected:** If saddles are fragile, any perturbation should eventually escape. Either noise or SAM or extra data should grok eventually.
+**What happened: ONLY WD escapes. Everything else fails.**
+| Mechanism | Final test acc | Escaped? |
+|---|---|---|
+| Nothing | 6.1% | No |
+| **WD=1.0** | **100%** | **YES** |
+| Gaussian noise (std 0.001) | 5.5% | No |
+| SAM (rho=0.05) | 17.5% | Partial, very slow |
+| Add 50 held-out pairs | 7.1% | No (M memorized them too) |
+
+**What it means:** **The "saddle escapable by any perturbation" hypothesis is FALSE. Only weight decay escapes M's saddle.** Even adding new labeled training examples doesn't escape — M just memorizes the new examples too. SAM produces partial movement (~17%) but doesn't fully escape.
+
+This is a stronger and more interesting finding than "saddle is universally escapable." It says **WD is privileged** among escape mechanisms. The next question is *why*. Hypothesis: WD's bias toward low-norm/low-rank solutions is the specific property that other regularizers lack.
+
+---
+
+## Entry 31 — Track B rescue: does WD-rescue work in CIFAR?
+**Date:** 2026-05-17
+**Setup:** Load M_CIFAR at final checkpoint (test_acc 82.4%, test_loss 1.31 and climbing). Continue training for 400 epochs with weight_decay=5e-4 (G's WD) turned on. Compare to M_CIFAR alone and G_CIFAR baseline. Script: `trackb/train_cifar.py --mode rescue`.
+**What I expected:** If WD rescues in benign overfitting too, test_acc should climb toward G's 88% level. The recovery would necessarily be smaller (only 6 points to close) but mechanism should be visible.
+**What happened: partial rescue.**
+| Metric | M_CIFAR (start of rescue) | After 400 rescue epochs | G_CIFAR baseline |
+|---|---|---|---|
+| Test accuracy | 82.4% | 84.1% peak | 88.2% peak |
+| Test loss | 1.31 (climbing) | 0.53 (60% drop) | 0.36 |
+| Train accuracy | 100% | 95% (WD broke memorization) | 90% |
+
+**What it means:** WD-rescue **partially works in CIFAR**:
+- Test loss drops 60% — clear effect of WD
+- Test accuracy improves ~2 points (closing 30% of the gap to G)
+- Train accuracy drops as expected (WD removes overfit-specific weights)
+
+But the rescue doesn't fully recover G's 88% in 400 epochs. Two interpretations:
+1. **Rescue is slow** — needs more epochs (1000-2000+)
+2. **Benign-overfit M_CIFAR is already near the generalizing basin** — the gap is small so the rescue is small
+
+The Track B rescue is consistent with the saddle/WD story but is a weaker demonstration than Track A (where rescue was 100% complete and dramatic).
+
+**Caveats** (need controls):
+- Should compare to "continue M training with WD=0" — does just more training also help?
+- Should track rank during the rescue
+- Should try a "catastrophic M_CIFAR" (train on 500 images) for proper analog
+
+---
+
+## Entry 32 — [pending: rigor batch RANK MECHANISM TEST] [CRITICAL]
+
+Four experiments designed to nail down the rank-compression mechanism:
+
+- **rank_during_rescue.py**: track effective rank during WD vs SAM vs noise rescues. Expected: WD compresses, others don't.
+- **rank_constraint_rescue.py**: force low rank without WD (project to rank k each step). Expected: this also escapes the saddle if rank IS the mechanism. CRITICAL TEST.
+- **wd_sweep.py**: sweep WD ∈ {0.001 ... 10.0}. Quantitative escape threshold.
+- **alternative_regularizers.py**: L1, L2-in-loss, spectral norm, label smoothing — which escape?
+
+If all four confirm the hypothesis, we have airtight mechanism evidence:
+
+> "Weight decay is the privileged saddle-escape mechanism, and its mechanism is rank compression. Anything else that compresses rank also escapes; anything else that doesn't, doesn't."
+
+Submitted to HPC via `taska/rigor_batch.slurm`. Pending results.
