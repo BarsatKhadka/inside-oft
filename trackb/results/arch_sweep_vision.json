@@ -1,0 +1,82 @@
+{
+  "ResNet-18_M": {
+    "arch": "ResNet-18",
+    "mode": "M",
+    "epochs": 100,
+    "train_acc": 1.0,
+    "test_acc": 0.8565,
+    "last_layer_rank": 8.703438758850098,
+    "grad_train": 0.0017681508037632927,
+    "grad_test": 10.087265214616245
+  },
+  "ResNet-18_G": {
+    "arch": "ResNet-18",
+    "mode": "G",
+    "epochs": 100,
+    "train_acc": 0.92866,
+    "test_acc": 0.887,
+    "last_layer_rank": 8.514327049255371,
+    "grad_train": 6.076729199885858,
+    "grad_test": 5.904278052915504
+  },
+  "ResNet-50_M": {
+    "arch": "ResNet-50",
+    "mode": "M",
+    "epochs": 100,
+    "train_acc": 0.9998,
+    "test_acc": 0.7468,
+    "last_layer_rank": 8.30670166015625,
+    "grad_train": 0.05053438537182661,
+    "grad_test": 17.975055734908796
+  },
+  "ResNet-50_G": {
+    "arch": "ResNet-50",
+    "mode": "G",
+    "epochs": 100,
+    "train_acc": 0.90644,
+    "test_acc": 0.8737,
+    "last_layer_rank": 8.548919677734375,
+    "grad_train": 5.961440854463995,
+    "grad_test": 6.352746016571406
+  },
+  "ViT-Small_M": {
+    "arch": "ViT-Small",
+    "mode": "M",
+    "epochs": 100,
+    "train_acc": 0.96104,
+    "test_acc": 0.7543,
+    "last_layer_rank": 7.796518802642822,
+    "grad_train": 7.895778339407125,
+    "grad_test": 10.085954381766474
+  },
+  "ViT-Small_G": {
+    "arch": "ViT-Small",
+    "mode": "G",
+    "epochs": 100,
+    "train_acc": 0.72704,
+    "test_acc": 0.7031,
+    "last_layer_rank": 7.596256732940674,
+    "grad_train": 14.72123378793238,
+    "grad_test": 15.911638808956837
+  },
+  "MLP-2048_M": {
+    "arch": "MLP-2048",
+    "mode": "M",
+    "epochs": 100,
+    "train_acc": 0.65512,
+    "test_acc": 0.3818,
+    "last_layer_rank": 8.65226936340332,
+    "grad_train": 10.054756283304814,
+    "grad_test": 18.788471413472898
+  },
+  "MLP-2048_G": {
+    "arch": "MLP-2048",
+    "mode": "G",
+    "epochs": 100,
+    "train_acc": 0.48498,
+    "test_acc": 0.4025,
+    "last_layer_rank": 7.4854607582092285,
+    "grad_train": 8.111723010956576,
+    "grad_test": 10.955495253635057
+  }
+}
