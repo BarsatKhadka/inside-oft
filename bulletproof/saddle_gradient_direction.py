@@ -82,11 +82,12 @@ def main():
         for p in model.parameters():
             if p.grad is not None: p.grad.zero_()
 
-        # Compute (G - M) per param
+        # Compute (G - M) per learnable param. Match by name to avoid buffer/param mismatch.
         delta = []
-        for (name_p, p_M), (_, p_G_tensor) in zip(model.named_parameters(), [(k, s_G[k]) for k in s_M]):
-            if p_M.is_floating_point():
-                delta.append(p_G_tensor.to(device) - p_M.detach())
+        for name_p, p_M in model.named_parameters():
+            if name_p in s_G and p_M.is_floating_point():
+                p_G_tensor = s_G[name_p].to(device).to(p_M.dtype)
+                delta.append(p_G_tensor - p_M.detach())
             else:
                 delta.append(t.zeros_like(p_M))
 

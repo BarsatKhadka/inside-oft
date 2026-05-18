@@ -84,24 +84,45 @@ def hvp(loss, params, vector_list):
     return list(Hv)
 
 
-def power_iter(model, inputs, labels, sign=+1, n_iter=40):
-    """Top eigenvalue of sign*H by power iteration. sign=+1 gives max,
-    sign=-1 gives most negative."""
+def power_iter_top(model, inputs, labels, n_iter=40):
+    """Top eigenvalue of H via power iteration."""
     params = list(model.parameters())
     v = [t.randn_like(p) for p in params]
-    n = t.sqrt(sum((vi**2).sum() for vi in v))
-    v = [vi / n for vi in v]
+    nrm = t.sqrt(sum((vi**2).sum() for vi in v))
+    v = [vi / nrm for vi in v]
     eig = 0.0
     for _ in range(n_iter):
         for p in params:
             if p.grad is not None: p.grad.zero_()
         loss = cross_entropy_hp(model(inputs)[:, -1, :], labels)
         Hv = hvp(loss, params, v)
-        if sign == -1: Hv = [-x for x in Hv]
-        eig = sum((vi*hi).sum().item() for vi,hi in zip(v, Hv))
-        n = t.sqrt(sum((hi**2).sum() for hi in Hv)) + 1e-12
-        v = [hi / n for hi in Hv]
-    return eig if sign == +1 else -eig
+        eig = sum((vi*hi).sum().item() for vi, hi in zip(v, Hv))
+        nrm = t.sqrt(sum((hi**2).sum() for hi in Hv)) + 1e-12
+        v = [hi / nrm for hi in Hv]
+    return eig
+
+
+def power_iter_bottom(model, inputs, labels, alpha, n_iter=40):
+    """Most negative eigenvalue of H via spectral shifting.
+    alpha must be larger than top eigenvalue of H. Returns the most negative
+    eigenvalue of H (i.e., the smallest, possibly negative)."""
+    params = list(model.parameters())
+    v = [t.randn_like(p) for p in params]
+    nrm = t.sqrt(sum((vi**2).sum() for vi in v))
+    v = [vi / nrm for vi in v]
+    eig_shifted = 0.0   # this will be top of (alpha*I - H)
+    for _ in range(n_iter):
+        for p in params:
+            if p.grad is not None: p.grad.zero_()
+        loss = cross_entropy_hp(model(inputs)[:, -1, :], labels)
+        Hv = hvp(loss, params, v)
+        # shifted_Hv = alpha*v - Hv
+        shifted_Hv = [alpha * vi - hi for vi, hi in zip(v, Hv)]
+        eig_shifted = sum((vi*si).sum().item() for vi, si in zip(v, shifted_Hv))
+        nrm = t.sqrt(sum((si**2).sum() for si in shifted_Hv)) + 1e-12
+        v = [si / nrm for si in shifted_Hv]
+    # eig_shifted ≈ alpha - lambda_min(H), so lambda_min = alpha - eig_shifted
+    return alpha - eig_shifted
 
 
 def main():
@@ -129,8 +150,10 @@ def main():
                 for ds_name, (inp, lab) in [('train', (train_in, train_lab)),
                                              ('test',  (test_in,  test_lab)),
                                              ('full',  (full_in,  full_lab))]:
-                    top = power_iter(model, inp, lab, sign=+1, n_iter=40)
-                    bot = power_iter(model, inp, lab, sign=-1, n_iter=40)
+                    top = power_iter_top(model, inp, lab, n_iter=40)
+                    # Spectral shift: use alpha = 2*|top| + 1 to ensure positive shifted matrix
+                    alpha = 2 * abs(top) + 1.0
+                    bot = power_iter_bottom(model, inp, lab, alpha=alpha, n_iter=40)
                     eigs[ds_name] = {'top': top, 'bottom': bot}
                     print(f'  {ds_name}: top={top:.4f}, bottom={bot:.4f}')
                 results[key] = eigs

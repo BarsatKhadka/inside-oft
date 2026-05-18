@@ -52,22 +52,40 @@ def hvp(loss, params, vector_list):
     return list(Hv)
 
 
-def power_iter(model, inputs, labels, sign=+1, n_iter=30):
+def power_iter_top(model, inputs, labels, n_iter=30):
     params = list(model.parameters())
     v = [t.randn_like(p) for p in params]
-    n = t.sqrt(sum((vi**2).sum() for vi in v))
-    v = [vi / n for vi in v]
+    nrm = t.sqrt(sum((vi**2).sum() for vi in v))
+    v = [vi / nrm for vi in v]
     eig = 0.0
     for _ in range(n_iter):
         for p in params:
             if p.grad is not None: p.grad.zero_()
         loss = cross_entropy_hp(model(inputs)[:, -1, :], labels)
         Hv = hvp(loss, params, v)
-        if sign == -1: Hv = [-x for x in Hv]
-        eig = sum((vi*hi).sum().item() for vi,hi in zip(v, Hv))
-        n = t.sqrt(sum((hi**2).sum() for hi in Hv)) + 1e-12
-        v = [hi / n for hi in Hv]
-    return eig if sign == +1 else -eig
+        eig = sum((vi*hi).sum().item() for vi, hi in zip(v, Hv))
+        nrm = t.sqrt(sum((hi**2).sum() for hi in Hv)) + 1e-12
+        v = [hi / nrm for hi in Hv]
+    return eig
+
+
+def power_iter_bottom(model, inputs, labels, alpha, n_iter=30):
+    """Spectral shift: top eigenvalue of (alpha*I - H), then return alpha - that."""
+    params = list(model.parameters())
+    v = [t.randn_like(p) for p in params]
+    nrm = t.sqrt(sum((vi**2).sum() for vi in v))
+    v = [vi / nrm for vi in v]
+    eig_shifted = 0.0
+    for _ in range(n_iter):
+        for p in params:
+            if p.grad is not None: p.grad.zero_()
+        loss = cross_entropy_hp(model(inputs)[:, -1, :], labels)
+        Hv = hvp(loss, params, v)
+        shifted = [alpha * vi - hi for vi, hi in zip(v, Hv)]
+        eig_shifted = sum((vi*si).sum().item() for vi, si in zip(v, shifted))
+        nrm = t.sqrt(sum((si**2).sum() for si in shifted)) + 1e-12
+        v = [si / nrm for si in shifted]
+    return alpha - eig_shifted
 
 
 def main():
@@ -92,8 +110,9 @@ def main():
     for p in model.parameters():
         p.requires_grad_(True)
     print('Initial (at M):')
-    top = power_iter(model, full_in, full_lab, +1)
-    bot = power_iter(model, full_in, full_lab, -1)
+    top = power_iter_top(model, full_in, full_lab)
+    alpha = 2 * abs(top) + 1.0
+    bot = power_iter_bottom(model, full_in, full_lab, alpha=alpha)
     te = eval_acc(model, test_in, test_lab)
     history['epoch'].append(0)
     history['test_acc'].append(te)
@@ -107,8 +126,9 @@ def main():
         if (ep + 1) % HESS_EVERY == 0:
             print(f'\nep={ep+1}:')
             te = eval_acc(model, test_in, test_lab)
-            top = power_iter(model, full_in, full_lab, +1)
-            bot = power_iter(model, full_in, full_lab, -1)
+            top = power_iter_top(model, full_in, full_lab)
+            alpha = 2 * abs(top) + 1.0
+            bot = power_iter_bottom(model, full_in, full_lab, alpha=alpha)
             history['epoch'].append(ep + 1)
             history['test_acc'].append(te)
             history['top_eig'].append(top)
