@@ -1,0 +1,80 @@
+{
+  "M_s0": {
+    "acc_a": 0.8550913838120104,
+    "acc_b": 0.8590078328981723,
+    "MI_a_estim_bits": 5.823052135606468,
+    "MI_b_estim_bits": 5.8500015093040005,
+    "bits_per_param_raw": 32.0,
+    "bits_per_param_bz2": 30.309886476358425,
+    "bits_per_param_gzip": 29.651969580072745,
+    "bits_per_param_lzma": 29.476539182188912,
+    "n_params": 226825,
+    "acc_a_from_logit_dist": 0.0,
+    "acc_b_from_logit_dist": 0.0
+  },
+  "M_s1": {
+    "acc_a": 0.9242819843342036,
+    "acc_b": 0.9216710182767625,
+    "MI_a_estim_bits": 6.299157737596217,
+    "MI_b_estim_bits": 6.281191488464528,
+    "bits_per_param_raw": 32.0,
+    "bits_per_param_bz2": 30.301351261986113,
+    "bits_per_param_gzip": 29.644386641684118,
+    "bits_per_param_lzma": 29.464547558690622,
+    "n_params": 226825,
+    "acc_a_from_logit_dist": 0.0,
+    "acc_b_from_logit_dist": 0.0
+  },
+  "M_s2": {
+    "acc_a": 0.8981723237597912,
+    "acc_b": 0.8472584856396866,
+    "MI_a_estim_bits": 6.119495246279331,
+    "MI_b_estim_bits": 5.769153388211402,
+    "bits_per_param_raw": 32.0,
+    "bits_per_param_bz2": 30.30628898930894,
+    "bits_per_param_gzip": 29.649183291083435,
+    "bits_per_param_lzma": 29.46835666262537,
+    "n_params": 226825,
+    "acc_a_from_logit_dist": 0.0,
+    "acc_b_from_logit_dist": 0.0
+  },
+  "G_s0": {
+    "acc_a": 0.40600522193211486,
+    "acc_b": 0.4073107049608355,
+    "MI_a_estim_bits": 2.7328572849560206,
+    "MI_b_estim_bits": 2.7418404095218647,
+    "bits_per_param_raw": 32.0,
+    "bits_per_param_bz2": 30.406383776038798,
+    "bits_per_param_gzip": 29.47988978287226,
+    "bits_per_param_lzma": 28.939878761159484,
+    "n_params": 226825,
+    "acc_a_from_logit_dist": 0.0,
+    "acc_b_from_logit_dist": 0.0
+  },
+  "G_s1": {
+    "acc_a": 0.4151436031331593,
+    "acc_b": 0.4347258485639687,
+    "MI_a_estim_bits": 2.7957391569169308,
+    "MI_b_estim_bits": 2.930486025404596,
+    "bits_per_param_raw": 32.0,
+    "bits_per_param_bz2": 30.389736581064696,
+    "bits_per_param_gzip": 29.48080678937507,
+    "bits_per_param_lzma": 29.001388735809545,
+    "n_params": 226825,
+    "acc_a_from_logit_dist": 0.0,
+    "acc_b_from_logit_dist": 0.0
+  },
+  "G_s2": {
+    "acc_a": 0.38903394255874674,
+    "acc_b": 0.39556135770234985,
+    "MI_a_estim_bits": 2.6160766656000445,
+    "MI_b_estim_bits": 2.6609922884292656,
+    "bits_per_param_raw": 32.0,
+    "bits_per_param_bz2": 30.402927366912817,
+    "bits_per_param_gzip": 29.447618207869503,
+    "bits_per_param_lzma": 28.95314008596936,
+    "n_params": 226825,
+    "acc_a_from_logit_dist": 0.0,
+    "acc_b_from_logit_dist": 0.0
+  }
+}
