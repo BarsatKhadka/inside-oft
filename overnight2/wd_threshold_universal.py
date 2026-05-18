@@ -142,15 +142,15 @@ def main():
         json.dump(results, f, indent=2)
 
     print('\n=== WD threshold matrix ===')
-    print(f'{\"arch_op\":>20s}  ' + '  '.join(f'wd={w:>5}' for w in WDS))
+    print(f"{'arch_op':>20s}  " + '  '.join(f'wd={w:>5}' for w in WDS))
     for arch in ARCHS:
         for op in OPS:
             row = []
             for wd in WDS:
                 r = results[f'{arch}_{op}_wd{wd}']
-                marker = '✓' if r['grok_epoch'] else '✗'
-                row.append(f'{marker} r{r[\"final_rank\"]:>3.0f}')
-            print(f'{arch+\"_\"+op:>20s}  ' + '  '.join(f'{x:>8}' for x in row))
+                marker = 'Y' if r['grok_epoch'] else 'N'
+                row.append(f"{marker} r{r['final_rank']:>3.0f}")
+            print(f"{arch+'_'+op:>20s}  " + '  '.join(f'{x:>8}' for x in row))
 
 
 if __name__ == '__main__':

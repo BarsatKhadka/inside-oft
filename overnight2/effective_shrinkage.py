@@ -91,7 +91,8 @@ def main():
         json.dump(results, f, indent=2)
 
     print('\n=== 2D table: did it grok? (cell value = lr*wd if grokked, else NO) ===')
-    print(f'{\"LR\\WD\":>10s}  ' + '  '.join(f'{w:>9}' for w in WDS))
+    header = 'LR/WD'
+    print(f'{header:>10s}  ' + '  '.join(f'{w:>9}' for w in WDS))
     for lr in LRS:
         row = []
         for wd in WDS:

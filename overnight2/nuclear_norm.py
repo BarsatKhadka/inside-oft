@@ -112,8 +112,8 @@ def main():
     print('\n=== Nuclear norm escape results ===')
     for lam in LAMBDAS:
         r = results[f'lam{lam}']
-        print(f'  lambda={lam}: test_acc={r[\"final_test_acc\"]:.4f}, '
-              f'rank={r[\"final_rank\"]:.2f}, grok@{r[\"grok_epoch\"]}')
+        print(f"  lambda={lam}: test_acc={r['final_test_acc']:.4f}, "
+              f"rank={r['final_rank']:.2f}, grok@{r['grok_epoch']}")
 
 
 if __name__ == '__main__':

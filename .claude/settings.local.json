@@ -7,7 +7,10 @@
       "Bash(grep -E \"pycache|\\\\.pt$\")",
       "Bash(tar --version)",
       "Read(//c/c/Users/barsa/Documents/inside-oft/**)",
-      "Bash(tar tzf *)"
+      "Bash(tar tzf *)",
+      "Bash(grep -n 'f.\\\\\\\\\".*WD\\\\|f.[^\"]*\\\\\\\\\"' overnight2/effective_shrinkage.py)",
+      "Bash(grep -n '\\\\\\\\\"' overnight2/nuclear_norm.py)",
+      "Bash(grep *)"
     ]
   }
 }
