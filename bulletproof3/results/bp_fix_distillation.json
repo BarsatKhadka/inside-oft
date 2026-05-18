@@ -1,0 +1,94 @@
+{
+  "G_teacher": [
+    {
+      "seed": 0,
+      "test_acc": 1.0,
+      "train_acc": 1.0,
+      "rank_W_out": 12.184733390808105,
+      "init_check_W_E_norm": 13.463693618774414
+    },
+    {
+      "seed": 1,
+      "test_acc": 1.0,
+      "train_acc": 1.0,
+      "rank_W_out": 5.947475433349609,
+      "init_check_W_E_norm": 11.99278450012207
+    },
+    {
+      "seed": 2,
+      "test_acc": 1.0,
+      "train_acc": 1.0,
+      "rank_W_out": 8.002143859863281,
+      "init_check_W_E_norm": 12.572751998901367
+    }
+  ],
+  "Static_distill": [
+    {
+      "seed": 0,
+      "test_acc": 0.6568967700004578,
+      "train_acc": 1.0,
+      "rank_W_out": 78.87430572509766,
+      "init_check_W_E_norm": 25.1345157623291
+    },
+    {
+      "seed": 1,
+      "test_acc": 0.7753663659095764,
+      "train_acc": 1.0,
+      "rank_W_out": 77.31194305419922,
+      "init_check_W_E_norm": 24.602182388305664
+    },
+    {
+      "seed": 2,
+      "test_acc": 0.8998769521713257,
+      "train_acc": 1.0,
+      "rank_W_out": 75.4906997680664,
+      "init_check_W_E_norm": 23.191497802734375
+    }
+  ],
+  "Live_distill": [
+    {
+      "seed": 0,
+      "test_acc": 0.9342208504676819,
+      "train_acc": 1.0,
+      "rank_W_out": 77.50447082519531,
+      "init_check_W_E_norm": 23.05211067199707
+    },
+    {
+      "seed": 1,
+      "test_acc": 0.8743707537651062,
+      "train_acc": 1.0,
+      "rank_W_out": 76.87166595458984,
+      "init_check_W_E_norm": 24.162960052490234
+    },
+    {
+      "seed": 2,
+      "test_acc": 0.9866876006126404,
+      "train_acc": 1.0,
+      "rank_W_out": 77.25662231445312,
+      "init_check_W_E_norm": 22.21165657043457
+    }
+  ],
+  "M_hard": [
+    {
+      "seed": 0,
+      "test_acc": 0.05828392505645752,
+      "train_acc": 1.0,
+      "rank_W_out": 97.2143783569336,
+      "init_check_W_E_norm": 23.157899856567383
+    },
+    {
+      "seed": 1,
+      "test_acc": 0.01868217997252941,
+      "train_acc": 1.0,
+      "rank_W_out": 97.12078094482422,
+      "init_check_W_E_norm": 23.32441520690918
+    },
+    {
+      "seed": 2,
+      "test_acc": 0.10359100997447968,
+      "train_acc": 1.0,
+      "rank_W_out": 97.11175537109375,
+      "init_check_W_E_norm": 22.886001586914062
+    }
+  ]
+}

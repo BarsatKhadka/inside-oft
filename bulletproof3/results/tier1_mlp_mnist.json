@@ -1,0 +1,56 @@
+{
+  "M": [
+    {
+      "seed": 0,
+      "wd": 0.0,
+      "error": "module 'numpy' has no attribute 'trapz'"
+    },
+    {
+      "seed": 1,
+      "wd": 0.0,
+      "error": "module 'numpy' has no attribute 'trapz'"
+    },
+    {
+      "seed": 2,
+      "wd": 0.0,
+      "error": "module 'numpy' has no attribute 'trapz'"
+    },
+    {
+      "seed": 3,
+      "wd": 0.0,
+      "error": "module 'numpy' has no attribute 'trapz'"
+    },
+    {
+      "seed": 4,
+      "wd": 0.0,
+      "error": "module 'numpy' has no attribute 'trapz'"
+    }
+  ],
+  "G": [
+    {
+      "seed": 0,
+      "wd": 0.001,
+      "error": "module 'numpy' has no attribute 'trapz'"
+    },
+    {
+      "seed": 1,
+      "wd": 0.001,
+      "error": "module 'numpy' has no attribute 'trapz'"
+    },
+    {
+      "seed": 2,
+      "wd": 0.001,
+      "error": "module 'numpy' has no attribute 'trapz'"
+    },
+    {
+      "seed": 3,
+      "wd": 0.001,
+      "error": "module 'numpy' has no attribute 'trapz'"
+    },
+    {
+      "seed": 4,
+      "wd": 0.001,
+      "error": "module 'numpy' has no attribute 'trapz'"
+    }
+  ]
+}

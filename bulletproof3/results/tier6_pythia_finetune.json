@@ -1,0 +1,26 @@
+{
+  "M": [
+    {
+      "mode": "M",
+      "seed": 0,
+      "error": "No module named 'transformers'"
+    },
+    {
+      "mode": "M",
+      "seed": 1,
+      "error": "No module named 'transformers'"
+    }
+  ],
+  "G": [
+    {
+      "mode": "G",
+      "seed": 0,
+      "error": "No module named 'transformers'"
+    },
+    {
+      "mode": "G",
+      "seed": 1,
+      "error": "No module named 'transformers'"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "M": [
+    {
+      "mode": "M",
+      "seed": 0,
+      "error": "module 'numpy' has no attribute 'trapz'"
+    },
+    {
+      "mode": "M",
+      "seed": 1,
+      "error": "module 'numpy' has no attribute 'trapz'"
+    },
+    {
+      "mode": "M",
+      "seed": 2,
+      "error": "module 'numpy' has no attribute 'trapz'"
+    },
+    {
+      "mode": "M",
+      "seed": 3,
+      "error": "module 'numpy' has no attribute 'trapz'"
+    },
+    {
+      "mode": "M",
+      "seed": 4,
+      "error": "module 'numpy' has no attribute 'trapz'"
+    }
+  ],
+  "G": []
+}

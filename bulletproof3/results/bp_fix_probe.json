@@ -1,0 +1,66 @@
+{
+  "M": [
+    {
+      "label": "M",
+      "seed": 0,
+      "final_test_acc": 0.05828392505645752,
+      "probe_bucket_real_acc": 0.06135770305991173,
+      "probe_bucket_ctrl_acc": 0.03916449099779129,
+      "probe_bucket_selectivity": 0.022193212062120438,
+      "probe_task_acc": 0.5,
+      "num_buckets": 20
+    },
+    {
+      "label": "M",
+      "seed": 1,
+      "final_test_acc": 0.01868217997252941,
+      "probe_bucket_real_acc": 0.037859007716178894,
+      "probe_bucket_ctrl_acc": 0.05613576993346214,
+      "probe_bucket_selectivity": -0.01827676221728325,
+      "probe_task_acc": 0.48172324895858765,
+      "num_buckets": 20
+    },
+    {
+      "label": "M",
+      "seed": 2,
+      "final_test_acc": 0.10359100997447968,
+      "probe_bucket_real_acc": 0.04569190740585327,
+      "probe_bucket_ctrl_acc": 0.05352480337023735,
+      "probe_bucket_selectivity": -0.007832895964384079,
+      "probe_task_acc": 0.560052216053009,
+      "num_buckets": 20
+    }
+  ],
+  "G": [
+    {
+      "label": "G",
+      "seed": 0,
+      "final_test_acc": 1.0,
+      "probe_bucket_real_acc": 0.05483028665184975,
+      "probe_bucket_ctrl_acc": 0.050913840532302856,
+      "probe_bucket_selectivity": 0.00391644611954689,
+      "probe_task_acc": 1.0,
+      "num_buckets": 20
+    },
+    {
+      "label": "G",
+      "seed": 1,
+      "final_test_acc": 1.0,
+      "probe_bucket_real_acc": 0.04699739068746567,
+      "probe_bucket_ctrl_acc": 0.05352480337023735,
+      "probe_bucket_selectivity": -0.006527412682771683,
+      "probe_task_acc": 1.0,
+      "num_buckets": 20
+    },
+    {
+      "label": "G",
+      "seed": 2,
+      "final_test_acc": 1.0,
+      "probe_bucket_real_acc": 0.050913840532302856,
+      "probe_bucket_ctrl_acc": 0.044386424124240875,
+      "probe_bucket_selectivity": 0.006527416408061981,
+      "probe_task_acc": 1.0,
+      "num_buckets": 20
+    }
+  ]
+}

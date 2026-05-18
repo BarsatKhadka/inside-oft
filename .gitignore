@@ -12,3 +12,5 @@ logs/
 *.tar.gz
 findings.md
 literature.md
+
+data/
