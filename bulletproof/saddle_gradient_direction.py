@@ -78,7 +78,9 @@ def main():
             if p.grad is not None: p.grad.zero_()
         loss = cross_entropy_hp(model(full_in)[:, -1, :], full_lab)
         loss.backward()
-        grad_at_M = [p.grad.detach().clone() for p in model.parameters()]
+        # Use zeros for any param without a gradient (defensive)
+        grad_at_M = [p.grad.detach().clone() if p.grad is not None else t.zeros_like(p)
+                     for p in model.parameters()]
         for p in model.parameters():
             if p.grad is not None: p.grad.zero_()
 
@@ -87,7 +89,11 @@ def main():
         for name_p, p_M in model.named_parameters():
             if name_p in s_G and p_M.is_floating_point():
                 p_G_tensor = s_G[name_p].to(device).to(p_M.dtype)
-                delta.append(p_G_tensor - p_M.detach())
+                if p_G_tensor.shape != p_M.shape:
+                    print(f'  WARN: shape mismatch {name_p}: M={tuple(p_M.shape)}, G={tuple(p_G_tensor.shape)}')
+                    delta.append(t.zeros_like(p_M))
+                else:
+                    delta.append(p_G_tensor - p_M.detach())
             else:
                 delta.append(t.zeros_like(p_M))
 
