@@ -1,0 +1,76 @@
+{
+  "seed": 0,
+  "epochs": 80,
+  "alphas": [
+    0.0,
+    0.1,
+    0.2,
+    0.30000000000000004,
+    0.4,
+    0.5,
+    0.6000000000000001,
+    0.7000000000000001,
+    0.8,
+    0.9,
+    1.0
+  ],
+  "naive_lmc_curve": [
+    {
+      "alpha": 0.0,
+      "train_loss": 1.2684502917181816e-05,
+      "test_loss": 1.1080696016550065
+    },
+    {
+      "alpha": 0.1,
+      "train_loss": 2.4810786724090574,
+      "test_loss": 3.3374172687530517
+    },
+    {
+      "alpha": 0.2,
+      "train_loss": 8.561842060089111,
+      "test_loss": 8.5982234954834
+    },
+    {
+      "alpha": 0.30000000000000004,
+      "train_loss": 7.985560822486877,
+      "test_loss": 7.881589746475219
+    },
+    {
+      "alpha": 0.4,
+      "train_loss": 6.140891003608703,
+      "test_loss": 6.06839702129364
+    },
+    {
+      "alpha": 0.5,
+      "train_loss": 4.323577332496643,
+      "test_loss": 4.339733600616455
+    },
+    {
+      "alpha": 0.6000000000000001,
+      "train_loss": 3.14999315738678,
+      "test_loss": 3.179076778888702
+    },
+    {
+      "alpha": 0.7000000000000001,
+      "train_loss": 2.603038823604584,
+      "test_loss": 2.6036168932914734
+    },
+    {
+      "alpha": 0.8,
+      "train_loss": 2.395891559123993,
+      "test_loss": 2.4043949484825133
+    },
+    {
+      "alpha": 0.9,
+      "train_loss": 2.337681782245636,
+      "test_loss": 2.3465031385421753
+    },
+    {
+      "alpha": 1.0,
+      "train_loss": 0.0013302199076861143,
+      "test_loss": 0.2173312921077013
+    }
+  ],
+  "naive_barrier_test": 7.490153893828393,
+  "note": "Full permutation-alignment for ResNet (with BN + residuals) is left as future work; this script reports naive LMC barrier as the main result."
+}

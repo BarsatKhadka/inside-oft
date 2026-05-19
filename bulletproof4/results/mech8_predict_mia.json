@@ -1,0 +1,372 @@
+{
+  "tier0_modular_4L": {
+    "M": {
+      "n": 5,
+      "features": [
+        "hessian_top_full",
+        "hessian_bot_full",
+        "cos_grad_train_test",
+        "grad_ratio_test_over_train"
+      ],
+      "r2": 0.9999999999999506,
+      "beta_per_feature": [
+        2.241459431987311e-08,
+        -2.0720414226245185e-07,
+        0.0009533978814021153,
+        -1.828504861728499e-15
+      ],
+      "intercept": 1.0018043311149305,
+      "y_mean": 0.9999407530646505,
+      "y_std": 2.9623585753563086e-05
+    },
+    "G": {
+      "n": 5,
+      "features": [
+        "hessian_top_full",
+        "hessian_bot_full",
+        "cos_grad_train_test",
+        "grad_ratio_test_over_train"
+      ],
+      "r2": 1.0,
+      "beta_per_feature": [
+        0.0002996723035417926,
+        0.026930269806395714,
+        0.2860357012735831,
+        4.745457468276566e-05
+      ],
+      "intercept": 0.5071886070362288,
+      "y_mean": 0.5834140476925562,
+      "y_std": 0.018470833521723275
+    },
+    "all": {
+      "n": 10,
+      "features": [
+        "hessian_top_full",
+        "hessian_bot_full",
+        "cos_grad_train_test",
+        "grad_ratio_test_over_train"
+      ],
+      "r2": 0.9935446472256398,
+      "beta_per_feature": [
+        2.4066539353179318e-06,
+        7.045049277826418e-05,
+        -0.005716384432288423,
+        4.4434266169438407e-13
+      ],
+      "intercept": 0.5851670905634635,
+      "y_mean": 0.7916774003786032,
+      "y_std": 0.208672495447543
+    }
+  },
+  "tier2_resnet18_cifar10": {
+    "M": {
+      "n": 5,
+      "features": [
+        "hessian_top_full",
+        "hessian_bot_full",
+        "cos_grad_train_test",
+        "grad_ratio_test_over_train"
+      ],
+      "r2": 1.0,
+      "beta_per_feature": [
+        -0.02237843581435686,
+        0.16954802277346248,
+        -0.9878800948300837,
+        5.425907209864468e-06
+      ],
+      "intercept": 1.1166929627065223,
+      "y_mean": 0.6962758,
+      "y_std": 0.01482566363641101
+    },
+    "G": {
+      "n": 5,
+      "features": [
+        "hessian_top_full",
+        "hessian_bot_full",
+        "cos_grad_train_test",
+        "grad_ratio_test_over_train"
+      ],
+      "r2": 1.0,
+      "beta_per_feature": [
+        -0.0008085639121043441,
+        0.005044617577845919,
+        0.16596638512577253,
+        0.0009577626591040709
+      ],
+      "intercept": 0.6618212770006675,
+      "y_mean": 0.5999511,
+      "y_std": 0.004679626744196598
+    },
+    "all": {
+      "n": 10,
+      "features": [
+        "hessian_top_full",
+        "hessian_bot_full",
+        "cos_grad_train_test",
+        "grad_ratio_test_over_train"
+      ],
+      "r2": 0.9880775713415725,
+      "beta_per_feature": [
+        -0.0005295734416922021,
+        0.0031249796794121,
+        0.0396684799084676,
+        1.311547311235177e-06
+      ],
+      "intercept": 0.6694258123270967,
+      "y_mean": 0.6481134500000001,
+      "y_std": 0.049401027943606596
+    }
+  },
+  "tier3_resnet50_cifar100": {
+    "M": {
+      "n": 3,
+      "features": [
+        "hessian_top_full",
+        "hessian_bot_full",
+        "cos_grad_train_test",
+        "grad_ratio_test_over_train"
+      ],
+      "r2": 1.0,
+      "beta_per_feature": [
+        0.012401218954261045,
+        -0.00013210004051035366,
+        7.094032682027533e-06,
+        2.1684596651830263e-07
+      ],
+      "intercept": 0.00017429978891980578,
+      "y_mean": 0.8861,
+      "y_std": 0.0037253075935641637
+    },
+    "G": {
+      "n": 3,
+      "features": [
+        "hessian_top_full",
+        "hessian_bot_full",
+        "cos_grad_train_test",
+        "grad_ratio_test_over_train"
+      ],
+      "r2": 1.0,
+      "beta_per_feature": [
+        0.0004052982849340348,
+        -0.02534357093119005,
+        -0.0001564167393583587,
+        0.0013306591324768315
+      ],
+      "intercept": 0.000885219186688798,
+      "y_mean": 0.7126333333333333,
+      "y_std": 0.014448779264083925
+    },
+    "all": {
+      "n": 6,
+      "features": [
+        "hessian_top_full",
+        "hessian_bot_full",
+        "cos_grad_train_test",
+        "grad_ratio_test_over_train"
+      ],
+      "r2": 0.9999873027938356,
+      "beta_per_feature": [
+        -0.00041712609632369,
+        -0.0002850782340481496,
+        0.8731430462176637,
+        3.1574129628533953e-06
+      ],
+      "intercept": 0.8766173743772776,
+      "y_mean": 0.7993666666666668,
+      "y_std": 0.08737272847150625
+    }
+  },
+  "tier3b_vit_tiny_cifar10": {
+    "M": {
+      "n": 3,
+      "features": [
+        "hessian_top_full",
+        "hessian_bot_full",
+        "cos_grad_train_test",
+        "grad_ratio_test_over_train"
+      ],
+      "r2": 1.0,
+      "beta_per_feature": [
+        6.005291669675955e-05,
+        -0.0025215747468599215,
+        8.715161894031989e-07,
+        -4.981471354173106e-09
+      ],
+      "intercept": 9.584879014010512e-06,
+      "y_mean": 0.8780375,
+      "y_std": 0.05982936957332634
+    },
+    "G": {
+      "n": 3,
+      "features": [
+        "hessian_top_full",
+        "hessian_bot_full",
+        "cos_grad_train_test",
+        "grad_ratio_test_over_train"
+      ],
+      "r2": 1.0,
+      "beta_per_feature": [
+        0.00687950446347827,
+        0.011330636175002051,
+        -0.0003556002035184413,
+        3.067208312922759e-06
+      ],
+      "intercept": 0.00012951601655865797,
+      "y_mean": 0.7583291666666666,
+      "y_std": 0.0189762161537512
+    },
+    "all": {
+      "n": 6,
+      "features": [
+        "hessian_top_full",
+        "hessian_bot_full",
+        "cos_grad_train_test",
+        "grad_ratio_test_over_train"
+      ],
+      "r2": 0.9727468005121801,
+      "beta_per_feature": [
+        0.00010290644575115717,
+        0.0004236908021643542,
+        0.08851043778583989,
+        2.792169773093206e-09
+      ],
+      "intercept": 0.7614403521058737,
+      "y_mean": 0.8181833333333333,
+      "y_std": 0.07451406839576598
+    }
+  },
+  "tier4_vit_small_cifar100": {
+    "M": {
+      "n": 3,
+      "features": [
+        "hessian_top_full",
+        "hessian_bot_full",
+        "cos_grad_train_test",
+        "grad_ratio_test_over_train"
+      ],
+      "r2": 1.0,
+      "beta_per_feature": [
+        0.006552990096233977,
+        -0.0036435403973768127,
+        -4.874449995787168e-06,
+        -9.33949981369876e-07
+      ],
+      "intercept": 6.163787834133908e-05,
+      "y_mean": 0.9324333333333333,
+      "y_std": 0.010999741860046321
+    },
+    "G": {
+      "n": 3,
+      "features": [
+        "hessian_top_full",
+        "hessian_bot_full",
+        "cos_grad_train_test",
+        "grad_ratio_test_over_train"
+      ],
+      "r2": 1.0,
+      "beta_per_feature": [
+        0.0032407332679078933,
+        -0.016893900047996065,
+        -2.4957881811342762e-05,
+        3.37386108457452e-06
+      ],
+      "intercept": 0.00034872273916424586,
+      "y_mean": 0.8632814814814815,
+      "y_std": 0.018868889921209192
+    },
+    "all": {
+      "n": 6,
+      "features": [
+        "hessian_top_full",
+        "hessian_bot_full",
+        "cos_grad_train_test",
+        "grad_ratio_test_over_train"
+      ],
+      "r2": 0.985910677756067,
+      "beta_per_feature": [
+        0.0005721005667638564,
+        -0.0010226761371663158,
+        -0.49788110048544076,
+        -2.6348635936806392e-08
+      ],
+      "intercept": 0.7599093673948009,
+      "y_mean": 0.8978574074074074,
+      "y_std": 0.037868315483505485
+    }
+  },
+  "tier5_charlm_shakespeare": {
+    "M": {
+      "n": 3,
+      "features": [
+        "hessian_top_full",
+        "hessian_bot_full",
+        "cos_grad_train_test",
+        "grad_ratio_test_over_train"
+      ],
+      "r2": 1.0,
+      "beta_per_feature": [
+        -0.001557561687709908,
+        -0.0016448603711492378,
+        0.014028721914843669,
+        0.34759805773211944
+      ],
+      "intercept": 0.14086369292681497,
+      "y_mean": 0.9999898274739584,
+      "y_std": 1.1792015705738964e-05
+    },
+    "G": {
+      "n": 3,
+      "features": [
+        "hessian_top_full",
+        "hessian_bot_full",
+        "cos_grad_train_test",
+        "grad_ratio_test_over_train"
+      ],
+      "r2": 1.0,
+      "beta_per_feature": [
+        0.18109308308853647,
+        0.12285749184822384,
+        0.049880919280061914,
+        -0.01870154283500677
+      ],
+      "intercept": 0.052984419629868905,
+      "y_mean": 0.8902587890625,
+      "y_std": 0.004646022518922724
+    },
+    "all": {
+      "n": 6,
+      "features": [
+        "hessian_top_full",
+        "hessian_bot_full",
+        "cos_grad_train_test",
+        "grad_ratio_test_over_train"
+      ],
+      "r2": 0.9964464004399867,
+      "beta_per_feature": [
+        -0.0001015916741004732,
+        -0.0008630718074044905,
+        0.4086511179810139,
+        0.08865437289800122
+      ],
+      "intercept": 0.7279678451756039,
+      "y_mean": 0.9451243082682291,
+      "y_std": 0.05496378835072435
+    }
+  },
+  "pooled": {
+    "n": 44,
+    "r2": 0.24299029970907782,
+    "features": [
+      "hessian_top_full",
+      "hessian_bot_full",
+      "cos_grad_train_test",
+      "grad_ratio_test_over_train"
+    ],
+    "beta_per_feature": [
+      -4.2195133913345365e-06,
+      -4.219528844905684e-05,
+      -0.10514109537989613,
+      7.194577602382274e-14
+    ]
+  }
+}
