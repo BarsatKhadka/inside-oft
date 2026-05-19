@@ -70,10 +70,9 @@ def train_model(seed, mode, device):
 def run(seed, mode, device):
     model, tl, vl = train_model(seed, mode, device)
     tl_noaug, _ = loaders(seed, augment=False)
-    # Hessian on ResNet-50 is memory-heavy (double-backward retains big graph).
-    # 500 examples is enough for stable top/bot eigenvalues via Lanczos.
-    X_tr, y_tr = load_subset(tl_noaug, 500, device)
-    X_te, y_te = load_subset(vl, 500, device)
+    # Hessian on ResNet-50 still OOMs at 500. Drop to 200.
+    X_tr, y_tr = load_subset(tl_noaug, 200, device)
+    X_te, y_te = load_subset(vl, 200, device)
     model.eval()
     train_loss_fn = lambda: F.cross_entropy(model(X_tr), y_tr)
     test_loss_fn  = lambda: F.cross_entropy(model(X_te), y_te)

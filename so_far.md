@@ -550,3 +550,64 @@ What I missed:
 - **bp17's FFT concentration** of top singular vectors (5-10% in first 5 bins for NTK) vs G's Fourier-structured circuit is a direct quantitative comparison nobody has done.
 
 So yes, the data is rich. Next step is proper analysis scripts that pull these out as figures, not just summaries. The HPC results are running ahead of the analysis pipeline.
+
+---
+
+## Day 8 — bulletproof3 scale ladder, 4 tiers landed, real surprises
+
+Four tiers now have multi-seed data: **tier0** (4L Transformer modular), **tier2** (ResNet-18 CIFAR-10), **tier3b** (ViT-Tiny CIFAR-10), **tier4** (ViT-Small CIFAR-100). Each was run as 3-5 M seeds + 3-5 G seeds with the full signature battery (rank, Hessian top/bot via Lanczos, gradient angle, MIA AUC).
+
+Per-tier details are in `so_far_results.md` Entries 71-79. The cross-tier picture is more interesting than the per-tier numbers.
+
+### The cross-tier table
+
+| Signature | tier0 (4L mod) | tier2 (R18 CIFAR-10) | tier3b (ViT-T) | tier4 (ViT-S) | Verdict |
+|---|---|---|---|---|---|
+| Top Hessian (M > G?) | ✅ M 10× sharper | ❌ **G sharper** | ✅ M 6-10× | ✅ M 2× | 3/4 — not universal |
+| Bot Hessian (M more negative?) | ✅ M = -4500, G ≈ 0 | ⚠️ G more negative | ✅ M 8-10× | ✅ M 2-3× | 3/4 |
+| Gradient angle (M anti-aligned?) | ✅ M = -0.20 | ✅ M all negative | ⚠️ ~0 in both | ⚠️ ~0 in both | 2/4 |
+| **MIA AUC (M > G?)** | ✅ **1.00 vs 0.59** | ✅ 0.70 vs 0.60 | ✅ 0.87 vs 0.76 | ✅ 0.93 vs 0.86 | ✅ **4/4** |
+| Effective rank (M > G?) | ✅ 11× | ✅ 25× layer4 | ❌ head identical | ⚠️ blocks modestly | 2/4 partial |
+
+Plus **tier1 (MNIST MLP)** and **tier1b (FashionMNIST MLP)**: nothing separates because nothing memorized. M and G both reach the same test accuracy. The signatures correctly *do not* fire when there's no memorization. That's a useful negative control.
+
+### What this means for the paper
+
+The empirical story has shifted from what I expected. Three updates:
+
+**1. MIA AUC is the closest thing to a universal diagnostic.** 4/4 tiers show M > G with multi-seed clean separation. Tier0 hits AUC = 1.00 — perfect membership inference on the toy task. This is the single most consistent finding across the scale ladder.
+
+**2. Sharpness REVERSES between algorithmic and benign-overfit vision (ResNet-18).** In tier0 modular, M is 10× sharper than G. In tier2 ResNet, G is 3× sharper than M. This contradicts the "sharp = bad" intuition (Keskar et al. 2017) and is itself a novel empirical finding. ViTs match the algorithmic direction (M sharper).
+
+**3. Gradient angle decouples in ViT.** Both M and G ViT models have cos(g_tr, g_te) near zero. In the algorithmic setting, M is sharply anti-aligned (-0.20). In ResNet-18, M is mildly anti-aligned. In ViT-T/S, neither — both regimes have train and test gradients near-orthogonal. Why? Open question.
+
+### Refined unified claim
+
+**Old framing (Day 7):** "Three signatures distinguish M from G."
+
+**New framing (after the data):** "No single signature separates M from G across all architectures and tasks. The signatures are **regime-dependent**, and the cross-regime decoupling is itself the finding. MIA AUC is the only signature that fires universally; everything else fires in some regimes and not others, sometimes even reverses direction."
+
+This is more honest and more interesting than the three-signatures pitch. The diagnostic-panel framing is now the right one — not because we like the metaphor, but because the data demands it.
+
+### What's still pending
+
+- tier3 (ResNet-50 CIFAR-100): OOM at Hessian time. Fix: drop probe to 200, or skip Hessian for this tier.
+- tier5 (CharLM Shakespeare): CUDA ECC hardware faults. Need to resubmit.
+- tier6 (Pythia-160m fine-tune): not yet attempted with the working LM task setup.
+
+These three would round out the ladder. The current 4 tiers are already enough for a TMLR submission with honest scope language.
+
+### Honest read on TMLR positioning after Day 8
+
+The paper claim moves from "we discovered structural signatures of memorization" (Yunis-redundant) to:
+
+> "Memorization vs generalization can be probed through multiple structural signatures, but no single signature works across all (architecture × task) regimes. We characterize WHICH signatures fire in WHICH regimes, find MIA AUC is the most universal, and show specific decouplings — including a sharpness REVERSAL between algorithmic and benign-overfit vision — that prior work does not address. The privacy implications (MIA AUC tracks memorization signatures even when train/test loss looks identical) are the practical payoff."
+
+That's a TMLR-shaped paper. It's specifically *not* a Yunis replication — it's a cross-regime characterization that exposes Yunis's framing as incomplete (because rank fails in ViT head, sharpness reverses in CNN, etc).
+
+### Confidence after Day 8 (4 tiers + 2 control tiers complete)
+
+- TMLR submit: 99%
+- TMLR accept: 75-90% depending on how cleanly tier5 and tier6 land
+
+The 4-tier picture above is already enough for the paper's spine. The remaining 3 tiers would either reinforce universality (good) or reveal another decoupling (also good — more material for the regime-dependence story).
