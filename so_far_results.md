@@ -2758,3 +2758,172 @@ What still needs to happen for paper-ready:
 3. Maybe one more mech3 (LM tier basin structure)
 
 After that, write.
+
+---
+
+# DAY 11 — mech4 COMPLETE, mech7-9 in, tier6_v2 hardware fault. Three major wins.
+
+## Entry 99 — mech4 FULLY COMPLETE: Petzka is the cleanest finding of the project
+
+All 12 runs done (4 cells × 3 seeds). Per-cell means:
+
+| Cell | top eig | ‖θ‖ | Petzka rel_flat | test_acc | MIA |
+|---|---|---|---|---|---|
+| (wd=0, no aug) M baseline | 32.6 | 141 | **657k** | 0.835 | 0.674 |
+| (wd=0, aug) aug-only | 13.7 | 164 | 365k | 0.924 | 0.500 |
+| (wd=5e-4, no aug) WD-only | 1012 | **12.3** | 152k | 0.895 | 0.759 |
+| (wd=5e-4, aug) G baseline | 95.7 | 24.9 | **59k** | 0.952 | 0.600 |
+
+**Per-seed Petzka values:**
+
+wd=0, no aug: 728k, 661k, 582k (mean 657k ± 73k)
+wd=0, aug:    413k, 335k, 347k (mean 365k ± 42k)
+wd=5e-4, no aug: 137k, 183k, 135k (mean 152k ± 27k)
+wd=5e-4, aug: 56k, 60k, 62k (mean 59k ± 3k)
+
+**The Petzka finding:**
+
+Test_acc rank order: M (0.835) < WD-only (0.895) < aug-only (0.924) < G (0.952)
+
+Petzka rank order (LOWER = better generalization expected): G (59k) < WD-only (152k) < aug-only (365k) < M (657k)
+
+**Perfectly anti-correlated.** Petzka relative flatness predicts the generalization ordering across ALL 4 cells with all 3 seeds per cell. The model with the lowest Petzka (G) has the highest test_acc, and the model with the highest Petzka (M) has the lowest test_acc.
+
+**Naive top eigenvalue does NOT preserve ordering:**
+
+Top eig rank: WD-only (1012) > G (96) > M (33) > aug-only (14)
+
+So naive top eig says WD-only is "sharpest" (which would predict worst generalization by Keskar), but WD-only actually generalizes BETTER than M. Naive top eig is non-monotone with test_acc.
+
+**Why this works.** WD shrinks ‖θ‖ by 12× (from 141 to 12.3 in WD-only). The Hessian is invariant to function (per Dinh 2017's reparameterization argument), but rescaling weights changes how the SAME function's loss landscape appears in eigenvalue terms. The naive top eigenvalue inflates by ~30× as ‖θ‖ shrinks; Petzka's multiplication by ‖θ‖² corrects for this exactly. Result: Petzka relative flatness orders the regimes consistently with generalization while naive sharpness does not.
+
+**This is the empirical confirmation of Dinh et al. 2017** in standard SGD training (not contrived reparameterization). The most defensible single mechanism finding of the paper.
+
+**Status: §6 of the paper is now empirically locked.**
+
+---
+
+## Entry 100 — mech7 reproduces the ResNet basin separation
+
+**Setup.** Independent ResNet-18 CIFAR-10 training run (80 epochs, seed 0), naive LMC interpolation at 11 alphas.
+
+**Result.** Naive_barrier_test = 7.49.
+
+Compare to tier2's barrier of 7.78 (mech3 main run). Both at 80 epochs, ResNet-18 CIFAR-10. **The basin separation is replicated independently.** Train losses peak at ~8.5-8.9 at alpha=0.2 in both runs.
+
+Permutation-aligned LMC for ResNet (with BN + residuals) is genuinely hard and left as future work (script reports naive LMC barrier + Hungarian alignment cost as a sanity diagnostic, but does not apply the permutation). For the paper: cite Ainsworth 2023 for the principle, note that we report naive LMC, and acknowledge the limitation.
+
+**Status: §9 basin claim has independent replication.**
+
+---
+
+## Entry 101 — mech8: panel and MIA are NOT redundant across architectures
+
+**Setup.** For each (tier, regime) cell, fit OLS predicting MIA AUC from 4 structural features: log_top_eig, log_neg_bot, cos_grad, log_grad_ratio. Report R².
+
+**Within-cell R² (n=3-5 per cell):** essentially 1.0. NOT INFORMATIVE — with 4 features and 3-5 datapoints, OLS overfits to anything.
+
+**Pooled across all 44 models (n=44, 4 features): R² = 0.243.**
+
+**Interpretation:** Across the cross-architecture distribution, structural panel features explain only 24% of MIA AUC variance. **76% of MIA's variance is NOT captured by structural features.**
+
+This empirically refutes the "panel is redundant with MIA" worry from mech5. The mech5 finding was specifically that, within a CNN regime, panel signatures look the same for random-label vs benign-overfit M while MIA differs. That's a within-architecture redundancy. **Across architectures**, the panel and MIA capture mostly different information.
+
+**Reframed paper claim:** MIA tells you HOW MUCH memorization. Panel tells you HOW the memorization manifests architecturally. The two are complementary, not redundant. The 76% unexplained variance is what the panel provides beyond MIA.
+
+**Status: §11 (panel-vs-MIA) framing is correct as "complementary, not redundant."**
+
+---
+
+## Entry 102 — mech9: regime fingerprint figure works in 2D
+
+**Setup.** 5 features per model (log_top_eig, log_neg_bot, cos_grad, log_grad_ratio, mia). Standardize, PCA. Compute cluster centers per (tier, mode), silhouette score.
+
+**Results:**
+
+- 64 models from 8 tiers × 2 modes = 16 clusters
+- **PC1 variance explained: 0.639**
+- **PC2 variance explained: 0.136**
+- 2D captures 77.5% of feature variance
+- **Silhouette score (mean): 0.220**
+
+**PC1 loadings (the "memorization axis"):**
+
+| Feature | PC1 |
+|---|---|
+| log_top_eig | −0.493 |
+| log_neg_bot | −0.399 |
+| cos_grad | +0.391 |
+| log_grad_ratio | −0.473 |
+| mia | −0.471 |
+
+**All features load on PC1 with roughly equal magnitude and consistent direction**: high MIA + high top eig + more-negative bot eig + high grad ratio + anti-aligned cos grad → memorize-heavy. PC1 IS a combined memorization axis.
+
+**PC2 loadings (gradient + saddle):**
+
+PC2 mostly captures cos_grad (+0.76) and log_neg_bot (+0.62). Orthogonal to PC1's memorization direction. Captures the gradient-angle and saddle-depth variation that PC1 averages over.
+
+**Cluster centers in PC space (selected):**
+
+| Cluster | PC1 | PC2 |
+|---|---|---|
+| tier0 mod 4L M | −3.99 | −0.11 |
+| tier0 mod 4L G | +1.62 | −0.28 |
+| tier1 MLP MNIST M | +1.80 | −0.26 |
+| (other clusters with distinct centers) | | |
+
+**Interpretation.** All 16 (tier, mode) cluster centers are geometrically distinct in PC space. Silhouette 0.22 is modest but positive — within-cluster spread is smaller than between-cluster distances on average. This is the empirical "fingerprint" claim: each (architecture × regime) configuration has its own location in the 2D structural-feature space.
+
+**For the paper:** This IS the headline figure for §10. 16 dots in 2D, labeled by tier × mode, all visually distinct. PC1 is "memorization axis" (heavily weighted by MIA + sharpness + saddle), PC2 is "gradient-saddle direction." We can color M red and G blue across tiers — viewer immediately sees the regime structure.
+
+---
+
+## Entry 103 — tier6_v2 hardware failure (rerun needed)
+
+All 4 seeds (2 M + 2 G) errored with `cudaErrorECCUncorrectable`. Bad GPU node. No useful data from this run. Resubmit with `--exclude=nodeXXX` after grepping the bad node from the log:
+
+```bash
+grep -h "host=" bulletproof3/logs/tier6_v2_*.out | tail -3
+sed -i '/#SBATCH --time=/i #SBATCH --exclude=nodeXXX' bulletproof3/batch_tier6_v2.slurm
+sbatch bulletproof3/batch_tier6_v2.slurm
+```
+
+**Pending:** tier6_v2 (needs hardware retry), tier5_v2 (queued), mech10 (pending), mech11 WD sweep (pending), mech12 (not designed yet).
+
+---
+
+## Cross-cutting findings after Day 11
+
+The cleanest mechanistic story we can now tell:
+
+1. **The sharpness reversal in ResNet is fully explained by Petzka** (mech4): WD compresses ‖θ‖ by 12× while inflating top eig by 30×. Naive top eig becomes misleading; Petzka relative flatness restores monotone ordering with test accuracy across all 4 cells of the 2×2 ablation. **First empirical confirmation of Dinh 2017 in standard SGD training, multi-seed.**
+
+2. **The reversal SCALES UP** (tier2 → tier3): ResNet-18 G is 3.4× sharper than M (Cohen's d = −9.87). ResNet-50 G is 6.6× sharper. Direction is the same; magnitude grows with model size.
+
+3. **Basin structure scales with ViT size** (mech3): ViT-Tiny same-basin (barrier −0.20), ViT-Small partial separation (barrier 1.03), ResNet different basins (barrier 7.5-7.8 independently in mech7).
+
+4. **Panel and MIA are complementary across architectures** (mech8): pooled R² = 0.24. 76% of MIA variance is NOT captured by structural features.
+
+5. **Regimes form distinct fingerprints in panel space** (mech9): 16 cluster centers in 2D, silhouette 0.22, PC1 (64%) is a clean "memorization axis."
+
+6. **Gradient angle washout is data-scale dependent** (mech6): cos returns to anti-aligned at 500 examples in ViT.
+
+7. **Regime collapse at tier6 is robust to WD up to 5.0** (tier6_strong_wd): privacy claim — standard fine-tuning WD does not prevent MIA leak at small fine-tune data scales.
+
+8. **From-scratch CharLM (tier5) sides with the algorithmic regime** (M sharper, MIA gap clean), distinguishing from pretrained fine-tune collapse (tier6).
+
+---
+
+## What still needs to land
+
+**Critical (paper-affecting):**
+- **tier6_v2 rerun** — engineered M/G split for LM fine-tuning (currently failed on hardware)
+- **tier5_v2 rerun** — engineered M/G split for from-scratch LM (queued)
+- **mech10** — basin structure for tier5 CharLM (queued)
+- **mech11** — WD sweep on ResNet to verify Petzka monotonicity across WD values (queued)
+
+**Optional:**
+- Multi-seed mech3 mode connectivity (currently single seed per tier)
+- mech7 with actual permutation alignment (complicated for ResNet — could do for Track A)
+
+After tier5_v2, tier6_v2, mech10, mech11 — the paper has every empirical claim it needs.

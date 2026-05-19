@@ -2,18 +2,18 @@
 
 Why this exists: the original tier6 collapsed because 200 chunks isn't enough
 training data for Pythia-160m to NOT memorize everything regardless of WD.
-This version fixes that by:
-  (a) 2000 training chunks (10x more than v1) — model can't memorize all
-  (b) Track val_loss every epoch and extract G at BEST val_loss epoch
-      (early stopping captures the generalizing solution before WD eventually
-      loses to overfitting)
-  (c) M is the LAST epoch (let it overfit fully)
 
-With 2000 chunks of Pride and Prejudice + early stopping for G,
-we should get a real M (overfit) vs G (generalize) comparison.
+Why v2 (round 1) collapsed: Pride and Prejudice alone is only 179k tokens =
+~700 chunks of 256 tokens. Asking for 2000+500 split produced 700 train / 0 test
+and a crash.
 
-Outputs per regime: full signature battery at the relevant checkpoint
-(last epoch for M; best-val-loss epoch for G).
+Fix:
+  (a) Download MULTIPLE public-domain Gutenberg books, concatenate to ~1.5M+
+      tokens (~5500+ chunks at chunk_len 256).
+  (b) Auto-clamp N_TRAIN, N_TEST to actually-available chunks (no silent
+      zero-test-set bug).
+  (c) Track val_loss every epoch and extract G at BEST val_loss epoch.
+  (d) M is the LAST epoch (let it overfit fully).
 """
 import json
 import urllib.request
@@ -30,16 +30,94 @@ sys.path.insert(0, str(HERE.parent))
 
 from bulletproof3._signatures import compute_full_battery
 from bulletproof3.tier6_pythia_finetune import (
-    get_corpus, build_chunks, build_model_and_tokenizer,
+    build_model_and_tokenizer,
     batch_loss, per_chunk_loss,
 )
+
+DATA_DIR = HERE.parent / 'data'
+
+# Multiple Gutenberg books for sufficient corpus size
+GUTENBERG_BOOKS = {
+    'pride_and_prejudice.txt':       'https://www.gutenberg.org/files/1342/1342-0.txt',  # Austen
+    'sense_and_sensibility.txt':     'https://www.gutenberg.org/files/161/161-0.txt',    # Austen
+    'emma.txt':                       'https://www.gutenberg.org/files/158/158-0.txt',    # Austen
+    'jane_eyre.txt':                  'https://www.gutenberg.org/files/1260/1260-0.txt',  # Brontë
+    'wuthering_heights.txt':          'https://www.gutenberg.org/files/768/768-0.txt',    # Brontë
+    'a_tale_of_two_cities.txt':       'https://www.gutenberg.org/files/98/98-0.txt',      # Dickens
+    'great_expectations.txt':         'https://www.gutenberg.org/files/1400/1400-0.txt',  # Dickens
+    'frankenstein.txt':               'https://www.gutenberg.org/files/84/84-0.txt',      # Shelley
+}
 
 NUM_SEEDS = 2
 EPOCHS = 30
 BATCH = 4
-N_TRAIN = 2000       # 10x more than v1
+N_TRAIN = 2000
 N_TEST = 500
 CHUNK_LEN = 256
+
+
+def get_multi_book_corpus():
+    """Download all books, concatenate, strip Gutenberg headers."""
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
+    pieces = []
+    for fname, url in GUTENBERG_BOOKS.items():
+        p = DATA_DIR / fname
+        if not p.exists():
+            print(f'  downloading {fname}')
+            try:
+                urllib.request.urlretrieve(url, p)
+            except Exception as e:
+                print(f'    FAILED to download {fname}: {e}; skipping')
+                continue
+        try:
+            text = open(p, 'r', encoding='utf-8', errors='ignore').read()
+        except Exception:
+            continue
+        # Strip Gutenberg header/footer roughly
+        s = text.find('*** START OF THE PROJECT GUTENBERG')
+        e = text.find('*** END OF THE PROJECT GUTENBERG')
+        if s != -1:
+            text = text[text.find('\n', s) + 1:]
+        if e != -1 and text.find('\n', e) > 0:
+            text = text[:text.find('\n', e) - 1]
+        pieces.append(text.strip())
+    if not pieces:
+        raise RuntimeError('No corpus available; all downloads failed')
+    return '\n\n'.join(pieces)
+
+
+def build_chunks_safe(text, tokenizer, chunk_len, n_train_req, n_test_req, seed=0):
+    """Tokenize text, chunk it, clamp split sizes to what's available.
+
+    Returns (train_chunks, test_chunks, total_chunks_available).
+    Always returns at least 1 test chunk if any chunks exist.
+    """
+    ids = tokenizer.encode(text, add_special_tokens=False)
+    n_chunks = len(ids) // chunk_len
+    chunks = [ids[i * chunk_len:(i + 1) * chunk_len] for i in range(n_chunks)]
+    rng = np.random.RandomState(seed)
+    rng.shuffle(chunks)
+    if n_chunks < 2:
+        raise RuntimeError(f'Only {n_chunks} chunks available; need at least 2.')
+    # Reserve at least 10% for test
+    min_test = max(1, n_chunks // 10)
+    # If user requested more than we have, scale proportionally to fit
+    requested_total = n_train_req + n_test_req
+    if requested_total > n_chunks:
+        scale = n_chunks / requested_total
+        n_train = max(1, int(n_train_req * scale))
+        n_test = max(min_test, n_chunks - n_train)
+        print(f'  WARN: requested {requested_total} chunks but only {n_chunks} '
+              f'available; clamped to train={n_train}, test={n_test}')
+    else:
+        n_train = n_train_req
+        n_test = n_test_req
+    train = chunks[:n_train]
+    test = chunks[n_train:n_train + n_test]
+    if len(test) == 0:
+        raise RuntimeError(f'Test set empty after clamping! n_chunks={n_chunks}, '
+                            f'n_train={n_train}, n_test={n_test}')
+    return train, test
 
 
 def train_v2(seed, mode, device):
@@ -51,8 +129,9 @@ def train_v2(seed, mode, device):
     t.manual_seed(seed); np.random.seed(seed)
     wd = 0.1 if mode == 'G' else 0.0
     model, tok, name = build_model_and_tokenizer(device)
-    text = get_corpus()
-    train_chunks, test_chunks = build_chunks(text, tok, CHUNK_LEN, N_TRAIN, N_TEST, seed=seed)
+    text = get_multi_book_corpus()
+    print(f'  corpus: {len(text):,} characters from {len(GUTENBERG_BOOKS)} books')
+    train_chunks, test_chunks = build_chunks_safe(text, tok, CHUNK_LEN, N_TRAIN, N_TEST, seed=seed)
     print(f'  data: {len(train_chunks)} train chunks, {len(test_chunks)} test chunks')
 
     opt = optim.AdamW(model.parameters(), lr=1e-5, weight_decay=wd, eps=1e-8)
