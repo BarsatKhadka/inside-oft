@@ -228,28 +228,111 @@ def mia_loss_auc(train_losses_arr: np.ndarray, test_losses_arr: np.ndarray) -> f
 
 # ---------- Full battery ----------
 
+# ---------- Norm-based measurements ----------
+
+def weight_l2_norm(model) -> float:
+    """Total L2 norm of all parameters: sqrt(sum_i ||theta_i||^2)."""
+    total = 0.0
+    for p in model.parameters():
+        if p.is_floating_point():
+            total += float((p.detach() ** 2).sum())
+    return float(np.sqrt(total))
+
+
+def distance_from_init(model, init_state_dict) -> dict:
+    """||theta_final - theta_init|| and various relative measures.
+
+    init_state_dict: dict of parameter names -> initial tensor values.
+    """
+    sq = 0.0
+    sq_init = 0.0
+    sq_final = 0.0
+    n_params = 0
+    for name, p in model.named_parameters():
+        if not p.is_floating_point() or name not in init_state_dict:
+            continue
+        init = init_state_dict[name].to(p.device).to(p.dtype)
+        if init.shape != p.shape:
+            continue
+        diff = p.detach() - init
+        sq += float((diff ** 2).sum())
+        sq_init += float((init ** 2).sum())
+        sq_final += float((p.detach() ** 2).sum())
+        n_params += p.numel()
+    if sq_init <= 0 or n_params == 0:
+        return {'dist_from_init': float(np.sqrt(sq)),
+                'rel_dist_from_init': float('nan'),
+                'init_norm': float(np.sqrt(sq_init)),
+                'final_norm': float(np.sqrt(sq_final))}
+    return {
+        'dist_from_init': float(np.sqrt(sq)),
+        'rel_dist_from_init': float(np.sqrt(sq) / np.sqrt(sq_init)),
+        'init_norm': float(np.sqrt(sq_init)),
+        'final_norm': float(np.sqrt(sq_final)),
+        'norm_ratio_final_over_init': float(np.sqrt(sq_final) / np.sqrt(sq_init)),
+    }
+
+
+def path_norm_proxy(model) -> dict:
+    """Proxy for L2 path norm: product of operator (spectral) norms of weight
+    matrices in the model. Strict path-norm is intractable for transformers;
+    product-of-spectral-norms is the standard Lipschitz upper bound used in
+    Bartlett et al. 2017 norm-bound literature.
+
+    Returns also sum of log spectral norms (more numerically stable when the
+    product would overflow).
+    """
+    log_prod = 0.0
+    spectral_norms = {}
+    for name, p in model.named_parameters():
+        if not p.is_floating_point() or p.ndim < 2:
+            continue
+        M = p.detach().cpu().float()
+        if M.ndim > 2:
+            M = M.reshape(M.shape[0], -1)
+        try:
+            s_max = float(t.linalg.svdvals(M)[0])
+        except Exception:
+            continue
+        spectral_norms[name] = s_max
+        if s_max > 0:
+            log_prod += float(np.log(s_max))
+    # Product can overflow; report the log explicitly
+    return {
+        'log_path_norm_proxy': float(log_prod),
+        'spectral_norms': spectral_norms,
+    }
+
+
+# ---------- Full battery ----------
+
 def compute_full_battery(model, train_loss_fn, test_loss_fn,
                           train_losses_array=None, test_losses_array=None,
+                          init_state_dict=None,
                           lanczos_k=20, verbose=False) -> dict:
     """Compute the standard battery on a converged model.
 
     train_loss_fn, test_loss_fn: closures returning scalar loss with grads enabled
     train_losses_array, test_losses_array: per-example loss arrays for MIA (optional)
+    init_state_dict: parameter-name -> tensor mapping of initial weights. If
+        provided, distance-from-init metrics will be computed.
     """
     out = {}
     out['ranks'] = all_ranks(model)
     if verbose:
+        print('  computing norm-based measurements...')
+    out['weight_l2_norm'] = weight_l2_norm(model)
+    if init_state_dict is not None:
+        out.update(distance_from_init(model, init_state_dict))
+    out.update(path_norm_proxy(model))
+    if verbose:
         print('  computing Hessian top + bot on full data...')
-    # Full-data Hessian: combine the two losses with proper weighting in closure
-    # The simplest version: caller provides a "full_loss_fn" via combining train+test.
-    # But we want top and bot of FULL loss landscape. Build it here:
     def full_loss_fn():
         return 0.5 * (train_loss_fn() + test_loss_fn())
     top, bot, all_eigs = hessian_top_bot(model, full_loss_fn, k=lanczos_k)
     out['hessian_top_full'] = top
     out['hessian_bot_full'] = bot
     out['hessian_eigs_full'] = all_eigs
-    # Train-only Hessian (also useful)
     if verbose:
         print('  computing Hessian top + bot on train data...')
     try:
@@ -266,3 +349,13 @@ def compute_full_battery(model, train_loss_fn, test_loss_fn,
         out['mean_train_loss'] = float(train_losses_array.mean())
         out['mean_test_loss'] = float(test_losses_array.mean())
     return out
+
+
+# ---------- Helper: capture init state at start of training ----------
+
+def capture_init_state(model) -> dict:
+    """Snapshot a model's parameters right after init. Call BEFORE any training.
+    Returns a CPU dict suitable for later passing to compute_full_battery."""
+    return {name: p.detach().cpu().clone()
+            for name, p in model.named_parameters()
+            if p.is_floating_point()}

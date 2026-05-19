@@ -2,24 +2,30 @@
 
 ## What this project is, in one paragraph
 
-We assemble a **diagnostic panel of structural signatures** that, when applied to a trained neural network, fingerprints which learning regime the model is in: pure overfitting, benign overfitting, grokking, clean generalization, or random-label memorization. No single signature works for all regimes — rank alone cannot tell benign overfitting from clean generalization; gradient angle alone cannot detect random-label memorization; Fourier structure only applies to algorithmic tasks. Together, the panel reads like a blood-test workup: each signature illuminates a different facet, and the **combination** is the diagnostic. Target venue: TMLR. Title (working): *Structural Signatures that Distinguish Memorizing from Generalizing Neural Networks*.
+We assemble **a single lens — a unified suite of structural measurements — and apply it consistently across many (architecture × dataset × training-regime) configurations.** The point is not to "diagnose" a model in isolation; the point is that when you look at all the regimes through the same lens, **patterns emerge that no single-regime study can reach**: which signatures separate which pairs of regimes, where signatures *decouple* (different signatures fire in different combinations across architectures), and where they reverse direction. These cross-regime patterns are the actual finding, not any one measurement. The diagnostic interpretation ("this model is memorizing because X, Y, Z fire together") is one downstream use; the comparative one ("sharpness reverses between modular Transformers and CIFAR ResNets, which tells us something about what WD does in each") is the scientifically generative one. Target venue: TMLR. Title (working): *Structural Signatures that Distinguish Memorizing from Generalizing Neural Networks*.
 
-## The diagnostic panel
+## The lens — what we measure
 
-These are the signatures we measure on every (architecture, dataset) pair:
+A unified suite of structural measurements applied across every (architecture × dataset × training-regime) configuration. Not a list of separate diagnostics — the same lens turned on every regime, so cross-regime patterns become visible.
 
-| Signature | What it measures | What it tells you |
+| Signature | What it measures | What we've found so far |
 |---|---|---|
-| **Effective rank** of weight matrices | Shannon entropy of normalized squared singular values | High in M, low in G; gap is universal but magnitude is regime-dependent |
-| **Hessian top eigenvalue** (full data) | Sharpness of the loss landscape via Lanczos | Huge (100-300) in M, near-zero in G — sharpest signature in algorithmic regime |
-| **Hessian bottom eigenvalue** | Strictly negative directions = saddle topology | Negative at M (≈ −7 to −1000), ~zero at G — direct proof M is a saddle |
-| **Gradient angle** cos(∇L_train, ∇L_test) | Whether training and test loss "agree" at convergence | Anti-aligned at M (~−0.24), mildly aligned at G (~+0.10) |
-| **Gradient norm ratio** ‖∇L_test‖/‖∇L_train‖ | Asymmetry between train and test loss gradients | 10¹⁰ at M (train grad is zero, test is huge), ~5 at G |
+| **Effective rank** of weight matrices | Shannon entropy of normalized squared singular values | High in M, low in G; gap is large in algorithmic + ResNet, weak in ViT |
+| **Hessian top eigenvalue** (full data) | Sharpness of the loss landscape via Lanczos | M sharp in toy/ViT; **reverses** in ResNet (G sharper). Architecture-dependent. |
+| **Hessian bottom eigenvalue** | Strictly negative directions = saddle topology | Strictly negative at M in 3/4 tiers; ≈ 0 at G in toy |
+| **Gradient angle** cos(∇L_train, ∇L_test) | Whether training and test loss "agree" at convergence | Anti-aligned at toy M (−0.24); decouples to ~0 in ViTs |
+| **Gradient norm ratio** ‖∇L_test‖/‖∇L_train‖ | Asymmetry between train and test loss gradients | 10¹⁰ at toy M (train grad is zero, test is huge); much smaller at G |
+| **Weight L2 norm** ‖θ‖ | Total parameter magnitude | Standard generalization predictor (Omnigrok); engages Bartlett/Neyshabur norm-bound lit |
+| **Distance from init** ‖θ_final − θ_init‖ | How far the optimizer traveled | Distinguishes lazy vs feature-learning regimes |
+| **Path-norm proxy** Π‖W_i‖_op | Lipschitz upper bound, product of spectral norms | Best generalization predictor in Jiang et al. 2020 benchmark |
 | **Fourier circuit presence** (task-specific) | Concentration of Fourier energy in embedding | Sharp in algorithmic G models, absent in M, N/A elsewhere |
 | **Inter-layer singular vector alignment** | Adjacent layers' top SV cosine | Higher in G (Yunis-style) |
-| **Loss-based MIA AUC** | Per-example train/test loss separability | Privacy-relevant downstream consequence — high at M, low at G |
+| **Loss-based MIA AUC** | Per-example train/test loss separability | **The one universal signature: M > G in 4/4 tiers**. Privacy-relevant. |
 | **Logit margin distribution** | Train and test logit margins | M has uniformly large train margins + extreme negative test margins; G uniform |
-| **Mode-connectivity barrier** | Loss along linear path between M and G | Large barrier ⇒ different basins |
+| **Mode-connectivity barrier** | Loss along linear path between M and G | Large barrier ⇒ different basins; small barrier ⇒ same basin different points |
+| **Permutation-aligned LMC** | Barrier after Hungarian-matching neurons | Distinguishes "same solution up to symmetry" from "fundamentally different solutions" |
+
+The cross-regime *pattern* of which signatures fire (and which decouple, and which reverse direction) is the actual finding, not any one row of this table.
 
 ## The regimes we characterize
 
