@@ -76,20 +76,22 @@ def build_chunks(text, tokenizer, chunk_len, n_train, n_test, seed=0):
 
 
 def build_model_and_tokenizer(device):
+    """Force float32 load. HF default for Pythia is float16/bfloat16 which
+    produces NaN gradients with regular AdamW fine-tuning."""
     try:
         from transformers import AutoTokenizer, AutoModelForCausalLM
         name = 'EleutherAI/pythia-160m'
         tok = AutoTokenizer.from_pretrained(name)
         if tok.pad_token is None:
             tok.pad_token = tok.eos_token
-        model = AutoModelForCausalLM.from_pretrained(name).to(device)
+        model = AutoModelForCausalLM.from_pretrained(name, torch_dtype=t.float32).to(device)
         return model, tok, name
     except Exception as e:
         print(f'  Pythia load failed: {e}; falling back to GPT-2')
         from transformers import GPT2Tokenizer, GPT2LMHeadModel
         tok = GPT2Tokenizer.from_pretrained('gpt2')
         tok.pad_token = tok.eos_token
-        model = GPT2LMHeadModel.from_pretrained('gpt2').to(device)
+        model = GPT2LMHeadModel.from_pretrained('gpt2', torch_dtype=t.float32).to(device)
         return model, tok, 'gpt2'
 
 
@@ -126,24 +128,36 @@ def train_pythia(seed, mode, device):
     model, tok, name = build_model_and_tokenizer(device)
     text = get_corpus()
     train_chunks, test_chunks = build_chunks(text, tok, CHUNK_LEN, N_TRAIN, N_TEST, seed=seed)
-    opt = optim.AdamW(model.parameters(), lr=5e-5, weight_decay=wd)
-    print(f'  starting fine-tune: mode={mode}, wd={wd}, epochs={EPOCHS}, lr=5e-5')
+    # Lowered lr to 1e-5 (default 5e-5 was unstable). Add gradient clipping.
+    LR = 1e-5
+    opt = optim.AdamW(model.parameters(), lr=LR, weight_decay=wd, eps=1e-8)
+    print(f'  starting fine-tune: mode={mode}, wd={wd}, epochs={EPOCHS}, lr={LR}')
     for ep in range(EPOCHS):
         model.train()
         rng = np.random.RandomState(ep + seed * 1000)
         order = rng.permutation(len(train_chunks))
         epoch_loss = 0.0; n_batches = 0
+        nan_batches = 0
         for i in range(0, len(train_chunks), BATCH):
             batch = [train_chunks[j] for j in order[i:i + BATCH]]
             opt.zero_grad()
             loss = batch_loss(model, batch, device)
-            loss.backward(); opt.step()
+            if not t.isfinite(loss):
+                nan_batches += 1
+                continue
+            loss.backward()
+            t.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
+            opt.step()
             epoch_loss += loss.item(); n_batches += 1
         if (ep + 1) % 5 == 0:
             model.eval()
             tr_l = per_chunk_loss(model, train_chunks[:64], device).mean()
             te_l = per_chunk_loss(model, test_chunks[:64], device).mean()
-            print(f'  ep={ep+1}: train_loss={tr_l:.4f}, test_loss={te_l:.4f}, gap={te_l - tr_l:.4f}')
+            print(f'  ep={ep+1}: train_loss={tr_l:.4f}, test_loss={te_l:.4f}, '
+                  f'gap={te_l - tr_l:.4f} (nan_batches={nan_batches}/{n_batches + nan_batches})')
+            if not np.isfinite(tr_l) or not np.isfinite(te_l):
+                print(f'  ABORT: loss diverged to NaN. Reducing lr or skipping seed.')
+                raise RuntimeError(f'NaN loss at ep={ep+1}; lr={LR} too high or numerical issue.')
     return model, tok, train_chunks, test_chunks, name
 
 

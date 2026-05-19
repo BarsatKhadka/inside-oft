@@ -22,7 +22,8 @@
       "WebFetch(domain:proceedings.mlr.press)",
       "Bash(cat)",
       "Bash(bash /tmp/make_slurm.sh)",
-      "Bash(python3 *)"
+      "Bash(python3 *)",
+      "Bash(bash /tmp/make_bp4_slurm.sh)"
     ]
   }
 }
