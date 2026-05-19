@@ -1,26 +1,1150 @@
 {
   "M": [
     {
+      "ranks": {
+        "gpt_neox.embed_in.weight": 681.4476928710938,
+        "gpt_neox.layers.0.attention.query_key_value.weight": 514.7529907226562,
+        "gpt_neox.layers.0.attention.dense.weight": 291.6585693359375,
+        "gpt_neox.layers.0.mlp.dense_h_to_4h.weight": 655.8289184570312,
+        "gpt_neox.layers.0.mlp.dense_4h_to_h.weight": 709.7764282226562,
+        "gpt_neox.layers.1.attention.query_key_value.weight": 500.5978698730469,
+        "gpt_neox.layers.1.attention.dense.weight": 335.94036865234375,
+        "gpt_neox.layers.1.mlp.dense_h_to_4h.weight": 524.3092041015625,
+        "gpt_neox.layers.1.mlp.dense_4h_to_h.weight": 558.3917846679688,
+        "gpt_neox.layers.2.attention.query_key_value.weight": 544.5364379882812,
+        "gpt_neox.layers.2.attention.dense.weight": 379.5118103027344,
+        "gpt_neox.layers.2.mlp.dense_h_to_4h.weight": 481.0517578125,
+        "gpt_neox.layers.2.mlp.dense_4h_to_h.weight": 568.64697265625,
+        "gpt_neox.layers.3.attention.query_key_value.weight": 116.00253295898438,
+        "gpt_neox.layers.3.attention.dense.weight": 330.8017883300781,
+        "gpt_neox.layers.3.mlp.dense_h_to_4h.weight": 438.6580505371094,
+        "gpt_neox.layers.3.mlp.dense_4h_to_h.weight": 567.7813110351562,
+        "gpt_neox.layers.4.attention.query_key_value.weight": 129.90602111816406,
+        "gpt_neox.layers.4.attention.dense.weight": 366.3089904785156,
+        "gpt_neox.layers.4.mlp.dense_h_to_4h.weight": 572.8533935546875,
+        "gpt_neox.layers.4.mlp.dense_4h_to_h.weight": 565.88818359375,
+        "gpt_neox.layers.5.attention.query_key_value.weight": 100.6848373413086,
+        "gpt_neox.layers.5.attention.dense.weight": 380.0889892578125,
+        "gpt_neox.layers.5.mlp.dense_h_to_4h.weight": 560.2496337890625,
+        "gpt_neox.layers.5.mlp.dense_4h_to_h.weight": 528.6321411132812,
+        "gpt_neox.layers.6.attention.query_key_value.weight": 9.985055923461914,
+        "gpt_neox.layers.6.attention.dense.weight": 323.8288879394531,
+        "gpt_neox.layers.6.mlp.dense_h_to_4h.weight": 559.5997924804688,
+        "gpt_neox.layers.6.mlp.dense_4h_to_h.weight": 488.7791442871094,
+        "gpt_neox.layers.7.attention.query_key_value.weight": 26.7112979888916,
+        "gpt_neox.layers.7.attention.dense.weight": 291.6449279785156,
+        "gpt_neox.layers.7.mlp.dense_h_to_4h.weight": 556.0167236328125,
+        "gpt_neox.layers.7.mlp.dense_4h_to_h.weight": 500.21441650390625,
+        "gpt_neox.layers.8.attention.query_key_value.weight": 35.240299224853516,
+        "gpt_neox.layers.8.attention.dense.weight": 262.64471435546875,
+        "gpt_neox.layers.8.mlp.dense_h_to_4h.weight": 551.5209350585938,
+        "gpt_neox.layers.8.mlp.dense_4h_to_h.weight": 536.3736572265625,
+        "gpt_neox.layers.9.attention.query_key_value.weight": 49.08964538574219,
+        "gpt_neox.layers.9.attention.dense.weight": 354.936767578125,
+        "gpt_neox.layers.9.mlp.dense_h_to_4h.weight": 539.57177734375,
+        "gpt_neox.layers.9.mlp.dense_4h_to_h.weight": 567.2111206054688,
+        "gpt_neox.layers.10.attention.query_key_value.weight": 71.13787078857422,
+        "gpt_neox.layers.10.attention.dense.weight": 403.25146484375,
+        "gpt_neox.layers.10.mlp.dense_h_to_4h.weight": 536.0698852539062,
+        "gpt_neox.layers.10.mlp.dense_4h_to_h.weight": 605.7520751953125,
+        "gpt_neox.layers.11.attention.query_key_value.weight": 107.09022521972656,
+        "gpt_neox.layers.11.attention.dense.weight": 428.7912902832031,
+        "gpt_neox.layers.11.mlp.dense_h_to_4h.weight": 552.1919555664062,
+        "gpt_neox.layers.11.mlp.dense_4h_to_h.weight": 595.94970703125,
+        "embed_out.weight": 2.4695284366607666
+      },
+      "weight_l2_norm": 1870.2033562059592,
+      "log_path_norm_proxy": 101.52811313690286,
+      "spectral_norms": {
+        "gpt_neox.embed_in.weight": 17.903514862060547,
+        "gpt_neox.layers.0.attention.query_key_value.weight": 6.197906017303467,
+        "gpt_neox.layers.0.attention.dense.weight": 2.5918033123016357,
+        "gpt_neox.layers.0.mlp.dense_h_to_4h.weight": 6.307303428649902,
+        "gpt_neox.layers.0.mlp.dense_4h_to_h.weight": 2.5709681510925293,
+        "gpt_neox.layers.1.attention.query_key_value.weight": 6.109316349029541,
+        "gpt_neox.layers.1.attention.dense.weight": 2.991703748703003,
+        "gpt_neox.layers.1.mlp.dense_h_to_4h.weight": 7.620982646942139,
+        "gpt_neox.layers.1.mlp.dense_4h_to_h.weight": 4.26331090927124,
+        "gpt_neox.layers.2.attention.query_key_value.weight": 6.298449993133545,
+        "gpt_neox.layers.2.attention.dense.weight": 2.3000097274780273,
+        "gpt_neox.layers.2.mlp.dense_h_to_4h.weight": 11.807343482971191,
+        "gpt_neox.layers.2.mlp.dense_4h_to_h.weight": 3.8472611904144287,
+        "gpt_neox.layers.3.attention.query_key_value.weight": 27.048646926879883,
+        "gpt_neox.layers.3.attention.dense.weight": 1.9851362705230713,
+        "gpt_neox.layers.3.mlp.dense_h_to_4h.weight": 13.586106300354004,
+        "gpt_neox.layers.3.mlp.dense_4h_to_h.weight": 3.655797004699707,
+        "gpt_neox.layers.4.attention.query_key_value.weight": 24.87302589416504,
+        "gpt_neox.layers.4.attention.dense.weight": 2.0368173122406006,
+        "gpt_neox.layers.4.mlp.dense_h_to_4h.weight": 5.5102739334106445,
+        "gpt_neox.layers.4.mlp.dense_4h_to_h.weight": 3.627898931503296,
+        "gpt_neox.layers.5.attention.query_key_value.weight": 29.336931228637695,
+        "gpt_neox.layers.5.attention.dense.weight": 3.2817208766937256,
+        "gpt_neox.layers.5.mlp.dense_h_to_4h.weight": 5.443857192993164,
+        "gpt_neox.layers.5.mlp.dense_4h_to_h.weight": 6.067544937133789,
+        "gpt_neox.layers.6.attention.query_key_value.weight": 62.23707580566406,
+        "gpt_neox.layers.6.attention.dense.weight": 3.1452078819274902,
+        "gpt_neox.layers.6.mlp.dense_h_to_4h.weight": 5.804450035095215,
+        "gpt_neox.layers.6.mlp.dense_4h_to_h.weight": 6.243001461029053,
+        "gpt_neox.layers.7.attention.query_key_value.weight": 52.54393005371094,
+        "gpt_neox.layers.7.attention.dense.weight": 2.283383846282959,
+        "gpt_neox.layers.7.mlp.dense_h_to_4h.weight": 5.781984329223633,
+        "gpt_neox.layers.7.mlp.dense_4h_to_h.weight": 5.54452657699585,
+        "gpt_neox.layers.8.attention.query_key_value.weight": 57.71990966796875,
+        "gpt_neox.layers.8.attention.dense.weight": 2.1242096424102783,
+        "gpt_neox.layers.8.mlp.dense_h_to_4h.weight": 6.228317737579346,
+        "gpt_neox.layers.8.mlp.dense_4h_to_h.weight": 5.717036247253418,
+        "gpt_neox.layers.9.attention.query_key_value.weight": 59.40521240234375,
+        "gpt_neox.layers.9.attention.dense.weight": 1.8665691614151,
+        "gpt_neox.layers.9.mlp.dense_h_to_4h.weight": 6.089793682098389,
+        "gpt_neox.layers.9.mlp.dense_4h_to_h.weight": 5.9252166748046875,
+        "gpt_neox.layers.10.attention.query_key_value.weight": 76.67566680908203,
+        "gpt_neox.layers.10.attention.dense.weight": 1.2996593713760376,
+        "gpt_neox.layers.10.mlp.dense_h_to_4h.weight": 6.032362937927246,
+        "gpt_neox.layers.10.mlp.dense_4h_to_h.weight": 6.3263654708862305,
+        "gpt_neox.layers.11.attention.query_key_value.weight": 59.99242401123047,
+        "gpt_neox.layers.11.attention.dense.weight": 2.4722518920898438,
+        "gpt_neox.layers.11.mlp.dense_h_to_4h.weight": 5.8031325340271,
+        "gpt_neox.layers.11.mlp.dense_4h_to_h.weight": 7.577489852905273,
+        "embed_out.weight": 669.6334838867188
+      },
+      "hessian_top_full": 56329.30196016733,
+      "hessian_bot_full": -50657.529749416855,
+      "hessian_eigs_full": [
+        56329.30196016733,
+        14432.274773774552,
+        -0.004788026893660105,
+        -24846.447038587976,
+        -50657.529749416855
+      ],
+      "relative_flatness_full": 197020779729.04654,
+      "hessian_top_train": 56406.56444096066,
+      "hessian_bot_train": -1380.990829748201,
+      "relative_flatness_train": 197291017663.47836,
+      "cos_grad_train_test": 0.00653336476534605,
+      "angle_deg": 89.625663109808,
+      "grad_train_norm": 7.207698822021484,
+      "grad_test_norm": 77.73363494873047,
+      "grad_ratio_test_over_train": 10.784806251525879,
+      "mia_loss_auc": 1.0,
+      "mean_train_loss": 0.04593983292579651,
+      "mean_test_loss": 9.208181381225586,
+      "gap_loss": 9.16224193572998,
       "mode": "M",
       "seed": 0,
-      "error": "CUDA error: uncorrectable ECC error encountered\nSearch for `cudaErrorECCUncorrectable' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.\nCUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.\nFor debugging consider passing CUDA_LAUNCH_BLOCKING=1\nCompile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.\n"
+      "checkpoint_epoch": 30,
+      "val_history": [
+        {
+          "epoch": 1,
+          "train_loss": 2.9780755043029785,
+          "test_loss": 3.3247032165527344
+        },
+        {
+          "epoch": 2,
+          "train_loss": 2.742445230484009,
+          "test_loss": 3.333766460418701
+        },
+        {
+          "epoch": 3,
+          "train_loss": 2.4774110317230225,
+          "test_loss": 3.402636766433716
+        },
+        {
+          "epoch": 4,
+          "train_loss": 2.212585926055908,
+          "test_loss": 3.531830310821533
+        },
+        {
+          "epoch": 5,
+          "train_loss": 1.9280468225479126,
+          "test_loss": 3.754835367202759
+        },
+        {
+          "epoch": 6,
+          "train_loss": 1.6442453861236572,
+          "test_loss": 4.083408355712891
+        },
+        {
+          "epoch": 7,
+          "train_loss": 1.376180648803711,
+          "test_loss": 4.454856872558594
+        },
+        {
+          "epoch": 8,
+          "train_loss": 1.127367615699768,
+          "test_loss": 5.042217254638672
+        },
+        {
+          "epoch": 9,
+          "train_loss": 0.9252349138259888,
+          "test_loss": 5.5871901512146
+        },
+        {
+          "epoch": 10,
+          "train_loss": 0.7469430565834045,
+          "test_loss": 6.091240882873535
+        },
+        {
+          "epoch": 11,
+          "train_loss": 0.5774897336959839,
+          "test_loss": 6.797529697418213
+        },
+        {
+          "epoch": 12,
+          "train_loss": 0.46120667457580566,
+          "test_loss": 7.172563552856445
+        },
+        {
+          "epoch": 13,
+          "train_loss": 0.3611268401145935,
+          "test_loss": 7.403899192810059
+        },
+        {
+          "epoch": 14,
+          "train_loss": 0.2802426815032959,
+          "test_loss": 7.858282089233398
+        },
+        {
+          "epoch": 15,
+          "train_loss": 0.2170141339302063,
+          "test_loss": 8.03641128540039
+        },
+        {
+          "epoch": 16,
+          "train_loss": 0.17176607251167297,
+          "test_loss": 8.232147216796875
+        },
+        {
+          "epoch": 17,
+          "train_loss": 0.13993951678276062,
+          "test_loss": 8.402499198913574
+        },
+        {
+          "epoch": 18,
+          "train_loss": 0.11869826912879944,
+          "test_loss": 8.566728591918945
+        },
+        {
+          "epoch": 19,
+          "train_loss": 0.09821770340204239,
+          "test_loss": 8.633981704711914
+        },
+        {
+          "epoch": 20,
+          "train_loss": 0.08764510601758957,
+          "test_loss": 8.742334365844727
+        },
+        {
+          "epoch": 21,
+          "train_loss": 0.07986827939748764,
+          "test_loss": 8.818748474121094
+        },
+        {
+          "epoch": 22,
+          "train_loss": 0.07027305662631989,
+          "test_loss": 8.876073837280273
+        },
+        {
+          "epoch": 23,
+          "train_loss": 0.06762535870075226,
+          "test_loss": 8.870920181274414
+        },
+        {
+          "epoch": 24,
+          "train_loss": 0.06114305928349495,
+          "test_loss": 8.927865028381348
+        },
+        {
+          "epoch": 25,
+          "train_loss": 0.05922836810350418,
+          "test_loss": 9.028194427490234
+        },
+        {
+          "epoch": 26,
+          "train_loss": 0.05850137770175934,
+          "test_loss": 9.092422485351562
+        },
+        {
+          "epoch": 27,
+          "train_loss": 0.051021985709667206,
+          "test_loss": 9.051834106445312
+        },
+        {
+          "epoch": 28,
+          "train_loss": 0.052872173488140106,
+          "test_loss": 9.113666534423828
+        },
+        {
+          "epoch": 29,
+          "train_loss": 0.04820071905851364,
+          "test_loss": 9.162116050720215
+        },
+        {
+          "epoch": 30,
+          "train_loss": 0.047146350145339966,
+          "test_loss": 9.196956634521484
+        }
+      ],
+      "model_name": "EleutherAI/pythia-160m"
     },
     {
+      "ranks": {
+        "gpt_neox.embed_in.weight": 681.451904296875,
+        "gpt_neox.layers.0.attention.query_key_value.weight": 514.7304077148438,
+        "gpt_neox.layers.0.attention.dense.weight": 291.7256164550781,
+        "gpt_neox.layers.0.mlp.dense_h_to_4h.weight": 655.8713989257812,
+        "gpt_neox.layers.0.mlp.dense_4h_to_h.weight": 709.7733764648438,
+        "gpt_neox.layers.1.attention.query_key_value.weight": 500.6222229003906,
+        "gpt_neox.layers.1.attention.dense.weight": 335.99224853515625,
+        "gpt_neox.layers.1.mlp.dense_h_to_4h.weight": 524.2889404296875,
+        "gpt_neox.layers.1.mlp.dense_4h_to_h.weight": 558.3270874023438,
+        "gpt_neox.layers.2.attention.query_key_value.weight": 544.5657958984375,
+        "gpt_neox.layers.2.attention.dense.weight": 379.67706298828125,
+        "gpt_neox.layers.2.mlp.dense_h_to_4h.weight": 480.9063415527344,
+        "gpt_neox.layers.2.mlp.dense_4h_to_h.weight": 568.6355590820312,
+        "gpt_neox.layers.3.attention.query_key_value.weight": 116.02931213378906,
+        "gpt_neox.layers.3.attention.dense.weight": 330.7142639160156,
+        "gpt_neox.layers.3.mlp.dense_h_to_4h.weight": 438.4932556152344,
+        "gpt_neox.layers.3.mlp.dense_4h_to_h.weight": 567.7850952148438,
+        "gpt_neox.layers.4.attention.query_key_value.weight": 129.9407196044922,
+        "gpt_neox.layers.4.attention.dense.weight": 366.28277587890625,
+        "gpt_neox.layers.4.mlp.dense_h_to_4h.weight": 572.790283203125,
+        "gpt_neox.layers.4.mlp.dense_4h_to_h.weight": 565.8960571289062,
+        "gpt_neox.layers.5.attention.query_key_value.weight": 100.66270446777344,
+        "gpt_neox.layers.5.attention.dense.weight": 380.0284423828125,
+        "gpt_neox.layers.5.mlp.dense_h_to_4h.weight": 560.267822265625,
+        "gpt_neox.layers.5.mlp.dense_4h_to_h.weight": 528.6454467773438,
+        "gpt_neox.layers.6.attention.query_key_value.weight": 9.984153747558594,
+        "gpt_neox.layers.6.attention.dense.weight": 323.822265625,
+        "gpt_neox.layers.6.mlp.dense_h_to_4h.weight": 559.5426635742188,
+        "gpt_neox.layers.6.mlp.dense_4h_to_h.weight": 488.8248291015625,
+        "gpt_neox.layers.7.attention.query_key_value.weight": 26.714679718017578,
+        "gpt_neox.layers.7.attention.dense.weight": 291.5548400878906,
+        "gpt_neox.layers.7.mlp.dense_h_to_4h.weight": 556.095458984375,
+        "gpt_neox.layers.7.mlp.dense_4h_to_h.weight": 500.1924743652344,
+        "gpt_neox.layers.8.attention.query_key_value.weight": 35.24247360229492,
+        "gpt_neox.layers.8.attention.dense.weight": 262.42864990234375,
+        "gpt_neox.layers.8.mlp.dense_h_to_4h.weight": 551.5193481445312,
+        "gpt_neox.layers.8.mlp.dense_4h_to_h.weight": 536.4151000976562,
+        "gpt_neox.layers.9.attention.query_key_value.weight": 49.08614730834961,
+        "gpt_neox.layers.9.attention.dense.weight": 355.0977478027344,
+        "gpt_neox.layers.9.mlp.dense_h_to_4h.weight": 539.6376342773438,
+        "gpt_neox.layers.9.mlp.dense_4h_to_h.weight": 567.1787109375,
+        "gpt_neox.layers.10.attention.query_key_value.weight": 71.14157104492188,
+        "gpt_neox.layers.10.attention.dense.weight": 403.2822265625,
+        "gpt_neox.layers.10.mlp.dense_h_to_4h.weight": 535.9492797851562,
+        "gpt_neox.layers.10.mlp.dense_4h_to_h.weight": 605.8294677734375,
+        "gpt_neox.layers.11.attention.query_key_value.weight": 107.08271789550781,
+        "gpt_neox.layers.11.attention.dense.weight": 428.61834716796875,
+        "gpt_neox.layers.11.mlp.dense_h_to_4h.weight": 552.1316528320312,
+        "gpt_neox.layers.11.mlp.dense_4h_to_h.weight": 595.95654296875,
+        "embed_out.weight": 2.4689340591430664
+      },
+      "weight_l2_norm": 1870.245274226152,
+      "log_path_norm_proxy": 101.52463274258125,
+      "spectral_norms": {
+        "gpt_neox.embed_in.weight": 17.899473190307617,
+        "gpt_neox.layers.0.attention.query_key_value.weight": 6.19889497756958,
+        "gpt_neox.layers.0.attention.dense.weight": 2.5920798778533936,
+        "gpt_neox.layers.0.mlp.dense_h_to_4h.weight": 6.303637504577637,
+        "gpt_neox.layers.0.mlp.dense_4h_to_h.weight": 2.569096565246582,
+        "gpt_neox.layers.1.attention.query_key_value.weight": 6.113272190093994,
+        "gpt_neox.layers.1.attention.dense.weight": 2.9917526245117188,
+        "gpt_neox.layers.1.mlp.dense_h_to_4h.weight": 7.618662357330322,
+        "gpt_neox.layers.1.mlp.dense_4h_to_h.weight": 4.2624616622924805,
+        "gpt_neox.layers.2.attention.query_key_value.weight": 6.295470714569092,
+        "gpt_neox.layers.2.attention.dense.weight": 2.297700881958008,
+        "gpt_neox.layers.2.mlp.dense_h_to_4h.weight": 11.816536903381348,
+        "gpt_neox.layers.2.mlp.dense_4h_to_h.weight": 3.847374200820923,
+        "gpt_neox.layers.3.attention.query_key_value.weight": 27.049776077270508,
+        "gpt_neox.layers.3.attention.dense.weight": 1.9850698709487915,
+        "gpt_neox.layers.3.mlp.dense_h_to_4h.weight": 13.590651512145996,
+        "gpt_neox.layers.3.mlp.dense_4h_to_h.weight": 3.6559371948242188,
+        "gpt_neox.layers.4.attention.query_key_value.weight": 24.870805740356445,
+        "gpt_neox.layers.4.attention.dense.weight": 2.0340049266815186,
+        "gpt_neox.layers.4.mlp.dense_h_to_4h.weight": 5.512257099151611,
+        "gpt_neox.layers.4.mlp.dense_4h_to_h.weight": 3.624237537384033,
+        "gpt_neox.layers.5.attention.query_key_value.weight": 29.337263107299805,
+        "gpt_neox.layers.5.attention.dense.weight": 3.286329984664917,
+        "gpt_neox.layers.5.mlp.dense_h_to_4h.weight": 5.445686340332031,
+        "gpt_neox.layers.5.mlp.dense_4h_to_h.weight": 6.066807746887207,
+        "gpt_neox.layers.6.attention.query_key_value.weight": 62.23772048950195,
+        "gpt_neox.layers.6.attention.dense.weight": 3.147460460662842,
+        "gpt_neox.layers.6.mlp.dense_h_to_4h.weight": 5.807682037353516,
+        "gpt_neox.layers.6.mlp.dense_4h_to_h.weight": 6.241412162780762,
+        "gpt_neox.layers.7.attention.query_key_value.weight": 52.545074462890625,
+        "gpt_neox.layers.7.attention.dense.weight": 2.2852230072021484,
+        "gpt_neox.layers.7.mlp.dense_h_to_4h.weight": 5.778148651123047,
+        "gpt_neox.layers.7.mlp.dense_4h_to_h.weight": 5.542409420013428,
+        "gpt_neox.layers.8.attention.query_key_value.weight": 57.71748352050781,
+        "gpt_neox.layers.8.attention.dense.weight": 2.124558687210083,
+        "gpt_neox.layers.8.mlp.dense_h_to_4h.weight": 6.226892471313477,
+        "gpt_neox.layers.8.mlp.dense_4h_to_h.weight": 5.714853763580322,
+        "gpt_neox.layers.9.attention.query_key_value.weight": 59.405601501464844,
+        "gpt_neox.layers.9.attention.dense.weight": 1.8664244413375854,
+        "gpt_neox.layers.9.mlp.dense_h_to_4h.weight": 6.086312770843506,
+        "gpt_neox.layers.9.mlp.dense_4h_to_h.weight": 5.927593231201172,
+        "gpt_neox.layers.10.attention.query_key_value.weight": 76.67459106445312,
+        "gpt_neox.layers.10.attention.dense.weight": 1.2981468439102173,
+        "gpt_neox.layers.10.mlp.dense_h_to_4h.weight": 6.034018516540527,
+        "gpt_neox.layers.10.mlp.dense_4h_to_h.weight": 6.321255207061768,
+        "gpt_neox.layers.11.attention.query_key_value.weight": 59.99608612060547,
+        "gpt_neox.layers.11.attention.dense.weight": 2.4711410999298096,
+        "gpt_neox.layers.11.mlp.dense_h_to_4h.weight": 5.804093360900879,
+        "gpt_neox.layers.11.mlp.dense_4h_to_h.weight": 7.5783915519714355,
+        "embed_out.weight": 669.73095703125
+      },
+      "hessian_top_full": 56706.81713100885,
+      "hessian_bot_full": -109119.25067988456,
+      "hessian_eigs_full": [
+        56706.81713100885,
+        20199.255784986668,
+        0.007662076688965862,
+        -11662.56622195496,
+        -109119.25067988456
+      ],
+      "relative_flatness_full": 198350090852.25375,
+      "hessian_top_train": 20754.919059016374,
+      "hessian_bot_train": -5435.8985421769285,
+      "relative_flatness_train": 72596916724.77812,
+      "cos_grad_train_test": 0.030007094144821167,
+      "angle_deg": 88.28046203148877,
+      "grad_train_norm": 10.323826789855957,
+      "grad_test_norm": 79.6419677734375,
+      "grad_ratio_test_over_train": 7.71438455581665,
+      "mia_loss_auc": 1.0,
+      "mean_train_loss": 0.04785926640033722,
+      "mean_test_loss": 9.231040954589844,
+      "gap_loss": 9.183181762695312,
       "mode": "M",
       "seed": 1,
-      "error": "CUDA error: uncorrectable ECC error encountered\nSearch for `cudaErrorECCUncorrectable' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.\nCUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.\nFor debugging consider passing CUDA_LAUNCH_BLOCKING=1\nCompile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.\n"
+      "checkpoint_epoch": 30,
+      "val_history": [
+        {
+          "epoch": 1,
+          "train_loss": 3.0103628635406494,
+          "test_loss": 3.284517765045166
+        },
+        {
+          "epoch": 2,
+          "train_loss": 2.7704124450683594,
+          "test_loss": 3.2948927879333496
+        },
+        {
+          "epoch": 3,
+          "train_loss": 2.4958889484405518,
+          "test_loss": 3.3689441680908203
+        },
+        {
+          "epoch": 4,
+          "train_loss": 2.2281875610351562,
+          "test_loss": 3.489776611328125
+        },
+        {
+          "epoch": 5,
+          "train_loss": 1.9492466449737549,
+          "test_loss": 3.708721160888672
+        },
+        {
+          "epoch": 6,
+          "train_loss": 1.6531697511672974,
+          "test_loss": 4.012869358062744
+        },
+        {
+          "epoch": 7,
+          "train_loss": 1.38679039478302,
+          "test_loss": 4.47487735748291
+        },
+        {
+          "epoch": 8,
+          "train_loss": 1.1316232681274414,
+          "test_loss": 4.996443748474121
+        },
+        {
+          "epoch": 9,
+          "train_loss": 0.9241572618484497,
+          "test_loss": 5.544225215911865
+        },
+        {
+          "epoch": 10,
+          "train_loss": 0.7396694421768188,
+          "test_loss": 6.138309955596924
+        },
+        {
+          "epoch": 11,
+          "train_loss": 0.5786679983139038,
+          "test_loss": 6.715395927429199
+        },
+        {
+          "epoch": 12,
+          "train_loss": 0.458293080329895,
+          "test_loss": 7.049521446228027
+        },
+        {
+          "epoch": 13,
+          "train_loss": 0.3604312241077423,
+          "test_loss": 7.5487823486328125
+        },
+        {
+          "epoch": 14,
+          "train_loss": 0.28471603989601135,
+          "test_loss": 7.874700546264648
+        },
+        {
+          "epoch": 15,
+          "train_loss": 0.2197776883840561,
+          "test_loss": 8.098451614379883
+        },
+        {
+          "epoch": 16,
+          "train_loss": 0.1750587821006775,
+          "test_loss": 8.247480392456055
+        },
+        {
+          "epoch": 17,
+          "train_loss": 0.14027157425880432,
+          "test_loss": 8.50660514831543
+        },
+        {
+          "epoch": 18,
+          "train_loss": 0.11345921456813812,
+          "test_loss": 8.591758728027344
+        },
+        {
+          "epoch": 19,
+          "train_loss": 0.10115456581115723,
+          "test_loss": 8.674598693847656
+        },
+        {
+          "epoch": 20,
+          "train_loss": 0.08620549738407135,
+          "test_loss": 8.741880416870117
+        },
+        {
+          "epoch": 21,
+          "train_loss": 0.07940295338630676,
+          "test_loss": 8.881919860839844
+        },
+        {
+          "epoch": 22,
+          "train_loss": 0.07611806690692902,
+          "test_loss": 8.954763412475586
+        },
+        {
+          "epoch": 23,
+          "train_loss": 0.06794429570436478,
+          "test_loss": 8.934136390686035
+        },
+        {
+          "epoch": 24,
+          "train_loss": 0.06449078023433685,
+          "test_loss": 8.984036445617676
+        },
+        {
+          "epoch": 25,
+          "train_loss": 0.06164686381816864,
+          "test_loss": 9.034078598022461
+        },
+        {
+          "epoch": 26,
+          "train_loss": 0.061609793454408646,
+          "test_loss": 9.053821563720703
+        },
+        {
+          "epoch": 27,
+          "train_loss": 0.05571901798248291,
+          "test_loss": 9.136161804199219
+        },
+        {
+          "epoch": 28,
+          "train_loss": 0.05182347446680069,
+          "test_loss": 9.104025840759277
+        },
+        {
+          "epoch": 29,
+          "train_loss": 0.0463859960436821,
+          "test_loss": 9.138360977172852
+        },
+        {
+          "epoch": 30,
+          "train_loss": 0.04867413640022278,
+          "test_loss": 9.242263793945312
+        }
+      ],
+      "model_name": "EleutherAI/pythia-160m"
     }
   ],
   "G": [
     {
+      "ranks": {
+        "gpt_neox.embed_in.weight": 681.2862548828125,
+        "gpt_neox.layers.0.attention.query_key_value.weight": 514.2022705078125,
+        "gpt_neox.layers.0.attention.dense.weight": 290.1701354980469,
+        "gpt_neox.layers.0.mlp.dense_h_to_4h.weight": 656.3003540039062,
+        "gpt_neox.layers.0.mlp.dense_4h_to_h.weight": 710.6646728515625,
+        "gpt_neox.layers.1.attention.query_key_value.weight": 500.4174499511719,
+        "gpt_neox.layers.1.attention.dense.weight": 334.5100402832031,
+        "gpt_neox.layers.1.mlp.dense_h_to_4h.weight": 524.2994384765625,
+        "gpt_neox.layers.1.mlp.dense_4h_to_h.weight": 556.8023681640625,
+        "gpt_neox.layers.2.attention.query_key_value.weight": 544.3492431640625,
+        "gpt_neox.layers.2.attention.dense.weight": 378.4098815917969,
+        "gpt_neox.layers.2.mlp.dense_h_to_4h.weight": 479.99200439453125,
+        "gpt_neox.layers.2.mlp.dense_4h_to_h.weight": 567.161376953125,
+        "gpt_neox.layers.3.attention.query_key_value.weight": 115.29534912109375,
+        "gpt_neox.layers.3.attention.dense.weight": 329.4535217285156,
+        "gpt_neox.layers.3.mlp.dense_h_to_4h.weight": 433.88836669921875,
+        "gpt_neox.layers.3.mlp.dense_4h_to_h.weight": 566.6272583007812,
+        "gpt_neox.layers.4.attention.query_key_value.weight": 128.93325805664062,
+        "gpt_neox.layers.4.attention.dense.weight": 364.66607666015625,
+        "gpt_neox.layers.4.mlp.dense_h_to_4h.weight": 572.534423828125,
+        "gpt_neox.layers.4.mlp.dense_4h_to_h.weight": 564.5075073242188,
+        "gpt_neox.layers.5.attention.query_key_value.weight": 99.93370056152344,
+        "gpt_neox.layers.5.attention.dense.weight": 377.80157470703125,
+        "gpt_neox.layers.5.mlp.dense_h_to_4h.weight": 559.8989868164062,
+        "gpt_neox.layers.5.mlp.dense_4h_to_h.weight": 525.9230346679688,
+        "gpt_neox.layers.6.attention.query_key_value.weight": 9.912443161010742,
+        "gpt_neox.layers.6.attention.dense.weight": 320.33343505859375,
+        "gpt_neox.layers.6.mlp.dense_h_to_4h.weight": 558.9541625976562,
+        "gpt_neox.layers.6.mlp.dense_4h_to_h.weight": 485.575439453125,
+        "gpt_neox.layers.7.attention.query_key_value.weight": 26.55134391784668,
+        "gpt_neox.layers.7.attention.dense.weight": 288.03448486328125,
+        "gpt_neox.layers.7.mlp.dense_h_to_4h.weight": 555.05517578125,
+        "gpt_neox.layers.7.mlp.dense_4h_to_h.weight": 497.40399169921875,
+        "gpt_neox.layers.8.attention.query_key_value.weight": 35.1548957824707,
+        "gpt_neox.layers.8.attention.dense.weight": 258.15008544921875,
+        "gpt_neox.layers.8.mlp.dense_h_to_4h.weight": 549.9874877929688,
+        "gpt_neox.layers.8.mlp.dense_4h_to_h.weight": 534.2894287109375,
+        "gpt_neox.layers.9.attention.query_key_value.weight": 48.960723876953125,
+        "gpt_neox.layers.9.attention.dense.weight": 350.6815490722656,
+        "gpt_neox.layers.9.mlp.dense_h_to_4h.weight": 537.9453125,
+        "gpt_neox.layers.9.mlp.dense_4h_to_h.weight": 565.28759765625,
+        "gpt_neox.layers.10.attention.query_key_value.weight": 71.06504821777344,
+        "gpt_neox.layers.10.attention.dense.weight": 401.1273193359375,
+        "gpt_neox.layers.10.mlp.dense_h_to_4h.weight": 534.5355834960938,
+        "gpt_neox.layers.10.mlp.dense_4h_to_h.weight": 604.8365478515625,
+        "gpt_neox.layers.11.attention.query_key_value.weight": 107.02059936523438,
+        "gpt_neox.layers.11.attention.dense.weight": 426.9766540527344,
+        "gpt_neox.layers.11.mlp.dense_h_to_4h.weight": 550.3936157226562,
+        "gpt_neox.layers.11.mlp.dense_4h_to_h.weight": 594.072021484375,
+        "embed_out.weight": 2.4574239253997803
+      },
+      "weight_l2_norm": 1870.8467224589458,
+      "log_path_norm_proxy": 101.61974556205375,
+      "spectral_norms": {
+        "gpt_neox.embed_in.weight": 17.885467529296875,
+        "gpt_neox.layers.0.attention.query_key_value.weight": 6.199353218078613,
+        "gpt_neox.layers.0.attention.dense.weight": 2.591897487640381,
+        "gpt_neox.layers.0.mlp.dense_h_to_4h.weight": 6.277627468109131,
+        "gpt_neox.layers.0.mlp.dense_4h_to_h.weight": 2.572100877761841,
+        "gpt_neox.layers.1.attention.query_key_value.weight": 6.092347145080566,
+        "gpt_neox.layers.1.attention.dense.weight": 2.9884238243103027,
+        "gpt_neox.layers.1.mlp.dense_h_to_4h.weight": 7.586551189422607,
+        "gpt_neox.layers.1.mlp.dense_4h_to_h.weight": 4.269948959350586,
+        "gpt_neox.layers.2.attention.query_key_value.weight": 6.2863922119140625,
+        "gpt_neox.layers.2.attention.dense.weight": 2.312035322189331,
+        "gpt_neox.layers.2.mlp.dense_h_to_4h.weight": 11.826651573181152,
+        "gpt_neox.layers.2.mlp.dense_4h_to_h.weight": 3.839937686920166,
+        "gpt_neox.layers.3.attention.query_key_value.weight": 27.049959182739258,
+        "gpt_neox.layers.3.attention.dense.weight": 1.9897236824035645,
+        "gpt_neox.layers.3.mlp.dense_h_to_4h.weight": 13.743799209594727,
+        "gpt_neox.layers.3.mlp.dense_4h_to_h.weight": 3.6342885494232178,
+        "gpt_neox.layers.4.attention.query_key_value.weight": 24.879474639892578,
+        "gpt_neox.layers.4.attention.dense.weight": 2.052865743637085,
+        "gpt_neox.layers.4.mlp.dense_h_to_4h.weight": 5.453001022338867,
+        "gpt_neox.layers.4.mlp.dense_4h_to_h.weight": 3.6282219886779785,
+        "gpt_neox.layers.5.attention.query_key_value.weight": 29.3444766998291,
+        "gpt_neox.layers.5.attention.dense.weight": 3.355389356613159,
+        "gpt_neox.layers.5.mlp.dense_h_to_4h.weight": 5.381645679473877,
+        "gpt_neox.layers.5.mlp.dense_4h_to_h.weight": 6.129184246063232,
+        "gpt_neox.layers.6.attention.query_key_value.weight": 62.249698638916016,
+        "gpt_neox.layers.6.attention.dense.weight": 3.2354483604431152,
+        "gpt_neox.layers.6.mlp.dense_h_to_4h.weight": 5.76759672164917,
+        "gpt_neox.layers.6.mlp.dense_4h_to_h.weight": 6.283961772918701,
+        "gpt_neox.layers.7.attention.query_key_value.weight": 52.56382369995117,
+        "gpt_neox.layers.7.attention.dense.weight": 2.3083455562591553,
+        "gpt_neox.layers.7.mlp.dense_h_to_4h.weight": 5.757347106933594,
+        "gpt_neox.layers.7.mlp.dense_4h_to_h.weight": 5.5714616775512695,
+        "gpt_neox.layers.8.attention.query_key_value.weight": 57.72629928588867,
+        "gpt_neox.layers.8.attention.dense.weight": 2.127807140350342,
+        "gpt_neox.layers.8.mlp.dense_h_to_4h.weight": 6.2262468338012695,
+        "gpt_neox.layers.8.mlp.dense_4h_to_h.weight": 5.712073802947998,
+        "gpt_neox.layers.9.attention.query_key_value.weight": 59.406734466552734,
+        "gpt_neox.layers.9.attention.dense.weight": 1.8682490587234497,
+        "gpt_neox.layers.9.mlp.dense_h_to_4h.weight": 6.083624362945557,
+        "gpt_neox.layers.9.mlp.dense_4h_to_h.weight": 5.919539451599121,
+        "gpt_neox.layers.10.attention.query_key_value.weight": 76.6641845703125,
+        "gpt_neox.layers.10.attention.dense.weight": 1.3027621507644653,
+        "gpt_neox.layers.10.mlp.dense_h_to_4h.weight": 6.009899616241455,
+        "gpt_neox.layers.10.mlp.dense_4h_to_h.weight": 6.310487270355225,
+        "gpt_neox.layers.11.attention.query_key_value.weight": 59.98134994506836,
+        "gpt_neox.layers.11.attention.dense.weight": 2.5254294872283936,
+        "gpt_neox.layers.11.mlp.dense_h_to_4h.weight": 5.78873872756958,
+        "gpt_neox.layers.11.mlp.dense_4h_to_h.weight": 7.676506042480469,
+        "embed_out.weight": 673.6803588867188
+      },
+      "hessian_top_full": 11404.776242956974,
+      "hessian_bot_full": -11012.484181175565,
+      "hessian_eigs_full": [
+        11404.776242956974,
+        4530.737349123875,
+        0.0009576303873883176,
+        -2373.1577693435906,
+        -11012.484181175565
+      ],
+      "relative_flatness_full": 39917486204.413,
+      "hessian_top_train": 26805.017876200436,
+      "hessian_bot_train": -7173.44838065157,
+      "relative_flatness_train": 93819370804.6703,
+      "cos_grad_train_test": 0.04843922331929207,
+      "angle_deg": 87.22355046063173,
+      "grad_train_norm": 9.079947471618652,
+      "grad_test_norm": 10.151484489440918,
+      "grad_ratio_test_over_train": 1.1180113554000854,
+      "mia_loss_auc": 0.770993,
+      "mean_train_loss": 3.0004937648773193,
+      "mean_test_loss": 3.312609910964966,
+      "gap_loss": 0.3121161460876465,
       "mode": "G",
       "seed": 0,
-      "error": "CUDA error: uncorrectable ECC error encountered\nSearch for `cudaErrorECCUncorrectable' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.\nCUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.\nFor debugging consider passing CUDA_LAUNCH_BLOCKING=1\nCompile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.\n"
+      "checkpoint_epoch": 1,
+      "val_history": [
+        {
+          "epoch": 1,
+          "train_loss": 2.9780161380767822,
+          "test_loss": 3.324392318725586
+        },
+        {
+          "epoch": 2,
+          "train_loss": 2.7456114292144775,
+          "test_loss": 3.3304476737976074
+        },
+        {
+          "epoch": 3,
+          "train_loss": 2.4795234203338623,
+          "test_loss": 3.3999173641204834
+        },
+        {
+          "epoch": 4,
+          "train_loss": 2.212554454803467,
+          "test_loss": 3.5370264053344727
+        },
+        {
+          "epoch": 5,
+          "train_loss": 1.9389971494674683,
+          "test_loss": 3.751553535461426
+        },
+        {
+          "epoch": 6,
+          "train_loss": 1.6511918306350708,
+          "test_loss": 4.100072860717773
+        },
+        {
+          "epoch": 7,
+          "train_loss": 1.3868465423583984,
+          "test_loss": 4.445661544799805
+        },
+        {
+          "epoch": 8,
+          "train_loss": 1.141810417175293,
+          "test_loss": 5.019651412963867
+        },
+        {
+          "epoch": 9,
+          "train_loss": 0.9212556481361389,
+          "test_loss": 5.603888511657715
+        },
+        {
+          "epoch": 10,
+          "train_loss": 0.7418873310089111,
+          "test_loss": 6.181549549102783
+        },
+        {
+          "epoch": 11,
+          "train_loss": 0.586277425289154,
+          "test_loss": 6.688794136047363
+        },
+        {
+          "epoch": 12,
+          "train_loss": 0.45946455001831055,
+          "test_loss": 7.036519527435303
+        },
+        {
+          "epoch": 13,
+          "train_loss": 0.3627238869667053,
+          "test_loss": 7.430438995361328
+        },
+        {
+          "epoch": 14,
+          "train_loss": 0.27781304717063904,
+          "test_loss": 7.821396350860596
+        },
+        {
+          "epoch": 15,
+          "train_loss": 0.21423426270484924,
+          "test_loss": 8.036399841308594
+        },
+        {
+          "epoch": 16,
+          "train_loss": 0.16812293231487274,
+          "test_loss": 8.270155906677246
+        },
+        {
+          "epoch": 17,
+          "train_loss": 0.13577356934547424,
+          "test_loss": 8.371212005615234
+        },
+        {
+          "epoch": 18,
+          "train_loss": 0.11577586084604263,
+          "test_loss": 8.508316040039062
+        },
+        {
+          "epoch": 19,
+          "train_loss": 0.10027913749217987,
+          "test_loss": 8.586772918701172
+        },
+        {
+          "epoch": 20,
+          "train_loss": 0.08595089614391327,
+          "test_loss": 8.671640396118164
+        },
+        {
+          "epoch": 21,
+          "train_loss": 0.08073218166828156,
+          "test_loss": 8.772577285766602
+        },
+        {
+          "epoch": 22,
+          "train_loss": 0.07112962752580643,
+          "test_loss": 8.750822067260742
+        },
+        {
+          "epoch": 23,
+          "train_loss": 0.06913285702466965,
+          "test_loss": 8.855609893798828
+        },
+        {
+          "epoch": 24,
+          "train_loss": 0.06539393961429596,
+          "test_loss": 8.8515625
+        },
+        {
+          "epoch": 25,
+          "train_loss": 0.06102021038532257,
+          "test_loss": 8.886802673339844
+        },
+        {
+          "epoch": 26,
+          "train_loss": 0.0549037791788578,
+          "test_loss": 8.916179656982422
+        },
+        {
+          "epoch": 27,
+          "train_loss": 0.05055885761976242,
+          "test_loss": 8.93757438659668
+        },
+        {
+          "epoch": 28,
+          "train_loss": 0.05041477084159851,
+          "test_loss": 8.941827774047852
+        },
+        {
+          "epoch": 29,
+          "train_loss": 0.04901067540049553,
+          "test_loss": 9.044097900390625
+        },
+        {
+          "epoch": 30,
+          "train_loss": 0.04632820561528206,
+          "test_loss": 9.058954238891602
+        }
+      ],
+      "model_name": "EleutherAI/pythia-160m"
     },
     {
+      "ranks": {
+        "gpt_neox.embed_in.weight": 681.2852783203125,
+        "gpt_neox.layers.0.attention.query_key_value.weight": 514.2103271484375,
+        "gpt_neox.layers.0.attention.dense.weight": 290.1936340332031,
+        "gpt_neox.layers.0.mlp.dense_h_to_4h.weight": 656.3125610351562,
+        "gpt_neox.layers.0.mlp.dense_4h_to_h.weight": 710.6680908203125,
+        "gpt_neox.layers.1.attention.query_key_value.weight": 500.4093322753906,
+        "gpt_neox.layers.1.attention.dense.weight": 334.5417785644531,
+        "gpt_neox.layers.1.mlp.dense_h_to_4h.weight": 524.3012084960938,
+        "gpt_neox.layers.1.mlp.dense_4h_to_h.weight": 556.801513671875,
+        "gpt_neox.layers.2.attention.query_key_value.weight": 544.3531494140625,
+        "gpt_neox.layers.2.attention.dense.weight": 378.42755126953125,
+        "gpt_neox.layers.2.mlp.dense_h_to_4h.weight": 480.0064392089844,
+        "gpt_neox.layers.2.mlp.dense_4h_to_h.weight": 567.1683959960938,
+        "gpt_neox.layers.3.attention.query_key_value.weight": 115.29485321044922,
+        "gpt_neox.layers.3.attention.dense.weight": 329.4486389160156,
+        "gpt_neox.layers.3.mlp.dense_h_to_4h.weight": 433.847412109375,
+        "gpt_neox.layers.3.mlp.dense_4h_to_h.weight": 566.6261596679688,
+        "gpt_neox.layers.4.attention.query_key_value.weight": 128.93817138671875,
+        "gpt_neox.layers.4.attention.dense.weight": 364.64849853515625,
+        "gpt_neox.layers.4.mlp.dense_h_to_4h.weight": 572.5270385742188,
+        "gpt_neox.layers.4.mlp.dense_4h_to_h.weight": 564.5112915039062,
+        "gpt_neox.layers.5.attention.query_key_value.weight": 99.92960357666016,
+        "gpt_neox.layers.5.attention.dense.weight": 377.7986755371094,
+        "gpt_neox.layers.5.mlp.dense_h_to_4h.weight": 559.8933715820312,
+        "gpt_neox.layers.5.mlp.dense_4h_to_h.weight": 525.93603515625,
+        "gpt_neox.layers.6.attention.query_key_value.weight": 9.91275691986084,
+        "gpt_neox.layers.6.attention.dense.weight": 320.3302307128906,
+        "gpt_neox.layers.6.mlp.dense_h_to_4h.weight": 558.9637451171875,
+        "gpt_neox.layers.6.mlp.dense_4h_to_h.weight": 485.57476806640625,
+        "gpt_neox.layers.7.attention.query_key_value.weight": 26.551008224487305,
+        "gpt_neox.layers.7.attention.dense.weight": 288.0539855957031,
+        "gpt_neox.layers.7.mlp.dense_h_to_4h.weight": 555.0635986328125,
+        "gpt_neox.layers.7.mlp.dense_4h_to_h.weight": 497.3975830078125,
+        "gpt_neox.layers.8.attention.query_key_value.weight": 35.15350341796875,
+        "gpt_neox.layers.8.attention.dense.weight": 258.13311767578125,
+        "gpt_neox.layers.8.mlp.dense_h_to_4h.weight": 549.9929809570312,
+        "gpt_neox.layers.8.mlp.dense_4h_to_h.weight": 534.2916870117188,
+        "gpt_neox.layers.9.attention.query_key_value.weight": 48.960723876953125,
+        "gpt_neox.layers.9.attention.dense.weight": 350.6681823730469,
+        "gpt_neox.layers.9.mlp.dense_h_to_4h.weight": 537.9376220703125,
+        "gpt_neox.layers.9.mlp.dense_4h_to_h.weight": 565.28466796875,
+        "gpt_neox.layers.10.attention.query_key_value.weight": 71.06165313720703,
+        "gpt_neox.layers.10.attention.dense.weight": 401.13555908203125,
+        "gpt_neox.layers.10.mlp.dense_h_to_4h.weight": 534.5271606445312,
+        "gpt_neox.layers.10.mlp.dense_4h_to_h.weight": 604.8362426757812,
+        "gpt_neox.layers.11.attention.query_key_value.weight": 107.02130889892578,
+        "gpt_neox.layers.11.attention.dense.weight": 426.9754333496094,
+        "gpt_neox.layers.11.mlp.dense_h_to_4h.weight": 550.3938598632812,
+        "gpt_neox.layers.11.mlp.dense_4h_to_h.weight": 594.0692138671875,
+        "embed_out.weight": 2.456784248352051
+      },
+      "weight_l2_norm": 1870.8954235079627,
+      "log_path_norm_proxy": 101.61897111808612,
+      "spectral_norms": {
+        "gpt_neox.embed_in.weight": 17.885629653930664,
+        "gpt_neox.layers.0.attention.query_key_value.weight": 6.199936389923096,
+        "gpt_neox.layers.0.attention.dense.weight": 2.591334581375122,
+        "gpt_neox.layers.0.mlp.dense_h_to_4h.weight": 6.276609420776367,
+        "gpt_neox.layers.0.mlp.dense_4h_to_h.weight": 2.5719285011291504,
+        "gpt_neox.layers.1.attention.query_key_value.weight": 6.09323263168335,
+        "gpt_neox.layers.1.attention.dense.weight": 2.9880993366241455,
+        "gpt_neox.layers.1.mlp.dense_h_to_4h.weight": 7.586141109466553,
+        "gpt_neox.layers.1.mlp.dense_4h_to_h.weight": 4.269515514373779,
+        "gpt_neox.layers.2.attention.query_key_value.weight": 6.28611421585083,
+        "gpt_neox.layers.2.attention.dense.weight": 2.3113980293273926,
+        "gpt_neox.layers.2.mlp.dense_h_to_4h.weight": 11.82621955871582,
+        "gpt_neox.layers.2.mlp.dense_4h_to_h.weight": 3.8397316932678223,
+        "gpt_neox.layers.3.attention.query_key_value.weight": 27.04993438720703,
+        "gpt_neox.layers.3.attention.dense.weight": 1.989740252494812,
+        "gpt_neox.layers.3.mlp.dense_h_to_4h.weight": 13.745157241821289,
+        "gpt_neox.layers.3.mlp.dense_4h_to_h.weight": 3.6346449851989746,
+        "gpt_neox.layers.4.attention.query_key_value.weight": 24.879348754882812,
+        "gpt_neox.layers.4.attention.dense.weight": 2.053159713745117,
+        "gpt_neox.layers.4.mlp.dense_h_to_4h.weight": 5.453030109405518,
+        "gpt_neox.layers.4.mlp.dense_4h_to_h.weight": 3.6280782222747803,
+        "gpt_neox.layers.5.attention.query_key_value.weight": 29.344335556030273,
+        "gpt_neox.layers.5.attention.dense.weight": 3.3553802967071533,
+        "gpt_neox.layers.5.mlp.dense_h_to_4h.weight": 5.381786346435547,
+        "gpt_neox.layers.5.mlp.dense_4h_to_h.weight": 6.128968715667725,
+        "gpt_neox.layers.6.attention.query_key_value.weight": 62.24942398071289,
+        "gpt_neox.layers.6.attention.dense.weight": 3.2351551055908203,
+        "gpt_neox.layers.6.mlp.dense_h_to_4h.weight": 5.767058372497559,
+        "gpt_neox.layers.6.mlp.dense_4h_to_h.weight": 6.283633232116699,
+        "gpt_neox.layers.7.attention.query_key_value.weight": 52.56380081176758,
+        "gpt_neox.layers.7.attention.dense.weight": 2.308213710784912,
+        "gpt_neox.layers.7.mlp.dense_h_to_4h.weight": 5.756332874298096,
+        "gpt_neox.layers.7.mlp.dense_4h_to_h.weight": 5.571163177490234,
+        "gpt_neox.layers.8.attention.query_key_value.weight": 57.727821350097656,
+        "gpt_neox.layers.8.attention.dense.weight": 2.1279382705688477,
+        "gpt_neox.layers.8.mlp.dense_h_to_4h.weight": 6.22642183303833,
+        "gpt_neox.layers.8.mlp.dense_4h_to_h.weight": 5.712098598480225,
+        "gpt_neox.layers.9.attention.query_key_value.weight": 59.40605926513672,
+        "gpt_neox.layers.9.attention.dense.weight": 1.8680790662765503,
+        "gpt_neox.layers.9.mlp.dense_h_to_4h.weight": 6.0839080810546875,
+        "gpt_neox.layers.9.mlp.dense_4h_to_h.weight": 5.9203996658325195,
+        "gpt_neox.layers.10.attention.query_key_value.weight": 76.66600036621094,
+        "gpt_neox.layers.10.attention.dense.weight": 1.3027949333190918,
+        "gpt_neox.layers.10.mlp.dense_h_to_4h.weight": 6.00949764251709,
+        "gpt_neox.layers.10.mlp.dense_4h_to_h.weight": 6.310572624206543,
+        "gpt_neox.layers.11.attention.query_key_value.weight": 59.98127746582031,
+        "gpt_neox.layers.11.attention.dense.weight": 2.5252554416656494,
+        "gpt_neox.layers.11.mlp.dense_h_to_4h.weight": 5.789039611816406,
+        "gpt_neox.layers.11.mlp.dense_4h_to_h.weight": 7.6761794090271,
+        "embed_out.weight": 673.8079223632812
+      },
+      "hessian_top_full": 10114.56615957462,
+      "hessian_bot_full": -5889.368172288778,
+      "hessian_eigs_full": [
+        10114.56615957462,
+        4973.784326120136,
+        0.0017094210183446654,
+        -1236.4071681058138,
+        -5889.368172288778
+      ],
+      "relative_flatness_full": 35403507021.07366,
+      "hessian_top_train": 9486.058264293351,
+      "hessian_bot_train": -7367.29765208181,
+      "relative_flatness_train": 33203572458.15352,
+      "cos_grad_train_test": 0.16252876818180084,
+      "angle_deg": 80.64629443966311,
+      "grad_train_norm": 9.174375534057617,
+      "grad_test_norm": 9.733864784240723,
+      "grad_ratio_test_over_train": 1.0609838962554932,
+      "mia_loss_auc": 0.7476780000000001,
+      "mean_train_loss": 3.0136172771453857,
+      "mean_test_loss": 3.2890625,
+      "gap_loss": 0.27544522285461426,
       "mode": "G",
       "seed": 1,
-      "error": "CUDA error: uncorrectable ECC error encountered\nSearch for `cudaErrorECCUncorrectable' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.\nCUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.\nFor debugging consider passing CUDA_LAUNCH_BLOCKING=1\nCompile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.\n"
+      "checkpoint_epoch": 1,
+      "val_history": [
+        {
+          "epoch": 1,
+          "train_loss": 3.0086212158203125,
+          "test_loss": 3.2809605598449707
+        },
+        {
+          "epoch": 2,
+          "train_loss": 2.765561580657959,
+          "test_loss": 3.294738292694092
+        },
+        {
+          "epoch": 3,
+          "train_loss": 2.4871368408203125,
+          "test_loss": 3.361922264099121
+        },
+        {
+          "epoch": 4,
+          "train_loss": 2.2187366485595703,
+          "test_loss": 3.4993600845336914
+        },
+        {
+          "epoch": 5,
+          "train_loss": 1.941429853439331,
+          "test_loss": 3.727329730987549
+        },
+        {
+          "epoch": 6,
+          "train_loss": 1.6435132026672363,
+          "test_loss": 4.028905868530273
+        },
+        {
+          "epoch": 7,
+          "train_loss": 1.3922927379608154,
+          "test_loss": 4.466696739196777
+        },
+        {
+          "epoch": 8,
+          "train_loss": 1.1219956874847412,
+          "test_loss": 5.0763373374938965
+        },
+        {
+          "epoch": 9,
+          "train_loss": 0.9222787618637085,
+          "test_loss": 5.573907852172852
+        },
+        {
+          "epoch": 10,
+          "train_loss": 0.7382605075836182,
+          "test_loss": 6.075051307678223
+        },
+        {
+          "epoch": 11,
+          "train_loss": 0.5822370648384094,
+          "test_loss": 6.624871730804443
+        },
+        {
+          "epoch": 12,
+          "train_loss": 0.4547165632247925,
+          "test_loss": 7.062589168548584
+        },
+        {
+          "epoch": 13,
+          "train_loss": 0.357477068901062,
+          "test_loss": 7.406300067901611
+        },
+        {
+          "epoch": 14,
+          "train_loss": 0.2764623165130615,
+          "test_loss": 7.822153568267822
+        },
+        {
+          "epoch": 15,
+          "train_loss": 0.21171636879444122,
+          "test_loss": 8.00959587097168
+        },
+        {
+          "epoch": 16,
+          "train_loss": 0.1676306277513504,
+          "test_loss": 8.189911842346191
+        },
+        {
+          "epoch": 17,
+          "train_loss": 0.13916179537773132,
+          "test_loss": 8.385383605957031
+        },
+        {
+          "epoch": 18,
+          "train_loss": 0.13065946102142334,
+          "test_loss": 8.48849868774414
+        },
+        {
+          "epoch": 19,
+          "train_loss": 0.10670968890190125,
+          "test_loss": 8.568056106567383
+        },
+        {
+          "epoch": 20,
+          "train_loss": 0.09574054181575775,
+          "test_loss": 8.626051902770996
+        },
+        {
+          "epoch": 21,
+          "train_loss": 0.0807420164346695,
+          "test_loss": 8.709726333618164
+        },
+        {
+          "epoch": 22,
+          "train_loss": 0.08097154647111893,
+          "test_loss": 8.708944320678711
+        },
+        {
+          "epoch": 23,
+          "train_loss": 0.06693094223737717,
+          "test_loss": 8.82149887084961
+        },
+        {
+          "epoch": 24,
+          "train_loss": 0.06484714150428772,
+          "test_loss": 8.840461730957031
+        },
+        {
+          "epoch": 25,
+          "train_loss": 0.05937174707651138,
+          "test_loss": 8.889875411987305
+        },
+        {
+          "epoch": 26,
+          "train_loss": 0.05587569624185562,
+          "test_loss": 8.908555030822754
+        },
+        {
+          "epoch": 27,
+          "train_loss": 0.05552682653069496,
+          "test_loss": 8.885676383972168
+        },
+        {
+          "epoch": 28,
+          "train_loss": 0.04927472770214081,
+          "test_loss": 8.952754974365234
+        },
+        {
+          "epoch": 29,
+          "train_loss": 0.0480346642434597,
+          "test_loss": 8.996368408203125
+        },
+        {
+          "epoch": 30,
+          "train_loss": 0.05096057802438736,
+          "test_loss": 8.995461463928223
+        }
+      ],
+      "model_name": "EleutherAI/pythia-160m"
     }
   ]
 }
