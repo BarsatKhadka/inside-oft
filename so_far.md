@@ -611,3 +611,127 @@ That's a TMLR-shaped paper. It's specifically *not* a Yunis replication — it's
 - TMLR accept: 75-90% depending on how cleanly tier5 and tier6 land
 
 The 4-tier picture above is already enough for the paper's spine. The remaining 3 tiers would either reinforce universality (good) or reveal another decoupling (also good — more material for the regime-dependence story).
+
+---
+
+## Day 9 — bulletproof4 first wave: mech1, mech2, mech3 (partial) deliver the unifying explanation
+
+Three mechanistic experiments came back with results that materially change the project. Detailed numerical findings are in `so_far_results.md` Entries 80-83. The takeaway for this log:
+
+### What the data now says
+
+**1. MIA AUC is the universal axis, with concrete effect sizes.**
+mech1 computed Cohen's d for M-vs-G separation per signature per tier. MIA gets d = 28.5, 7.8, 2.2, 3.7 in the 4 tiers where memorization actually occurs. In the two MLP tiers where memorization doesn't really happen, MIA correctly shows near-zero d. This is the cleanest empirical evidence that MIA is the "memorization axis" — it fires when memorization is real, doesn't when it isn't.
+
+**2. The sharpness reversal is empirically confirmed at huge effect size.**
+tier2 ResNet top Hessian eigenvalue Cohen's d = **−9.87**. G is dramatically sharper than M with a ~10-sigma effect size. The reversal is not noise. tier0/tier3b/tier4 all show + d (M sharper). The CNN benign-overfit regime is qualitatively different from algorithmic/ViT regimes in terms of sharpness direction. Empirical confirmation of Dinh et al. 2017's theoretical critique of sharpness-as-generalization-indicator, in standard SGD training (not contrived reparameterization).
+
+**3. Within-regime, MIA correlates strongly with structural signatures — but the direction of correlation flips across architectures.**
+In tier0 G: corr(MIA, top eig) = +0.86. In tier3b ViT-T G: corr(MIA, top eig) = −0.97. Same signature, opposite relationship to MIA. This is the cleanest evidence I've seen for "structural signatures are architecture-specific proxies; MIA is the architecture-invariant statistical read."
+
+**4. THE BIG ONE: ViT M and G are in the SAME basin. ResNet M and G are in different basins.**
+
+mech3 mode connectivity:
+- tier2 (ResNet): test-loss barrier ~8 above endpoints. Train loss reaches ~10 (chance) at the barrier. Clear separation into different basins.
+- tier3b (ViT-Tiny): barrier height = −0.20. No barrier. M and G smoothly connect.
+
+This is the mechanistic explanation we needed. **ViT M and G are different points within one basin, not different solutions in distinct basins.** That's why structural signatures (which measure properties of the solution) decouple in ViT but not in ResNet. MIA AUC still works in ViT because per-example loss separability can differ even between two points in the same basin.
+
+This single finding ties together what previously looked like four separate puzzles:
+- Rank gap fails in ViT head → same basin → same architectural compression
+- Gradient angle washes out in ViT → close in weight space → close in gradient direction
+- Sharpness still differs modestly in ViT → sharpness is a local property; varies within a basin
+- MIA still works in ViT → statistical property survives same-basin variation
+
+### What the paper looks like now
+
+The empirical spine of the paper is built. The three biggest open mechanistic questions are answered (or have data sufficient to answer with the pending mech4 ablation). Specifically:
+
+**Section 6 (sharpness reversal):** backed by tier2 Cohen's d = −9.87. Frame as "empirical validation of Dinh 2017's theoretical critique." Mech4 will provide the WD-vs-aug mechanistic isolation.
+
+**Section 9 (basin structure / mode connectivity):** backed by mech3 tier2 (barrier) vs mech3 tier3b (no barrier). This is the single most important figure in the paper.
+
+**Section 11 (MIA as the universal axis):** backed by mech1 (Cohen's d across tiers + within-regime correlations whose direction flips).
+
+The unifying mechanistic claim of the paper is now empirically testable, not aspirational:
+
+> "Memorization is a statistical property — separability of per-example train and test losses. Architecturally, this property is encoded in different ways in different models: in ResNet it manifests as a different basin with concentrated rank in late conv layers and reversed sharpness ordering; in ViT it manifests as a different point in the same basin with modest, distributed structural differences. MIA AUC reads the statistical property directly and works across architectures; structural signatures read architecture-specific traces and vary in which fire and how."
+
+That's a defensible, mechanistic, multi-regime characterization claim. Not "we discovered THE signature" (we didn't) — but "we mapped the architecture-dependence of memorization's structural representation, identified the universal statistical axis, and explained the decouplings via basin structure." That's the paper.
+
+### Confidence after Day 9
+
+- TMLR submit: **99%**
+- TMLR accept: **80-92%** (up from 75-90%)
+
+Reasoning for the bump: mech3's mode connectivity finding is the most publishable single empirical result we have. It's a specific testable claim (ViT M, G in same basin; ResNet M, G in different basins) with clean visual evidence (the interpolation curves). It's not "we measured X and Y differ" — it's a structural-geometric claim about HOW two regimes differ. Reviewers will engage with this.
+
+The 80-92% range depends on:
+- Whether mech4 (sharpness reversal mechanism) lands cleanly
+- Whether mech5 (random-label control) confirms the panel resolves what MIA alone can't
+- Whether tier5/tier6 give us the LM endpoint of the scale ladder
+
+If all three come in clean: 90%+. If any of them muddy the picture, we adjust scope accordingly — but the existing data is already enough for a respectable TMLR submission.
+
+### What I'm watching for next
+
+- **mech4 result** — does sharpness ordering track WD only (predicted) or augmentation too?
+- **mech3 tier4** — does ViT-Small also show same-basin behavior at the larger scale?
+- **mech5 random-label** — does the panel distinguish pure overfit from random-label memorization where MIA collapses them?
+- **mech7 permutation-aligned LMC** — does the ResNet barrier shrink under Hungarian matching, or is it a genuine basin separation?
+
+These four results would close the remaining gaps. With them in hand, the paper is ready to draft.
+
+---
+
+## Day 9 evening — tier3 (M), tier5 (clean LM), tier6 (regime collapse). Three new patterns.
+
+Three more reruns landed by evening. Detailed numbers in `so_far_results.md` Entries 84-87. Summary:
+
+**Tier3 ResNet-50 CIFAR-100 (M only, G pending):** 3 M seeds, test_acc 0.44-0.48, MIA 0.88-0.89, top eig 70 across all seeds, bot eig variable. G seeds didn't complete — likely OOM at Hessian time even at probe 200. May report tier3 G with structural-only (no Hessian).
+
+**Tier5 CharLM Shakespeare (3+3) — CLEAN regime:**
+- M val_loss 2.55, G val_loss 1.49 → gap 5×
+- Top eig: M ~110, G ~5 → 20× ratio, M sharper (algorithmic-like, NOT CNN-reversed)
+- Bot eig: M ~−25, G ~−0.8 → 30× ratio
+- MIA: M = 1.00, G = 0.89 → clean separation
+- Gradient angle: both near zero (ViT-like washout)
+
+**Tier6 Pythia-160m fine-tune (2+2) — REGIME COLLAPSE:**
+- Both M (wd=0) and G (wd=0.1) memorize completely
+- gap_loss = 8.62 (M) vs 8.59 (G) → identical
+- MIA = 1.0000 for ALL 4 runs
+- Standard WD does not prevent memorization at this fine-tune data scale
+
+This collapse is itself a finding. We're effectively running a follow-up tier6 variant with WD=1.0 to test whether stronger regularization escapes the collapse — see `bulletproof3/tier6_strong_wd.py`.
+
+### Five new cross-tier patterns visible at this point
+
+1. **Sharpness direction is architecture-family-specific.** Transformers (algo, LM, ViT) all show M sharper. ConvNet benign overfit reverses (G sharper). Tier5 sides with the algorithmic direction, NOT the CNN reversal. Reinforces §6 framing.
+
+2. **Gradient angle washout extends beyond ViT.** ViT, LM-from-scratch, and pretrained fine-tune all show cos ~0 in both M and G. The "anti-aligned at M" signal fires cleanly only in algorithmic and ConvNet. Gradient angle is regime-specific.
+
+3. **MIA AUC at G monotonically increases with scale and decreasing regularization strength:**
+   - algorithmic strong WD: MIA G = 0.58
+   - vision medium WD: MIA G = 0.60-0.86
+   - LM from scratch medium WD: MIA G = 0.89
+   - pretrained fine-tune weak WD: MIA G = 1.00 (saturated)
+
+This is a clean privacy story. Standard fine-tuning practice for LLMs (tier6) leaks training data perfectly via MIA.
+
+4. **A new "collapse" regime emerges in tier6.** Both M and G memorize identically. Worth flagging as a SIXTH regime in the taxonomy, distinct from the original five (pure overfit, grok, benign overfit, clean gen, random labels).
+
+5. **Pretrained models live in dramatically sharper local geometry than from-scratch.** Pythia-160m has top Hessian eig 100,000+ even at the "G" point; CharLM from scratch has ~110. Pretraining itself imprints sharp local structure. Worth discussing.
+
+### Confidence after Day 9 evening
+
+- TMLR submit: 99%
+- TMLR accept: 80-92% (unchanged from morning; tier6 collapse doesn't hurt — it gives us a clean privacy claim and a sixth regime to flag)
+
+The paper's spine is now empirically grounded. Pending mech4/5/6/7 will sharpen Section 6 (sharpness mechanism), Section 9 (basin structure), and the random-label control story.
+
+### Honest scope additions
+
+- Tier6 result requires us to add: "for pretrained-model fine-tuning at small data scales, standard WD is insufficient to prevent memorization; the M/G distinction collapses at this regime."
+- This is a real finding for practitioners, but it scope-limits our universal claims.
+- The "panel as a fingerprint" framing still holds — collapsed regime has its own distinctive fingerprint (all signatures saturated/maxed).

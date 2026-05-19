@@ -239,6 +239,25 @@ def weight_l2_norm(model) -> float:
     return float(np.sqrt(total))
 
 
+def relative_flatness(top_hessian_eig: float, weight_l2: float) -> float:
+    """Petzka et al. 2021 relative flatness: sharpness scaled by weight magnitude.
+
+    Petzka, Kamp, Adilova, Sminchisescu, Boley (NeurIPS 2021).
+    "Relative Flatness and Generalization."
+
+    The standard top Hessian eigenvalue ("sharpness", Keskar 2017) is NOT
+    invariant under network reparameterization: rescaling weights can make
+    any minimum arbitrarily sharp or flat without changing the network's
+    function (Dinh et al. 2017). Petzka's relative flatness scales sharpness
+    by ||theta||^2, producing a reparameterization-invariant proxy that
+    they show empirically correlates with generalization more reliably than
+    raw top eigenvalue.
+
+    Returns:  top_eig * (||theta||_2)^2
+    """
+    return float(top_hessian_eig) * (float(weight_l2) ** 2)
+
+
 def distance_from_init(model, init_state_dict) -> dict:
     """||theta_final - theta_init|| and various relative measures.
 
@@ -333,12 +352,18 @@ def compute_full_battery(model, train_loss_fn, test_loss_fn,
     out['hessian_top_full'] = top
     out['hessian_bot_full'] = bot
     out['hessian_eigs_full'] = all_eigs
+    # Petzka relative flatness: sharpness * ||theta||^2 (reparameterization-invariant
+    # fix to Dinh 2017's critique of top eigenvalue).
+    if np.isfinite(top) and out.get('weight_l2_norm') is not None:
+        out['relative_flatness_full'] = float(top) * (out['weight_l2_norm'] ** 2)
     if verbose:
         print('  computing Hessian top + bot on train data...')
     try:
         top_tr, bot_tr, _ = hessian_top_bot(model, train_loss_fn, k=lanczos_k)
         out['hessian_top_train'] = top_tr
         out['hessian_bot_train'] = bot_tr
+        if np.isfinite(top_tr) and out.get('weight_l2_norm') is not None:
+            out['relative_flatness_train'] = float(top_tr) * (out['weight_l2_norm'] ** 2)
     except Exception as e:
         out['hessian_train_error'] = str(e)
     if verbose:

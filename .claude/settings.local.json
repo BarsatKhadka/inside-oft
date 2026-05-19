@@ -23,7 +23,9 @@
       "Bash(cat)",
       "Bash(bash /tmp/make_slurm.sh)",
       "Bash(python3 *)",
-      "Bash(bash /tmp/make_bp4_slurm.sh)"
+      "Bash(bash /tmp/make_bp4_slurm.sh)",
+      "Bash(awk '/\"mode\": \"G\"/,/}$/' /c/Users/barsa/Documents/inside-oft/bulletproof3/results/tier3_resnet50_cifar100.json)",
+      "Bash(awk '/\"mode\": \"G\"/,/}$/' /c/Users/barsa/Documents/inside-oft/bulletproof3/results/tier5_charlm_shakespeare.json)"
     ]
   }
 }
