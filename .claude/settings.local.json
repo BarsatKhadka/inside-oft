@@ -25,7 +25,11 @@
       "Bash(python3 *)",
       "Bash(bash /tmp/make_bp4_slurm.sh)",
       "Bash(awk '/\"mode\": \"G\"/,/}$/' /c/Users/barsa/Documents/inside-oft/bulletproof3/results/tier3_resnet50_cifar100.json)",
-      "Bash(awk '/\"mode\": \"G\"/,/}$/' /c/Users/barsa/Documents/inside-oft/bulletproof3/results/tier5_charlm_shakespeare.json)"
+      "Bash(awk '/\"mode\": \"G\"/,/}$/' /c/Users/barsa/Documents/inside-oft/bulletproof3/results/tier5_charlm_shakespeare.json)",
+      "Bash(awk '{print $5, $9}')",
+      "Bash(awk -v 'cell=\"__TRACKED_VAR__\":' '$0 ~ cell {found=1; next} found && /\"wd\"/ {seeds++} /^  \\\\],/ {if\\(found\\){print cell, seeds; exit}} END {if\\(found && !seeds_print\\){}}' bulletproof4/results/mech4_resnet_ablation.json)",
+      "Bash(awk ' *)",
+      "Bash(awk '/\"wd\": 0.5/{a++} /\"wd\": 1.0/{b++} /\"wd\": 5.0/{c++} END{print \" 0.5:\",a,\" 1.0:\",b,\" 5.0:\",c}' bulletproof3/results/tier6_strong_wd.json)"
     ]
   }
 }
