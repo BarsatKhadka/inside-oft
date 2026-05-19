@@ -3,34 +3,13 @@
     {
       "mode": "M",
       "seed": 0,
-      "error": "CUDA error: uncorrectable ECC error encountered\nSearch for `cudaErrorECCUncorrectable' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.\nCUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.\nFor debugging consider passing CUDA_LAUNCH_BLOCKING=1\nCompile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.\n"
+      "error": "CUDA out of memory. Tried to allocate 286.00 MiB. GPU 0 has a total capacity of 44.40 GiB of which 210.31 MiB is free. Including non-PyTorch memory, this process has 44.19 GiB memory in use. Of the allocated memory 42.92 GiB is allocated by PyTorch, and 784.16 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)"
     },
     {
       "mode": "M",
       "seed": 1,
-      "error": "CUDA error: uncorrectable ECC error encountered\nSearch for `cudaErrorECCUncorrectable' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.\nCUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.\nFor debugging consider passing CUDA_LAUNCH_BLOCKING=1\nCompile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.\n"
-    },
-    {
-      "mode": "M",
-      "seed": 2,
-      "error": "CUDA error: uncorrectable ECC error encountered\nSearch for `cudaErrorECCUncorrectable' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.\nCUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.\nFor debugging consider passing CUDA_LAUNCH_BLOCKING=1\nCompile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.\n"
+      "error": "CUDA out of memory. Tried to allocate 286.00 MiB. GPU 0 has a total capacity of 44.40 GiB of which 210.31 MiB is free. Including non-PyTorch memory, this process has 44.19 GiB memory in use. Of the allocated memory 42.92 GiB is allocated by PyTorch, and 785.27 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)"
     }
   ],
-  "G": [
-    {
-      "mode": "G",
-      "seed": 0,
-      "error": "CUDA error: uncorrectable ECC error encountered\nSearch for `cudaErrorECCUncorrectable' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.\nCUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.\nFor debugging consider passing CUDA_LAUNCH_BLOCKING=1\nCompile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.\n"
-    },
-    {
-      "mode": "G",
-      "seed": 1,
-      "error": "CUDA error: uncorrectable ECC error encountered\nSearch for `cudaErrorECCUncorrectable' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.\nCUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.\nFor debugging consider passing CUDA_LAUNCH_BLOCKING=1\nCompile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.\n"
-    },
-    {
-      "mode": "G",
-      "seed": 2,
-      "error": "CUDA error: uncorrectable ECC error encountered\nSearch for `cudaErrorECCUncorrectable' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.\nCUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.\nFor debugging consider passing CUDA_LAUNCH_BLOCKING=1\nCompile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.\n"
-    }
-  ]
+  "G": []
 }
