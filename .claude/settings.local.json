@@ -21,7 +21,8 @@
       "WebFetch(domain:www.emergentmind.com)",
       "WebFetch(domain:proceedings.mlr.press)",
       "Bash(cat)",
-      "Bash(bash /tmp/make_slurm.sh)"
+      "Bash(bash /tmp/make_slurm.sh)",
+      "Bash(python3 *)"
     ]
   }
 }

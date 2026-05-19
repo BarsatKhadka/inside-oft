@@ -66,8 +66,9 @@ def train_model(seed, mode, device):
 def run(seed, mode, device):
     model, tl, vl = train_model(seed, mode, device)
     tl_noaug, _ = loaders(seed, augment=False)
-    X_tr, y_tr = load_subset(tl_noaug, 1000, device)
-    X_te, y_te = load_subset(vl, 1000, device)
+    # ViT-Small is 2× ViT-Tiny — keep Hessian probe small.
+    X_tr, y_tr = load_subset(tl_noaug, 300, device)
+    X_te, y_te = load_subset(vl, 300, device)
     model.eval()
     train_loss_fn = lambda: F.cross_entropy(model(X_tr), y_tr)
     test_loss_fn  = lambda: F.cross_entropy(model(X_te), y_te)

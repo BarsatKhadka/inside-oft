@@ -51,16 +51,34 @@ def all_ranks(model) -> dict:
 
 # ---------- Hessian eigenvalues via Lanczos ----------
 
+def _math_sdpa_ctx():
+    """Force PyTorch's math attention backend during HVPs.
+
+    The optimized scaled_dot_product_efficient_attention CUDA kernel does not
+    implement double-backward, which we need for Hessian-vector products
+    (create_graph=True then grad again). Forcing the math backend makes
+    Hessian compute work on Transformer-based models (CharLM, ViT, Pythia).
+    """
+    try:
+        return t.backends.cuda.sdp_kernel(
+            enable_flash=False, enable_mem_efficient=False, enable_math=True)
+    except Exception:
+        # Older torch may not have this context manager; return a no-op.
+        import contextlib
+        return contextlib.nullcontext()
+
+
 def _hvp(model, loss_fn, vec) -> t.Tensor:
     """Hessian-vector product given a loss function that returns a scalar."""
     for p in model.parameters():
         if p.grad is not None:
             p.grad.zero_()
-    loss = loss_fn()
-    grads = t.autograd.grad(loss, list(model.parameters()), create_graph=True)
-    flat_g = t.cat([g.flatten() for g in grads])
-    Hv = t.autograd.grad(flat_g, list(model.parameters()), grad_outputs=vec,
-                          retain_graph=False, allow_unused=True)
+    with _math_sdpa_ctx():
+        loss = loss_fn()
+        grads = t.autograd.grad(loss, list(model.parameters()), create_graph=True)
+        flat_g = t.cat([g.flatten() for g in grads])
+        Hv = t.autograd.grad(flat_g, list(model.parameters()), grad_outputs=vec,
+                              retain_graph=False, allow_unused=True)
     parts = []
     for h, p in zip(Hv, model.parameters()):
         if h is None:
