@@ -59,11 +59,16 @@ def _math_sdpa_ctx():
     (create_graph=True then grad again). Forcing the math backend makes
     Hessian compute work on Transformer-based models (CharLM, ViT, Pythia).
     """
+    # Try the new API first (PyTorch 2.3+), fall back to the deprecated one.
+    try:
+        from torch.nn.attention import sdpa_kernel, SDPBackend
+        return sdpa_kernel(SDPBackend.MATH)
+    except Exception:
+        pass
     try:
         return t.backends.cuda.sdp_kernel(
             enable_flash=False, enable_mem_efficient=False, enable_math=True)
     except Exception:
-        # Older torch may not have this context manager; return a no-op.
         import contextlib
         return contextlib.nullcontext()
 
@@ -93,7 +98,8 @@ def lanczos_hessian(model, loss_fn, k=30, dtype=t.float32, verbose=False) -> lis
 
     loss_fn: callable returning a scalar loss with current model state (closure
              must NOT detach; gradients must flow).
-    Returns: sorted descending list of approximate eigenvalues.
+    Returns: sorted descending list of approximate eigenvalues. Returns empty
+    list if the iteration produced no usable values (numerical failure).
     """
     device = next(model.parameters()).device
     n = sum(p.numel() for p in model.parameters())
@@ -104,17 +110,31 @@ def lanczos_hessian(model, loss_fn, k=30, dtype=t.float32, verbose=False) -> lis
     q_prev = t.zeros_like(q)
     beta_prev = 0.0
     for j in range(k):
-        Hq = _hvp(model, loss_fn, q).to(dtype)
+        try:
+            Hq = _hvp(model, loss_fn, q).to(dtype)
+        except Exception as e:
+            if verbose:
+                print(f'  Lanczos HVP failed at j={j}: {e}')
+            break
+        # Bail out if HVP produced NaN/Inf
+        if not t.isfinite(Hq).all():
+            if verbose:
+                print(f'  Lanczos: non-finite HVP at j={j}, stopping')
+            break
         alpha = float(t.dot(q, Hq))
+        if not np.isfinite(alpha):
+            if verbose:
+                print(f'  Lanczos: non-finite alpha at j={j}, stopping')
+            break
         alphas.append(alpha)
         r = Hq - alpha * q - beta_prev * q_prev
         # full reorth
         for qi in Q:
             r = r - float(t.dot(r, qi)) * qi
         beta = float(r.norm())
-        if beta < 1e-10:
+        if beta < 1e-10 or not np.isfinite(beta):
             if verbose:
-                print(f'  Lanczos converged at j={j}')
+                print(f'  Lanczos converged/stopped at j={j} (beta={beta})')
             break
         betas.append(beta)
         q_prev = q
@@ -122,14 +142,39 @@ def lanczos_hessian(model, loss_fn, k=30, dtype=t.float32, verbose=False) -> lis
         Q.append(q)
         beta_prev = beta
     m = len(alphas)
-    T = np.diag(alphas) + np.diag(betas[:m-1], 1) + np.diag(betas[:m-1], -1)
-    eigs = np.linalg.eigvalsh(T)
+    if m == 0:
+        return []
+    # Compute eigenvalues of the tridiagonal Lanczos matrix.
+    # scipy.linalg.eigh_tridiagonal is specialized and far more robust
+    # for ill-conditioned tridiagonals than np.linalg.eigvalsh on the dense
+    # matrix; fall back to the dense path if scipy unavailable.
+    alphas_arr = np.asarray(alphas, dtype=np.float64)
+    betas_arr = np.asarray(betas[:m-1] if m > 1 else [], dtype=np.float64)
+    try:
+        from scipy.linalg import eigh_tridiagonal
+        eigs = eigh_tridiagonal(alphas_arr, betas_arr, eigvals_only=True)
+    except Exception:
+        try:
+            T = (np.diag(alphas_arr)
+                 + np.diag(betas_arr, 1)
+                 + np.diag(betas_arr, -1))
+            eigs = np.linalg.eigvalsh(T)
+        except np.linalg.LinAlgError:
+            if verbose:
+                print('  Lanczos: eigvalsh did not converge; returning alphas as estimate')
+            # As a last resort, use the alphas themselves as eigenvalue estimates
+            # (Ritz values along the diagonal of T).
+            eigs = alphas_arr
+    # Filter out any non-finite values
+    eigs = eigs[np.isfinite(eigs)]
     return sorted(eigs.tolist(), reverse=True)
 
 
 def hessian_top_bot(model, loss_fn, k=20):
-    """Return (top, bottom, all_eigs)."""
+    """Return (top, bottom, all_eigs). Returns (nan, nan, []) on numerical failure."""
     eigs = lanczos_hessian(model, loss_fn, k=k)
+    if not eigs:
+        return float('nan'), float('nan'), []
     return eigs[0], eigs[-1], eigs
 
 
