@@ -1,0 +1,1933 @@
+{
+  "design": {
+    "G_N": 25600,
+    "G_epochs": 12,
+    "M_N": 400,
+    "M_epochs": 60,
+    "lr": 5e-05,
+    "wd": 0.01,
+    "num_seeds": 3,
+    "note": "G and M differ ONLY in dataset size. G uses best-val checkpoint, M uses final."
+  },
+  "baseline": {
+    "test_loss": 3.372612237930298
+  },
+  "M": [
+    {
+      "ranks": {
+        "gpt_neox.embed_in.weight": 681.5182495117188,
+        "gpt_neox.layers.0.attention.query_key_value.weight": 516.83349609375,
+        "gpt_neox.layers.0.attention.dense.weight": 298.98736572265625,
+        "gpt_neox.layers.0.mlp.dense_h_to_4h.weight": 654.6244506835938,
+        "gpt_neox.layers.0.mlp.dense_4h_to_h.weight": 700.745361328125,
+        "gpt_neox.layers.1.attention.query_key_value.weight": 501.3527526855469,
+        "gpt_neox.layers.1.attention.dense.weight": 342.2304992675781,
+        "gpt_neox.layers.1.mlp.dense_h_to_4h.weight": 523.859130859375,
+        "gpt_neox.layers.1.mlp.dense_4h_to_h.weight": 565.8839111328125,
+        "gpt_neox.layers.2.attention.query_key_value.weight": 546.2684936523438,
+        "gpt_neox.layers.2.attention.dense.weight": 386.7525634765625,
+        "gpt_neox.layers.2.mlp.dense_h_to_4h.weight": 483.8936767578125,
+        "gpt_neox.layers.2.mlp.dense_4h_to_h.weight": 574.9249267578125,
+        "gpt_neox.layers.3.attention.query_key_value.weight": 119.88321685791016,
+        "gpt_neox.layers.3.attention.dense.weight": 336.92022705078125,
+        "gpt_neox.layers.3.mlp.dense_h_to_4h.weight": 444.940673828125,
+        "gpt_neox.layers.3.mlp.dense_4h_to_h.weight": 571.73291015625,
+        "gpt_neox.layers.4.attention.query_key_value.weight": 132.75355529785156,
+        "gpt_neox.layers.4.attention.dense.weight": 370.67694091796875,
+        "gpt_neox.layers.4.mlp.dense_h_to_4h.weight": 573.047607421875,
+        "gpt_neox.layers.4.mlp.dense_4h_to_h.weight": 570.5198974609375,
+        "gpt_neox.layers.5.attention.query_key_value.weight": 103.20805358886719,
+        "gpt_neox.layers.5.attention.dense.weight": 388.0014343261719,
+        "gpt_neox.layers.5.mlp.dense_h_to_4h.weight": 560.8812866210938,
+        "gpt_neox.layers.5.mlp.dense_4h_to_h.weight": 535.657470703125,
+        "gpt_neox.layers.6.attention.query_key_value.weight": 10.203195571899414,
+        "gpt_neox.layers.6.attention.dense.weight": 334.08935546875,
+        "gpt_neox.layers.6.mlp.dense_h_to_4h.weight": 560.4158325195312,
+        "gpt_neox.layers.6.mlp.dense_4h_to_h.weight": 498.2421875,
+        "gpt_neox.layers.7.attention.query_key_value.weight": 27.114816665649414,
+        "gpt_neox.layers.7.attention.dense.weight": 294.79669189453125,
+        "gpt_neox.layers.7.mlp.dense_h_to_4h.weight": 558.7444458007812,
+        "gpt_neox.layers.7.mlp.dense_4h_to_h.weight": 507.6443786621094,
+        "gpt_neox.layers.8.attention.query_key_value.weight": 35.435096740722656,
+        "gpt_neox.layers.8.attention.dense.weight": 268.5436096191406,
+        "gpt_neox.layers.8.mlp.dense_h_to_4h.weight": 556.01171875,
+        "gpt_neox.layers.8.mlp.dense_4h_to_h.weight": 541.0335693359375,
+        "gpt_neox.layers.9.attention.query_key_value.weight": 49.46660614013672,
+        "gpt_neox.layers.9.attention.dense.weight": 361.395751953125,
+        "gpt_neox.layers.9.mlp.dense_h_to_4h.weight": 545.2587890625,
+        "gpt_neox.layers.9.mlp.dense_4h_to_h.weight": 571.8394775390625,
+        "gpt_neox.layers.10.attention.query_key_value.weight": 71.50291442871094,
+        "gpt_neox.layers.10.attention.dense.weight": 405.28326416015625,
+        "gpt_neox.layers.10.mlp.dense_h_to_4h.weight": 541.1055908203125,
+        "gpt_neox.layers.10.mlp.dense_4h_to_h.weight": 608.6488647460938,
+        "gpt_neox.layers.11.attention.query_key_value.weight": 107.72720336914062,
+        "gpt_neox.layers.11.attention.dense.weight": 423.65185546875,
+        "gpt_neox.layers.11.mlp.dense_h_to_4h.weight": 556.2097778320312,
+        "gpt_neox.layers.11.mlp.dense_4h_to_h.weight": 598.5424194335938,
+        "embed_out.weight": 2.4763529300689697
+      },
+      "weight_l2_norm": 1863.4692058535168,
+      "log_path_norm_proxy": 101.23970267304894,
+      "spectral_norms": {
+        "gpt_neox.embed_in.weight": 17.899747848510742,
+        "gpt_neox.layers.0.attention.query_key_value.weight": 6.193543434143066,
+        "gpt_neox.layers.0.attention.dense.weight": 2.5861518383026123,
+        "gpt_neox.layers.0.mlp.dense_h_to_4h.weight": 6.106575012207031,
+        "gpt_neox.layers.0.mlp.dense_4h_to_h.weight": 2.6060361862182617,
+        "gpt_neox.layers.1.attention.query_key_value.weight": 6.176584720611572,
+        "gpt_neox.layers.1.attention.dense.weight": 2.9959309101104736,
+        "gpt_neox.layers.1.mlp.dense_h_to_4h.weight": 7.795652866363525,
+        "gpt_neox.layers.1.mlp.dense_4h_to_h.weight": 4.259032726287842,
+        "gpt_neox.layers.2.attention.query_key_value.weight": 6.279909610748291,
+        "gpt_neox.layers.2.attention.dense.weight": 2.2119781970977783,
+        "gpt_neox.layers.2.mlp.dense_h_to_4h.weight": 11.781525611877441,
+        "gpt_neox.layers.2.mlp.dense_4h_to_h.weight": 3.8656415939331055,
+        "gpt_neox.layers.3.attention.query_key_value.weight": 26.880571365356445,
+        "gpt_neox.layers.3.attention.dense.weight": 1.979640007019043,
+        "gpt_neox.layers.3.mlp.dense_h_to_4h.weight": 13.448029518127441,
+        "gpt_neox.layers.3.mlp.dense_4h_to_h.weight": 3.730435609817505,
+        "gpt_neox.layers.4.attention.query_key_value.weight": 24.802696228027344,
+        "gpt_neox.layers.4.attention.dense.weight": 2.0291550159454346,
+        "gpt_neox.layers.4.mlp.dense_h_to_4h.weight": 5.693601131439209,
+        "gpt_neox.layers.4.mlp.dense_4h_to_h.weight": 3.619004726409912,
+        "gpt_neox.layers.5.attention.query_key_value.weight": 29.197053909301758,
+        "gpt_neox.layers.5.attention.dense.weight": 2.9898087978363037,
+        "gpt_neox.layers.5.mlp.dense_h_to_4h.weight": 5.62166690826416,
+        "gpt_neox.layers.5.mlp.dense_4h_to_h.weight": 5.907008647918701,
+        "gpt_neox.layers.6.attention.query_key_value.weight": 61.94941329956055,
+        "gpt_neox.layers.6.attention.dense.weight": 2.840834379196167,
+        "gpt_neox.layers.6.mlp.dense_h_to_4h.weight": 5.860736846923828,
+        "gpt_neox.layers.6.mlp.dense_4h_to_h.weight": 6.121504783630371,
+        "gpt_neox.layers.7.attention.query_key_value.weight": 52.18738555908203,
+        "gpt_neox.layers.7.attention.dense.weight": 2.263336181640625,
+        "gpt_neox.layers.7.mlp.dense_h_to_4h.weight": 5.701918125152588,
+        "gpt_neox.layers.7.mlp.dense_4h_to_h.weight": 5.474595069885254,
+        "gpt_neox.layers.8.attention.query_key_value.weight": 57.50910949707031,
+        "gpt_neox.layers.8.attention.dense.weight": 2.1269571781158447,
+        "gpt_neox.layers.8.mlp.dense_h_to_4h.weight": 6.146452903747559,
+        "gpt_neox.layers.8.mlp.dense_4h_to_h.weight": 5.767419815063477,
+        "gpt_neox.layers.9.attention.query_key_value.weight": 59.145450592041016,
+        "gpt_neox.layers.9.attention.dense.weight": 1.8741381168365479,
+        "gpt_neox.layers.9.mlp.dense_h_to_4h.weight": 6.0317888259887695,
+        "gpt_neox.layers.9.mlp.dense_4h_to_h.weight": 5.9576416015625,
+        "gpt_neox.layers.10.attention.query_key_value.weight": 76.33650970458984,
+        "gpt_neox.layers.10.attention.dense.weight": 1.277880072593689,
+        "gpt_neox.layers.10.mlp.dense_h_to_4h.weight": 6.058865547180176,
+        "gpt_neox.layers.10.mlp.dense_4h_to_h.weight": 6.358560562133789,
+        "gpt_neox.layers.11.attention.query_key_value.weight": 59.71315383911133,
+        "gpt_neox.layers.11.attention.dense.weight": 2.48281192779541,
+        "gpt_neox.layers.11.mlp.dense_h_to_4h.weight": 5.842447757720947,
+        "gpt_neox.layers.11.mlp.dense_4h_to_h.weight": 7.5159077644348145,
+        "embed_out.weight": 663.2661743164062
+      },
+      "hessian_top_full": 1815823.1141925058,
+      "hessian_bot_full": -3913136.870663397,
+      "hessian_eigs_full": [
+        1815823.1141925058,
+        0.003058588723024364,
+        -702274.427021269,
+        -2082159.027482443,
+        -3913136.870663397
+      ],
+      "relative_flatness_full": 6305477506735.742,
+      "hessian_top_train": 36781.00780281264,
+      "hessian_bot_train": -23781.923791306195,
+      "relative_flatness_train": 127722692570.10875,
+      "cos_grad_train_test": 0.015271216630935669,
+      "angle_deg": 89.12498972657052,
+      "grad_train_norm": 4.3788533210754395,
+      "grad_test_norm": 44.821170806884766,
+      "grad_ratio_test_over_train": 10.235823631286621,
+      "mia_loss_auc": 1.0,
+      "mean_train_loss": 0.039811208844184875,
+      "mean_test_loss": 10.609926223754883,
+      "gap_loss": 10.570115089416504,
+      "mode": "M",
+      "seed": 0,
+      "n_train": 400,
+      "checkpoint_epoch": 60,
+      "total_epochs": 60,
+      "val_history": [
+        {
+          "epoch": 1,
+          "train_loss": 2.925856590270996,
+          "test_loss": 3.827670097351074
+        },
+        {
+          "epoch": 2,
+          "train_loss": 2.3416285514831543,
+          "test_loss": 3.9913034439086914
+        },
+        {
+          "epoch": 3,
+          "train_loss": 1.8151979446411133,
+          "test_loss": 4.336776256561279
+        },
+        {
+          "epoch": 4,
+          "train_loss": 1.385396957397461,
+          "test_loss": 4.776453018188477
+        },
+        {
+          "epoch": 5,
+          "train_loss": 1.1245496273040771,
+          "test_loss": 5.335053443908691
+        },
+        {
+          "epoch": 6,
+          "train_loss": 0.8857501149177551,
+          "test_loss": 5.787803649902344
+        },
+        {
+          "epoch": 7,
+          "train_loss": 0.6517694592475891,
+          "test_loss": 6.451767921447754
+        },
+        {
+          "epoch": 8,
+          "train_loss": 0.5462093949317932,
+          "test_loss": 6.865342140197754
+        },
+        {
+          "epoch": 9,
+          "train_loss": 0.4595836400985718,
+          "test_loss": 7.330982208251953
+        },
+        {
+          "epoch": 10,
+          "train_loss": 0.34082403779029846,
+          "test_loss": 7.816566467285156
+        },
+        {
+          "epoch": 11,
+          "train_loss": 0.2865845561027527,
+          "test_loss": 8.071856498718262
+        },
+        {
+          "epoch": 12,
+          "train_loss": 0.28829658031463623,
+          "test_loss": 8.324066162109375
+        },
+        {
+          "epoch": 13,
+          "train_loss": 0.23870180547237396,
+          "test_loss": 8.390653610229492
+        },
+        {
+          "epoch": 14,
+          "train_loss": 0.2091609239578247,
+          "test_loss": 8.864038467407227
+        },
+        {
+          "epoch": 15,
+          "train_loss": 0.20944106578826904,
+          "test_loss": 8.904614448547363
+        },
+        {
+          "epoch": 16,
+          "train_loss": 0.1867600381374359,
+          "test_loss": 8.928689002990723
+        },
+        {
+          "epoch": 17,
+          "train_loss": 0.1462073028087616,
+          "test_loss": 9.038442611694336
+        },
+        {
+          "epoch": 18,
+          "train_loss": 0.15611693263053894,
+          "test_loss": 9.187414169311523
+        },
+        {
+          "epoch": 19,
+          "train_loss": 0.12633174657821655,
+          "test_loss": 9.23309326171875
+        },
+        {
+          "epoch": 20,
+          "train_loss": 0.12474007159471512,
+          "test_loss": 9.29949951171875
+        },
+        {
+          "epoch": 21,
+          "train_loss": 0.12033012509346008,
+          "test_loss": 9.301107406616211
+        },
+        {
+          "epoch": 22,
+          "train_loss": 0.12792429327964783,
+          "test_loss": 9.46880054473877
+        },
+        {
+          "epoch": 23,
+          "train_loss": 0.11545877158641815,
+          "test_loss": 9.42894172668457
+        },
+        {
+          "epoch": 24,
+          "train_loss": 0.13978564739227295,
+          "test_loss": 9.472426414489746
+        },
+        {
+          "epoch": 25,
+          "train_loss": 0.10564851760864258,
+          "test_loss": 9.568353652954102
+        },
+        {
+          "epoch": 26,
+          "train_loss": 0.09540897607803345,
+          "test_loss": 9.60367202758789
+        },
+        {
+          "epoch": 27,
+          "train_loss": 0.09566064924001694,
+          "test_loss": 9.67789077758789
+        },
+        {
+          "epoch": 28,
+          "train_loss": 0.0960497260093689,
+          "test_loss": 9.693906784057617
+        },
+        {
+          "epoch": 29,
+          "train_loss": 0.08443909883499146,
+          "test_loss": 9.683349609375
+        },
+        {
+          "epoch": 30,
+          "train_loss": 0.09388599544763565,
+          "test_loss": 9.606542587280273
+        },
+        {
+          "epoch": 31,
+          "train_loss": 0.0911499410867691,
+          "test_loss": 9.757375717163086
+        },
+        {
+          "epoch": 32,
+          "train_loss": 0.09100543707609177,
+          "test_loss": 9.833064079284668
+        },
+        {
+          "epoch": 33,
+          "train_loss": 0.07120414823293686,
+          "test_loss": 9.940799713134766
+        },
+        {
+          "epoch": 34,
+          "train_loss": 0.0728122889995575,
+          "test_loss": 9.837226867675781
+        },
+        {
+          "epoch": 35,
+          "train_loss": 0.06575305759906769,
+          "test_loss": 9.875714302062988
+        },
+        {
+          "epoch": 36,
+          "train_loss": 0.06915691494941711,
+          "test_loss": 10.035446166992188
+        },
+        {
+          "epoch": 37,
+          "train_loss": 0.06529035419225693,
+          "test_loss": 9.978081703186035
+        },
+        {
+          "epoch": 38,
+          "train_loss": 0.0547015443444252,
+          "test_loss": 10.02212905883789
+        },
+        {
+          "epoch": 39,
+          "train_loss": 0.06826800107955933,
+          "test_loss": 10.031484603881836
+        },
+        {
+          "epoch": 40,
+          "train_loss": 0.06136684492230415,
+          "test_loss": 10.214876174926758
+        },
+        {
+          "epoch": 41,
+          "train_loss": 0.05590423569083214,
+          "test_loss": 10.267607688903809
+        },
+        {
+          "epoch": 42,
+          "train_loss": 0.061443258076906204,
+          "test_loss": 10.165164947509766
+        },
+        {
+          "epoch": 43,
+          "train_loss": 0.058802030980587006,
+          "test_loss": 10.190528869628906
+        },
+        {
+          "epoch": 44,
+          "train_loss": 0.062177710235118866,
+          "test_loss": 10.270224571228027
+        },
+        {
+          "epoch": 45,
+          "train_loss": 0.04697946831583977,
+          "test_loss": 10.257991790771484
+        },
+        {
+          "epoch": 46,
+          "train_loss": 0.048143140971660614,
+          "test_loss": 10.291114807128906
+        },
+        {
+          "epoch": 47,
+          "train_loss": 0.05683484673500061,
+          "test_loss": 10.366077423095703
+        },
+        {
+          "epoch": 48,
+          "train_loss": 0.05367841571569443,
+          "test_loss": 10.359807014465332
+        },
+        {
+          "epoch": 49,
+          "train_loss": 0.05273338407278061,
+          "test_loss": 10.403497695922852
+        },
+        {
+          "epoch": 50,
+          "train_loss": 0.05326534062623978,
+          "test_loss": 10.463531494140625
+        },
+        {
+          "epoch": 51,
+          "train_loss": 0.0578213669359684,
+          "test_loss": 10.270110130310059
+        },
+        {
+          "epoch": 52,
+          "train_loss": 0.05398443341255188,
+          "test_loss": 10.576927185058594
+        },
+        {
+          "epoch": 53,
+          "train_loss": 0.04743307828903198,
+          "test_loss": 10.455280303955078
+        },
+        {
+          "epoch": 54,
+          "train_loss": 0.04164920747280121,
+          "test_loss": 10.477388381958008
+        },
+        {
+          "epoch": 55,
+          "train_loss": 0.04520202428102493,
+          "test_loss": 10.464566230773926
+        },
+        {
+          "epoch": 56,
+          "train_loss": 0.03977328538894653,
+          "test_loss": 10.52403450012207
+        },
+        {
+          "epoch": 57,
+          "train_loss": 0.040783002972602844,
+          "test_loss": 10.494743347167969
+        },
+        {
+          "epoch": 58,
+          "train_loss": 0.046261753886938095,
+          "test_loss": 10.600632667541504
+        },
+        {
+          "epoch": 59,
+          "train_loss": 0.036936186254024506,
+          "test_loss": 10.608722686767578
+        },
+        {
+          "epoch": 60,
+          "train_loss": 0.03810081630945206,
+          "test_loss": 10.638520240783691
+        }
+      ],
+      "pretrained_baseline_test": 3.372612237930298,
+      "improved_from_baseline": false
+    },
+    {
+      "ranks": {
+        "gpt_neox.embed_in.weight": 681.5198364257812,
+        "gpt_neox.layers.0.attention.query_key_value.weight": 517.012939453125,
+        "gpt_neox.layers.0.attention.dense.weight": 299.1744689941406,
+        "gpt_neox.layers.0.mlp.dense_h_to_4h.weight": 654.4434204101562,
+        "gpt_neox.layers.0.mlp.dense_4h_to_h.weight": 701.114990234375,
+        "gpt_neox.layers.1.attention.query_key_value.weight": 501.305419921875,
+        "gpt_neox.layers.1.attention.dense.weight": 342.244384765625,
+        "gpt_neox.layers.1.mlp.dense_h_to_4h.weight": 523.6298828125,
+        "gpt_neox.layers.1.mlp.dense_4h_to_h.weight": 565.8490600585938,
+        "gpt_neox.layers.2.attention.query_key_value.weight": 546.3021240234375,
+        "gpt_neox.layers.2.attention.dense.weight": 386.76141357421875,
+        "gpt_neox.layers.2.mlp.dense_h_to_4h.weight": 484.4507751464844,
+        "gpt_neox.layers.2.mlp.dense_4h_to_h.weight": 574.9723510742188,
+        "gpt_neox.layers.3.attention.query_key_value.weight": 120.02490234375,
+        "gpt_neox.layers.3.attention.dense.weight": 336.8101806640625,
+        "gpt_neox.layers.3.mlp.dense_h_to_4h.weight": 444.3471984863281,
+        "gpt_neox.layers.3.mlp.dense_4h_to_h.weight": 571.6843872070312,
+        "gpt_neox.layers.4.attention.query_key_value.weight": 132.56398010253906,
+        "gpt_neox.layers.4.attention.dense.weight": 370.9035949707031,
+        "gpt_neox.layers.4.mlp.dense_h_to_4h.weight": 573.4537963867188,
+        "gpt_neox.layers.4.mlp.dense_4h_to_h.weight": 570.632568359375,
+        "gpt_neox.layers.5.attention.query_key_value.weight": 103.38714599609375,
+        "gpt_neox.layers.5.attention.dense.weight": 387.58148193359375,
+        "gpt_neox.layers.5.mlp.dense_h_to_4h.weight": 560.6930541992188,
+        "gpt_neox.layers.5.mlp.dense_4h_to_h.weight": 536.1729125976562,
+        "gpt_neox.layers.6.attention.query_key_value.weight": 10.226765632629395,
+        "gpt_neox.layers.6.attention.dense.weight": 334.1215515136719,
+        "gpt_neox.layers.6.mlp.dense_h_to_4h.weight": 560.4238891601562,
+        "gpt_neox.layers.6.mlp.dense_4h_to_h.weight": 498.4665222167969,
+        "gpt_neox.layers.7.attention.query_key_value.weight": 27.10274887084961,
+        "gpt_neox.layers.7.attention.dense.weight": 294.85040283203125,
+        "gpt_neox.layers.7.mlp.dense_h_to_4h.weight": 558.3861694335938,
+        "gpt_neox.layers.7.mlp.dense_4h_to_h.weight": 508.2581481933594,
+        "gpt_neox.layers.8.attention.query_key_value.weight": 35.47376251220703,
+        "gpt_neox.layers.8.attention.dense.weight": 271.7400817871094,
+        "gpt_neox.layers.8.mlp.dense_h_to_4h.weight": 555.7402954101562,
+        "gpt_neox.layers.8.mlp.dense_4h_to_h.weight": 541.43310546875,
+        "gpt_neox.layers.9.attention.query_key_value.weight": 49.47541809082031,
+        "gpt_neox.layers.9.attention.dense.weight": 360.43048095703125,
+        "gpt_neox.layers.9.mlp.dense_h_to_4h.weight": 544.9450073242188,
+        "gpt_neox.layers.9.mlp.dense_4h_to_h.weight": 571.921875,
+        "gpt_neox.layers.10.attention.query_key_value.weight": 71.46112823486328,
+        "gpt_neox.layers.10.attention.dense.weight": 404.9830627441406,
+        "gpt_neox.layers.10.mlp.dense_h_to_4h.weight": 540.9270629882812,
+        "gpt_neox.layers.10.mlp.dense_4h_to_h.weight": 608.755126953125,
+        "gpt_neox.layers.11.attention.query_key_value.weight": 107.6759033203125,
+        "gpt_neox.layers.11.attention.dense.weight": 424.5422668457031,
+        "gpt_neox.layers.11.mlp.dense_h_to_4h.weight": 555.8438720703125,
+        "gpt_neox.layers.11.mlp.dense_4h_to_h.weight": 598.3671875,
+        "embed_out.weight": 2.478579521179199
+      },
+      "weight_l2_norm": 1863.3055754892669,
+      "log_path_norm_proxy": 101.2831417128868,
+      "spectral_norms": {
+        "gpt_neox.embed_in.weight": 17.89628791809082,
+        "gpt_neox.layers.0.attention.query_key_value.weight": 6.176736831665039,
+        "gpt_neox.layers.0.attention.dense.weight": 2.5907273292541504,
+        "gpt_neox.layers.0.mlp.dense_h_to_4h.weight": 6.118762969970703,
+        "gpt_neox.layers.0.mlp.dense_4h_to_h.weight": 2.5985512733459473,
+        "gpt_neox.layers.1.attention.query_key_value.weight": 6.178534507751465,
+        "gpt_neox.layers.1.attention.dense.weight": 3.0037524700164795,
+        "gpt_neox.layers.1.mlp.dense_h_to_4h.weight": 7.810262680053711,
+        "gpt_neox.layers.1.mlp.dense_4h_to_h.weight": 4.257570743560791,
+        "gpt_neox.layers.2.attention.query_key_value.weight": 6.276802062988281,
+        "gpt_neox.layers.2.attention.dense.weight": 2.2127556800842285,
+        "gpt_neox.layers.2.mlp.dense_h_to_4h.weight": 11.739705085754395,
+        "gpt_neox.layers.2.mlp.dense_4h_to_h.weight": 3.861593008041382,
+        "gpt_neox.layers.3.attention.query_key_value.weight": 26.880884170532227,
+        "gpt_neox.layers.3.attention.dense.weight": 1.9902892112731934,
+        "gpt_neox.layers.3.mlp.dense_h_to_4h.weight": 13.478266716003418,
+        "gpt_neox.layers.3.mlp.dense_4h_to_h.weight": 3.750619888305664,
+        "gpt_neox.layers.4.attention.query_key_value.weight": 24.815570831298828,
+        "gpt_neox.layers.4.attention.dense.weight": 2.0347719192504883,
+        "gpt_neox.layers.4.mlp.dense_h_to_4h.weight": 5.6902756690979,
+        "gpt_neox.layers.4.mlp.dense_4h_to_h.weight": 3.6228432655334473,
+        "gpt_neox.layers.5.attention.query_key_value.weight": 29.17519760131836,
+        "gpt_neox.layers.5.attention.dense.weight": 3.0185844898223877,
+        "gpt_neox.layers.5.mlp.dense_h_to_4h.weight": 5.648842811584473,
+        "gpt_neox.layers.5.mlp.dense_4h_to_h.weight": 5.891497611999512,
+        "gpt_neox.layers.6.attention.query_key_value.weight": 61.935604095458984,
+        "gpt_neox.layers.6.attention.dense.weight": 2.8661890029907227,
+        "gpt_neox.layers.6.mlp.dense_h_to_4h.weight": 5.885227680206299,
+        "gpt_neox.layers.6.mlp.dense_4h_to_h.weight": 6.13340425491333,
+        "gpt_neox.layers.7.attention.query_key_value.weight": 52.19529342651367,
+        "gpt_neox.layers.7.attention.dense.weight": 2.2362966537475586,
+        "gpt_neox.layers.7.mlp.dense_h_to_4h.weight": 5.733682632446289,
+        "gpt_neox.layers.7.mlp.dense_4h_to_h.weight": 5.473649501800537,
+        "gpt_neox.layers.8.attention.query_key_value.weight": 57.462684631347656,
+        "gpt_neox.layers.8.attention.dense.weight": 2.1349937915802,
+        "gpt_neox.layers.8.mlp.dense_h_to_4h.weight": 6.157395362854004,
+        "gpt_neox.layers.8.mlp.dense_4h_to_h.weight": 5.770089626312256,
+        "gpt_neox.layers.9.attention.query_key_value.weight": 59.11614227294922,
+        "gpt_neox.layers.9.attention.dense.weight": 1.8784593343734741,
+        "gpt_neox.layers.9.mlp.dense_h_to_4h.weight": 6.046104907989502,
+        "gpt_neox.layers.9.mlp.dense_4h_to_h.weight": 5.95888090133667,
+        "gpt_neox.layers.10.attention.query_key_value.weight": 76.35247039794922,
+        "gpt_neox.layers.10.attention.dense.weight": 1.2844294309616089,
+        "gpt_neox.layers.10.mlp.dense_h_to_4h.weight": 6.043405055999756,
+        "gpt_neox.layers.10.mlp.dense_4h_to_h.weight": 6.363612651824951,
+        "gpt_neox.layers.11.attention.query_key_value.weight": 59.728477478027344,
+        "gpt_neox.layers.11.attention.dense.weight": 2.4772536754608154,
+        "gpt_neox.layers.11.mlp.dense_h_to_4h.weight": 5.848101615905762,
+        "gpt_neox.layers.11.mlp.dense_4h_to_h.weight": 7.501705646514893,
+        "embed_out.weight": 662.8856811523438
+      },
+      "hessian_top_full": 460160.7059930441,
+      "hessian_bot_full": -1965463.31892726,
+      "hessian_eigs_full": [
+        460160.7059930441,
+        0.007761125029626737,
+        -114616.54750273473,
+        -616739.0339897237,
+        -1965463.31892726
+      ],
+      "relative_flatness_full": 1597635483488.2053,
+      "hessian_top_train": 41306.4520796496,
+      "hessian_bot_train": -44516.275232635075,
+      "relative_flatness_train": 143412187698.72745,
+      "cos_grad_train_test": -0.004574547056108713,
+      "angle_deg": 90.26210315365388,
+      "grad_train_norm": 5.007833003997803,
+      "grad_test_norm": 57.80799865722656,
+      "grad_ratio_test_over_train": 11.5435152053833,
+      "mia_loss_auc": 1.0,
+      "mean_train_loss": 0.04147808998823166,
+      "mean_test_loss": 10.569523811340332,
+      "gap_loss": 10.528045654296875,
+      "mode": "M",
+      "seed": 1,
+      "n_train": 400,
+      "checkpoint_epoch": 60,
+      "total_epochs": 60,
+      "val_history": [
+        {
+          "epoch": 1,
+          "train_loss": 2.8687679767608643,
+          "test_loss": 3.8259992599487305
+        },
+        {
+          "epoch": 2,
+          "train_loss": 2.283998966217041,
+          "test_loss": 4.00859260559082
+        },
+        {
+          "epoch": 3,
+          "train_loss": 1.7787001132965088,
+          "test_loss": 4.394142150878906
+        },
+        {
+          "epoch": 4,
+          "train_loss": 1.3208436965942383,
+          "test_loss": 4.84749698638916
+        },
+        {
+          "epoch": 5,
+          "train_loss": 1.0040593147277832,
+          "test_loss": 5.483119964599609
+        },
+        {
+          "epoch": 6,
+          "train_loss": 0.7597811222076416,
+          "test_loss": 6.1227803230285645
+        },
+        {
+          "epoch": 7,
+          "train_loss": 0.5860045552253723,
+          "test_loss": 6.609906196594238
+        },
+        {
+          "epoch": 8,
+          "train_loss": 0.43245092034339905,
+          "test_loss": 7.259833335876465
+        },
+        {
+          "epoch": 9,
+          "train_loss": 0.35274696350097656,
+          "test_loss": 7.670049667358398
+        },
+        {
+          "epoch": 10,
+          "train_loss": 0.2764168083667755,
+          "test_loss": 8.108945846557617
+        },
+        {
+          "epoch": 11,
+          "train_loss": 0.28319042921066284,
+          "test_loss": 8.265715599060059
+        },
+        {
+          "epoch": 12,
+          "train_loss": 0.21660402417182922,
+          "test_loss": 8.624791145324707
+        },
+        {
+          "epoch": 13,
+          "train_loss": 0.19048523902893066,
+          "test_loss": 8.63920783996582
+        },
+        {
+          "epoch": 14,
+          "train_loss": 0.19076775014400482,
+          "test_loss": 8.847169876098633
+        },
+        {
+          "epoch": 15,
+          "train_loss": 0.1574636995792389,
+          "test_loss": 8.941198348999023
+        },
+        {
+          "epoch": 16,
+          "train_loss": 0.15903475880622864,
+          "test_loss": 9.081182479858398
+        },
+        {
+          "epoch": 17,
+          "train_loss": 0.14758700132369995,
+          "test_loss": 9.059263229370117
+        },
+        {
+          "epoch": 18,
+          "train_loss": 0.17205810546875,
+          "test_loss": 9.309159278869629
+        },
+        {
+          "epoch": 19,
+          "train_loss": 0.1393439769744873,
+          "test_loss": 9.191761016845703
+        },
+        {
+          "epoch": 20,
+          "train_loss": 0.1259622573852539,
+          "test_loss": 9.397612571716309
+        },
+        {
+          "epoch": 21,
+          "train_loss": 0.12969249486923218,
+          "test_loss": 9.393350601196289
+        },
+        {
+          "epoch": 22,
+          "train_loss": 0.09440021216869354,
+          "test_loss": 9.517450332641602
+        },
+        {
+          "epoch": 23,
+          "train_loss": 0.10148030519485474,
+          "test_loss": 9.51341438293457
+        },
+        {
+          "epoch": 24,
+          "train_loss": 0.08797913789749146,
+          "test_loss": 9.540228843688965
+        },
+        {
+          "epoch": 25,
+          "train_loss": 0.08355314284563065,
+          "test_loss": 9.688828468322754
+        },
+        {
+          "epoch": 26,
+          "train_loss": 0.09875629842281342,
+          "test_loss": 9.780616760253906
+        },
+        {
+          "epoch": 27,
+          "train_loss": 0.08979858458042145,
+          "test_loss": 9.679817199707031
+        },
+        {
+          "epoch": 28,
+          "train_loss": 0.07702679932117462,
+          "test_loss": 9.829353332519531
+        },
+        {
+          "epoch": 29,
+          "train_loss": 0.09180200099945068,
+          "test_loss": 9.817060470581055
+        },
+        {
+          "epoch": 30,
+          "train_loss": 0.08417968451976776,
+          "test_loss": 9.835187911987305
+        },
+        {
+          "epoch": 31,
+          "train_loss": 0.07412028312683105,
+          "test_loss": 9.89145278930664
+        },
+        {
+          "epoch": 32,
+          "train_loss": 0.07853952795267105,
+          "test_loss": 9.876190185546875
+        },
+        {
+          "epoch": 33,
+          "train_loss": 0.07113049924373627,
+          "test_loss": 9.917322158813477
+        },
+        {
+          "epoch": 34,
+          "train_loss": 0.07458093017339706,
+          "test_loss": 10.044499397277832
+        },
+        {
+          "epoch": 35,
+          "train_loss": 0.06635073572397232,
+          "test_loss": 9.974078178405762
+        },
+        {
+          "epoch": 36,
+          "train_loss": 0.061394330114126205,
+          "test_loss": 10.088815689086914
+        },
+        {
+          "epoch": 37,
+          "train_loss": 0.07618487626314163,
+          "test_loss": 10.072044372558594
+        },
+        {
+          "epoch": 38,
+          "train_loss": 0.0691847875714302,
+          "test_loss": 10.163284301757812
+        },
+        {
+          "epoch": 39,
+          "train_loss": 0.07350501418113708,
+          "test_loss": 10.182149887084961
+        },
+        {
+          "epoch": 40,
+          "train_loss": 0.06578680872917175,
+          "test_loss": 10.21989631652832
+        },
+        {
+          "epoch": 41,
+          "train_loss": 0.07471247017383575,
+          "test_loss": 10.280603408813477
+        },
+        {
+          "epoch": 42,
+          "train_loss": 0.06176350638270378,
+          "test_loss": 10.182205200195312
+        },
+        {
+          "epoch": 43,
+          "train_loss": 0.06944754719734192,
+          "test_loss": 10.385494232177734
+        },
+        {
+          "epoch": 44,
+          "train_loss": 0.05609269067645073,
+          "test_loss": 10.318093299865723
+        },
+        {
+          "epoch": 45,
+          "train_loss": 0.05277670919895172,
+          "test_loss": 10.273688316345215
+        },
+        {
+          "epoch": 46,
+          "train_loss": 0.04943245276808739,
+          "test_loss": 10.320920944213867
+        },
+        {
+          "epoch": 47,
+          "train_loss": 0.047192998230457306,
+          "test_loss": 10.480515480041504
+        },
+        {
+          "epoch": 48,
+          "train_loss": 0.054988741874694824,
+          "test_loss": 10.566661834716797
+        },
+        {
+          "epoch": 49,
+          "train_loss": 0.04326299950480461,
+          "test_loss": 10.303811073303223
+        },
+        {
+          "epoch": 50,
+          "train_loss": 0.0488385409116745,
+          "test_loss": 10.464654922485352
+        },
+        {
+          "epoch": 51,
+          "train_loss": 0.05390150845050812,
+          "test_loss": 10.468656539916992
+        },
+        {
+          "epoch": 52,
+          "train_loss": 0.04687635973095894,
+          "test_loss": 10.462414741516113
+        },
+        {
+          "epoch": 53,
+          "train_loss": 0.045984238386154175,
+          "test_loss": 10.307991027832031
+        },
+        {
+          "epoch": 54,
+          "train_loss": 0.04229101911187172,
+          "test_loss": 10.797189712524414
+        },
+        {
+          "epoch": 55,
+          "train_loss": 0.03905868157744408,
+          "test_loss": 10.395147323608398
+        },
+        {
+          "epoch": 56,
+          "train_loss": 0.044489674270153046,
+          "test_loss": 10.482965469360352
+        },
+        {
+          "epoch": 57,
+          "train_loss": 0.04069887474179268,
+          "test_loss": 10.630187034606934
+        },
+        {
+          "epoch": 58,
+          "train_loss": 0.02902897633612156,
+          "test_loss": 10.565788269042969
+        },
+        {
+          "epoch": 59,
+          "train_loss": 0.04100656881928444,
+          "test_loss": 10.561655044555664
+        },
+        {
+          "epoch": 60,
+          "train_loss": 0.042496439069509506,
+          "test_loss": 10.59166145324707
+        }
+      ],
+      "pretrained_baseline_test": 3.372612237930298,
+      "improved_from_baseline": false
+    },
+    {
+      "ranks": {
+        "gpt_neox.embed_in.weight": 681.548095703125,
+        "gpt_neox.layers.0.attention.query_key_value.weight": 517.112548828125,
+        "gpt_neox.layers.0.attention.dense.weight": 298.8448181152344,
+        "gpt_neox.layers.0.mlp.dense_h_to_4h.weight": 654.5488891601562,
+        "gpt_neox.layers.0.mlp.dense_4h_to_h.weight": 700.8880004882812,
+        "gpt_neox.layers.1.attention.query_key_value.weight": 501.3154602050781,
+        "gpt_neox.layers.1.attention.dense.weight": 342.2637939453125,
+        "gpt_neox.layers.1.mlp.dense_h_to_4h.weight": 523.7914428710938,
+        "gpt_neox.layers.1.mlp.dense_4h_to_h.weight": 565.9076538085938,
+        "gpt_neox.layers.2.attention.query_key_value.weight": 545.9534301757812,
+        "gpt_neox.layers.2.attention.dense.weight": 386.6766052246094,
+        "gpt_neox.layers.2.mlp.dense_h_to_4h.weight": 484.1900329589844,
+        "gpt_neox.layers.2.mlp.dense_4h_to_h.weight": 574.6862182617188,
+        "gpt_neox.layers.3.attention.query_key_value.weight": 119.91775512695312,
+        "gpt_neox.layers.3.attention.dense.weight": 336.7051696777344,
+        "gpt_neox.layers.3.mlp.dense_h_to_4h.weight": 442.8020935058594,
+        "gpt_neox.layers.3.mlp.dense_4h_to_h.weight": 571.5088500976562,
+        "gpt_neox.layers.4.attention.query_key_value.weight": 132.56985473632812,
+        "gpt_neox.layers.4.attention.dense.weight": 370.5401611328125,
+        "gpt_neox.layers.4.mlp.dense_h_to_4h.weight": 573.1192016601562,
+        "gpt_neox.layers.4.mlp.dense_4h_to_h.weight": 570.196533203125,
+        "gpt_neox.layers.5.attention.query_key_value.weight": 103.13770294189453,
+        "gpt_neox.layers.5.attention.dense.weight": 387.9207763671875,
+        "gpt_neox.layers.5.mlp.dense_h_to_4h.weight": 560.5158081054688,
+        "gpt_neox.layers.5.mlp.dense_4h_to_h.weight": 535.4317626953125,
+        "gpt_neox.layers.6.attention.query_key_value.weight": 10.217164039611816,
+        "gpt_neox.layers.6.attention.dense.weight": 334.3781433105469,
+        "gpt_neox.layers.6.mlp.dense_h_to_4h.weight": 560.2918701171875,
+        "gpt_neox.layers.6.mlp.dense_4h_to_h.weight": 498.0927734375,
+        "gpt_neox.layers.7.attention.query_key_value.weight": 27.062528610229492,
+        "gpt_neox.layers.7.attention.dense.weight": 294.91339111328125,
+        "gpt_neox.layers.7.mlp.dense_h_to_4h.weight": 558.406982421875,
+        "gpt_neox.layers.7.mlp.dense_4h_to_h.weight": 508.08392333984375,
+        "gpt_neox.layers.8.attention.query_key_value.weight": 35.463165283203125,
+        "gpt_neox.layers.8.attention.dense.weight": 269.32110595703125,
+        "gpt_neox.layers.8.mlp.dense_h_to_4h.weight": 555.7842407226562,
+        "gpt_neox.layers.8.mlp.dense_4h_to_h.weight": 541.4436645507812,
+        "gpt_neox.layers.9.attention.query_key_value.weight": 49.42381286621094,
+        "gpt_neox.layers.9.attention.dense.weight": 359.317626953125,
+        "gpt_neox.layers.9.mlp.dense_h_to_4h.weight": 544.7319946289062,
+        "gpt_neox.layers.9.mlp.dense_4h_to_h.weight": 571.9624633789062,
+        "gpt_neox.layers.10.attention.query_key_value.weight": 71.54821014404297,
+        "gpt_neox.layers.10.attention.dense.weight": 404.97802734375,
+        "gpt_neox.layers.10.mlp.dense_h_to_4h.weight": 540.8615112304688,
+        "gpt_neox.layers.10.mlp.dense_4h_to_h.weight": 608.6575927734375,
+        "gpt_neox.layers.11.attention.query_key_value.weight": 107.70208740234375,
+        "gpt_neox.layers.11.attention.dense.weight": 424.2427673339844,
+        "gpt_neox.layers.11.mlp.dense_h_to_4h.weight": 556.1299438476562,
+        "gpt_neox.layers.11.mlp.dense_4h_to_h.weight": 598.6808471679688,
+        "embed_out.weight": 2.4772825241088867
+      },
+      "weight_l2_norm": 1863.4527224098395,
+      "log_path_norm_proxy": 101.28557668361755,
+      "spectral_norms": {
+        "gpt_neox.embed_in.weight": 17.892305374145508,
+        "gpt_neox.layers.0.attention.query_key_value.weight": 6.1850714683532715,
+        "gpt_neox.layers.0.attention.dense.weight": 2.59073543548584,
+        "gpt_neox.layers.0.mlp.dense_h_to_4h.weight": 6.106624603271484,
+        "gpt_neox.layers.0.mlp.dense_4h_to_h.weight": 2.614713668823242,
+        "gpt_neox.layers.1.attention.query_key_value.weight": 6.171920299530029,
+        "gpt_neox.layers.1.attention.dense.weight": 3.0026848316192627,
+        "gpt_neox.layers.1.mlp.dense_h_to_4h.weight": 7.818472862243652,
+        "gpt_neox.layers.1.mlp.dense_4h_to_h.weight": 4.258839130401611,
+        "gpt_neox.layers.2.attention.query_key_value.weight": 6.29653263092041,
+        "gpt_neox.layers.2.attention.dense.weight": 2.218031883239746,
+        "gpt_neox.layers.2.mlp.dense_h_to_4h.weight": 11.75747299194336,
+        "gpt_neox.layers.2.mlp.dense_4h_to_h.weight": 3.8636128902435303,
+        "gpt_neox.layers.3.attention.query_key_value.weight": 26.884998321533203,
+        "gpt_neox.layers.3.attention.dense.weight": 1.988368272781372,
+        "gpt_neox.layers.3.mlp.dense_h_to_4h.weight": 13.543785095214844,
+        "gpt_neox.layers.3.mlp.dense_4h_to_h.weight": 3.7458677291870117,
+        "gpt_neox.layers.4.attention.query_key_value.weight": 24.81378173828125,
+        "gpt_neox.layers.4.attention.dense.weight": 2.044273614883423,
+        "gpt_neox.layers.4.mlp.dense_h_to_4h.weight": 5.68931245803833,
+        "gpt_neox.layers.4.mlp.dense_4h_to_h.weight": 3.6255784034729004,
+        "gpt_neox.layers.5.attention.query_key_value.weight": 29.20846939086914,
+        "gpt_neox.layers.5.attention.dense.weight": 2.9973387718200684,
+        "gpt_neox.layers.5.mlp.dense_h_to_4h.weight": 5.640622138977051,
+        "gpt_neox.layers.5.mlp.dense_4h_to_h.weight": 5.918856143951416,
+        "gpt_neox.layers.6.attention.query_key_value.weight": 61.941871643066406,
+        "gpt_neox.layers.6.attention.dense.weight": 2.8277111053466797,
+        "gpt_neox.layers.6.mlp.dense_h_to_4h.weight": 5.875853061676025,
+        "gpt_neox.layers.6.mlp.dense_4h_to_h.weight": 6.123714447021484,
+        "gpt_neox.layers.7.attention.query_key_value.weight": 52.2007942199707,
+        "gpt_neox.layers.7.attention.dense.weight": 2.2471249103546143,
+        "gpt_neox.layers.7.mlp.dense_h_to_4h.weight": 5.724513530731201,
+        "gpt_neox.layers.7.mlp.dense_4h_to_h.weight": 5.4617695808410645,
+        "gpt_neox.layers.8.attention.query_key_value.weight": 57.487205505371094,
+        "gpt_neox.layers.8.attention.dense.weight": 2.1511025428771973,
+        "gpt_neox.layers.8.mlp.dense_h_to_4h.weight": 6.145821571350098,
+        "gpt_neox.layers.8.mlp.dense_4h_to_h.weight": 5.74844217300415,
+        "gpt_neox.layers.9.attention.query_key_value.weight": 59.13886260986328,
+        "gpt_neox.layers.9.attention.dense.weight": 1.8807787895202637,
+        "gpt_neox.layers.9.mlp.dense_h_to_4h.weight": 6.0415358543396,
+        "gpt_neox.layers.9.mlp.dense_4h_to_h.weight": 5.967895030975342,
+        "gpt_neox.layers.10.attention.query_key_value.weight": 76.3074951171875,
+        "gpt_neox.layers.10.attention.dense.weight": 1.2827198505401611,
+        "gpt_neox.layers.10.mlp.dense_h_to_4h.weight": 6.045830726623535,
+        "gpt_neox.layers.10.mlp.dense_4h_to_h.weight": 6.367832660675049,
+        "gpt_neox.layers.11.attention.query_key_value.weight": 59.723793029785156,
+        "gpt_neox.layers.11.attention.dense.weight": 2.4685585498809814,
+        "gpt_neox.layers.11.mlp.dense_h_to_4h.weight": 5.850310325622559,
+        "gpt_neox.layers.11.mlp.dense_4h_to_h.weight": 7.491634845733643,
+        "embed_out.weight": 663.2749633789062
+      },
+      "hessian_top_full": 224247.27752758752,
+      "hessian_bot_full": -1794052.020591712,
+      "hessian_eigs_full": [
+        224247.27752758752,
+        0.009313691526769714,
+        -44351.81768580633,
+        -387100.77668418945,
+        -1794052.020591712
+      ],
+      "relative_flatness_full": 778688815245.4559,
+      "hessian_top_train": 65658.73493225445,
+      "hessian_bot_train": -12095.431991137038,
+      "relative_flatness_train": 227997071262.65012,
+      "cos_grad_train_test": 0.03301997855305672,
+      "angle_deg": 88.1077506237754,
+      "grad_train_norm": 4.0840582847595215,
+      "grad_test_norm": 41.637046813964844,
+      "grad_ratio_test_over_train": 10.19501781463623,
+      "mia_loss_auc": 1.0,
+      "mean_train_loss": 0.047768183052539825,
+      "mean_test_loss": 10.5414457321167,
+      "gap_loss": 10.493677139282227,
+      "mode": "M",
+      "seed": 2,
+      "n_train": 400,
+      "checkpoint_epoch": 60,
+      "total_epochs": 60,
+      "val_history": [
+        {
+          "epoch": 1,
+          "train_loss": 2.8871121406555176,
+          "test_loss": 3.8309175968170166
+        },
+        {
+          "epoch": 2,
+          "train_loss": 2.3166680335998535,
+          "test_loss": 4.0085039138793945
+        },
+        {
+          "epoch": 3,
+          "train_loss": 1.835614800453186,
+          "test_loss": 4.355119705200195
+        },
+        {
+          "epoch": 4,
+          "train_loss": 1.4939379692077637,
+          "test_loss": 4.729560852050781
+        },
+        {
+          "epoch": 5,
+          "train_loss": 1.144228458404541,
+          "test_loss": 5.31311559677124
+        },
+        {
+          "epoch": 6,
+          "train_loss": 0.8575061559677124,
+          "test_loss": 5.878795623779297
+        },
+        {
+          "epoch": 7,
+          "train_loss": 0.6186904311180115,
+          "test_loss": 6.61831521987915
+        },
+        {
+          "epoch": 8,
+          "train_loss": 0.49440187215805054,
+          "test_loss": 7.215893268585205
+        },
+        {
+          "epoch": 9,
+          "train_loss": 0.4377152621746063,
+          "test_loss": 7.480556488037109
+        },
+        {
+          "epoch": 10,
+          "train_loss": 0.3376712203025818,
+          "test_loss": 7.86320686340332
+        },
+        {
+          "epoch": 11,
+          "train_loss": 0.3080683946609497,
+          "test_loss": 8.14183235168457
+        },
+        {
+          "epoch": 12,
+          "train_loss": 0.25040289759635925,
+          "test_loss": 8.722271919250488
+        },
+        {
+          "epoch": 13,
+          "train_loss": 0.233413428068161,
+          "test_loss": 8.542423248291016
+        },
+        {
+          "epoch": 14,
+          "train_loss": 0.22645768523216248,
+          "test_loss": 8.733799934387207
+        },
+        {
+          "epoch": 15,
+          "train_loss": 0.1804993897676468,
+          "test_loss": 8.877233505249023
+        },
+        {
+          "epoch": 16,
+          "train_loss": 0.1690763533115387,
+          "test_loss": 8.960853576660156
+        },
+        {
+          "epoch": 17,
+          "train_loss": 0.14795100688934326,
+          "test_loss": 9.205068588256836
+        },
+        {
+          "epoch": 18,
+          "train_loss": 0.1422974318265915,
+          "test_loss": 9.26007080078125
+        },
+        {
+          "epoch": 19,
+          "train_loss": 0.1421891301870346,
+          "test_loss": 9.28292179107666
+        },
+        {
+          "epoch": 20,
+          "train_loss": 0.13320860266685486,
+          "test_loss": 9.437873840332031
+        },
+        {
+          "epoch": 21,
+          "train_loss": 0.11814753711223602,
+          "test_loss": 9.474088668823242
+        },
+        {
+          "epoch": 22,
+          "train_loss": 0.10562416166067123,
+          "test_loss": 9.481125831604004
+        },
+        {
+          "epoch": 23,
+          "train_loss": 0.11350049078464508,
+          "test_loss": 9.541671752929688
+        },
+        {
+          "epoch": 24,
+          "train_loss": 0.09186980873346329,
+          "test_loss": 9.691224098205566
+        },
+        {
+          "epoch": 25,
+          "train_loss": 0.08153854310512543,
+          "test_loss": 9.609338760375977
+        },
+        {
+          "epoch": 26,
+          "train_loss": 0.09604182839393616,
+          "test_loss": 9.738181114196777
+        },
+        {
+          "epoch": 27,
+          "train_loss": 0.08362608402967453,
+          "test_loss": 9.776792526245117
+        },
+        {
+          "epoch": 28,
+          "train_loss": 0.08992995321750641,
+          "test_loss": 9.810920715332031
+        },
+        {
+          "epoch": 29,
+          "train_loss": 0.08014341443777084,
+          "test_loss": 9.883124351501465
+        },
+        {
+          "epoch": 30,
+          "train_loss": 0.08118915557861328,
+          "test_loss": 9.93954849243164
+        },
+        {
+          "epoch": 31,
+          "train_loss": 0.0687975287437439,
+          "test_loss": 10.005992889404297
+        },
+        {
+          "epoch": 32,
+          "train_loss": 0.06923770904541016,
+          "test_loss": 9.87702465057373
+        },
+        {
+          "epoch": 33,
+          "train_loss": 0.08382265269756317,
+          "test_loss": 10.003263473510742
+        },
+        {
+          "epoch": 34,
+          "train_loss": 0.0566277801990509,
+          "test_loss": 10.043499946594238
+        },
+        {
+          "epoch": 35,
+          "train_loss": 0.06303226202726364,
+          "test_loss": 10.07119369506836
+        },
+        {
+          "epoch": 36,
+          "train_loss": 0.060490772128105164,
+          "test_loss": 10.213546752929688
+        },
+        {
+          "epoch": 37,
+          "train_loss": 0.06454753875732422,
+          "test_loss": 10.18374252319336
+        },
+        {
+          "epoch": 38,
+          "train_loss": 0.06549044698476791,
+          "test_loss": 10.223681449890137
+        },
+        {
+          "epoch": 39,
+          "train_loss": 0.05821278691291809,
+          "test_loss": 10.250650405883789
+        },
+        {
+          "epoch": 40,
+          "train_loss": 0.05526001751422882,
+          "test_loss": 10.365020751953125
+        },
+        {
+          "epoch": 41,
+          "train_loss": 0.0614180713891983,
+          "test_loss": 10.275960922241211
+        },
+        {
+          "epoch": 42,
+          "train_loss": 0.04912108555436134,
+          "test_loss": 10.298639297485352
+        },
+        {
+          "epoch": 43,
+          "train_loss": 0.05374439060688019,
+          "test_loss": 10.343344688415527
+        },
+        {
+          "epoch": 44,
+          "train_loss": 0.0659639835357666,
+          "test_loss": 10.2791109085083
+        },
+        {
+          "epoch": 45,
+          "train_loss": 0.053295597434043884,
+          "test_loss": 10.340255737304688
+        },
+        {
+          "epoch": 46,
+          "train_loss": 0.05800061672925949,
+          "test_loss": 10.42420768737793
+        },
+        {
+          "epoch": 47,
+          "train_loss": 0.05940821394324303,
+          "test_loss": 10.271889686584473
+        },
+        {
+          "epoch": 48,
+          "train_loss": 0.05020938068628311,
+          "test_loss": 10.463403701782227
+        },
+        {
+          "epoch": 49,
+          "train_loss": 0.05301474779844284,
+          "test_loss": 10.378128051757812
+        },
+        {
+          "epoch": 50,
+          "train_loss": 0.081303671002388,
+          "test_loss": 10.439238548278809
+        },
+        {
+          "epoch": 51,
+          "train_loss": 0.05500928312540054,
+          "test_loss": 10.4611234664917
+        },
+        {
+          "epoch": 52,
+          "train_loss": 0.049904853105545044,
+          "test_loss": 10.382036209106445
+        },
+        {
+          "epoch": 53,
+          "train_loss": 0.04623594880104065,
+          "test_loss": 10.45085620880127
+        },
+        {
+          "epoch": 54,
+          "train_loss": 0.05118507891893387,
+          "test_loss": 10.508974075317383
+        },
+        {
+          "epoch": 55,
+          "train_loss": 0.043582215905189514,
+          "test_loss": 10.568803787231445
+        },
+        {
+          "epoch": 56,
+          "train_loss": 0.04840957373380661,
+          "test_loss": 10.58009147644043
+        },
+        {
+          "epoch": 57,
+          "train_loss": 0.05083797127008438,
+          "test_loss": 10.590567588806152
+        },
+        {
+          "epoch": 58,
+          "train_loss": 0.04803072661161423,
+          "test_loss": 10.609251022338867
+        },
+        {
+          "epoch": 59,
+          "train_loss": 0.04826435446739197,
+          "test_loss": 10.599407196044922
+        },
+        {
+          "epoch": 60,
+          "train_loss": 0.047953709959983826,
+          "test_loss": 10.654060363769531
+        }
+      ],
+      "pretrained_baseline_test": 3.372612237930298,
+      "improved_from_baseline": false
+    }
+  ],
+  "G": [
+    {
+      "ranks": {
+        "gpt_neox.embed_in.weight": 679.1522827148438,
+        "gpt_neox.layers.0.attention.query_key_value.weight": 525.5021362304688,
+        "gpt_neox.layers.0.attention.dense.weight": 314.1190490722656,
+        "gpt_neox.layers.0.mlp.dense_h_to_4h.weight": 639.8282470703125,
+        "gpt_neox.layers.0.mlp.dense_4h_to_h.weight": 664.77001953125,
+        "gpt_neox.layers.1.attention.query_key_value.weight": 502.8520202636719,
+        "gpt_neox.layers.1.attention.dense.weight": 350.03350830078125,
+        "gpt_neox.layers.1.mlp.dense_h_to_4h.weight": 519.9913940429688,
+        "gpt_neox.layers.1.mlp.dense_4h_to_h.weight": 577.5523071289062,
+        "gpt_neox.layers.2.attention.query_key_value.weight": 550.6025390625,
+        "gpt_neox.layers.2.attention.dense.weight": 397.61761474609375,
+        "gpt_neox.layers.2.mlp.dense_h_to_4h.weight": 491.6329650878906,
+        "gpt_neox.layers.2.mlp.dense_4h_to_h.weight": 577.8211669921875,
+        "gpt_neox.layers.3.attention.query_key_value.weight": 134.7069854736328,
+        "gpt_neox.layers.3.attention.dense.weight": 347.24163818359375,
+        "gpt_neox.layers.3.mlp.dense_h_to_4h.weight": 463.1504821777344,
+        "gpt_neox.layers.3.mlp.dense_4h_to_h.weight": 575.5308227539062,
+        "gpt_neox.layers.4.attention.query_key_value.weight": 146.71046447753906,
+        "gpt_neox.layers.4.attention.dense.weight": 373.2982177734375,
+        "gpt_neox.layers.4.mlp.dense_h_to_4h.weight": 568.5433959960938,
+        "gpt_neox.layers.4.mlp.dense_4h_to_h.weight": 574.7598876953125,
+        "gpt_neox.layers.5.attention.query_key_value.weight": 117.87757873535156,
+        "gpt_neox.layers.5.attention.dense.weight": 397.037109375,
+        "gpt_neox.layers.5.mlp.dense_h_to_4h.weight": 558.3723754882812,
+        "gpt_neox.layers.5.mlp.dense_4h_to_h.weight": 547.8309936523438,
+        "gpt_neox.layers.6.attention.query_key_value.weight": 11.338032722473145,
+        "gpt_neox.layers.6.attention.dense.weight": 351.0628356933594,
+        "gpt_neox.layers.6.mlp.dense_h_to_4h.weight": 557.6103515625,
+        "gpt_neox.layers.6.mlp.dense_4h_to_h.weight": 515.4390258789062,
+        "gpt_neox.layers.7.attention.query_key_value.weight": 29.597625732421875,
+        "gpt_neox.layers.7.attention.dense.weight": 301.4947509765625,
+        "gpt_neox.layers.7.mlp.dense_h_to_4h.weight": 558.9805297851562,
+        "gpt_neox.layers.7.mlp.dense_4h_to_h.weight": 526.0838012695312,
+        "gpt_neox.layers.8.attention.query_key_value.weight": 36.65943145751953,
+        "gpt_neox.layers.8.attention.dense.weight": 288.0634765625,
+        "gpt_neox.layers.8.mlp.dense_h_to_4h.weight": 561.70751953125,
+        "gpt_neox.layers.8.mlp.dense_4h_to_h.weight": 550.1217651367188,
+        "gpt_neox.layers.9.attention.query_key_value.weight": 52.68227005004883,
+        "gpt_neox.layers.9.attention.dense.weight": 379.2417297363281,
+        "gpt_neox.layers.9.mlp.dense_h_to_4h.weight": 552.5398559570312,
+        "gpt_neox.layers.9.mlp.dense_4h_to_h.weight": 587.8683471679688,
+        "gpt_neox.layers.10.attention.query_key_value.weight": 74.49097442626953,
+        "gpt_neox.layers.10.attention.dense.weight": 397.19427490234375,
+        "gpt_neox.layers.10.mlp.dense_h_to_4h.weight": 544.5606079101562,
+        "gpt_neox.layers.10.mlp.dense_4h_to_h.weight": 618.5501098632812,
+        "gpt_neox.layers.11.attention.query_key_value.weight": 112.5344009399414,
+        "gpt_neox.layers.11.attention.dense.weight": 270.7249450683594,
+        "gpt_neox.layers.11.mlp.dense_h_to_4h.weight": 555.811279296875,
+        "gpt_neox.layers.11.mlp.dense_4h_to_h.weight": 588.6669311523438,
+        "embed_out.weight": 2.516953945159912
+      },
+      "weight_l2_norm": 1835.893737141264,
+      "log_path_norm_proxy": 102.16848025909059,
+      "spectral_norms": {
+        "gpt_neox.embed_in.weight": 18.601953506469727,
+        "gpt_neox.layers.0.attention.query_key_value.weight": 6.197899341583252,
+        "gpt_neox.layers.0.attention.dense.weight": 2.692943572998047,
+        "gpt_neox.layers.0.mlp.dense_h_to_4h.weight": 6.252376079559326,
+        "gpt_neox.layers.0.mlp.dense_4h_to_h.weight": 2.9705793857574463,
+        "gpt_neox.layers.1.attention.query_key_value.weight": 6.3371076583862305,
+        "gpt_neox.layers.1.attention.dense.weight": 3.0480048656463623,
+        "gpt_neox.layers.1.mlp.dense_h_to_4h.weight": 8.569513320922852,
+        "gpt_neox.layers.1.mlp.dense_4h_to_h.weight": 4.394536018371582,
+        "gpt_neox.layers.2.attention.query_key_value.weight": 6.219259262084961,
+        "gpt_neox.layers.2.attention.dense.weight": 1.967308759689331,
+        "gpt_neox.layers.2.mlp.dense_h_to_4h.weight": 11.691497802734375,
+        "gpt_neox.layers.2.mlp.dense_4h_to_h.weight": 3.9518370628356934,
+        "gpt_neox.layers.3.attention.query_key_value.weight": 26.32407569885254,
+        "gpt_neox.layers.3.attention.dense.weight": 1.9962384700775146,
+        "gpt_neox.layers.3.mlp.dense_h_to_4h.weight": 13.107400894165039,
+        "gpt_neox.layers.3.mlp.dense_4h_to_h.weight": 3.9225172996520996,
+        "gpt_neox.layers.4.attention.query_key_value.weight": 24.3780574798584,
+        "gpt_neox.layers.4.attention.dense.weight": 2.123262882232666,
+        "gpt_neox.layers.4.mlp.dense_h_to_4h.weight": 6.404572486877441,
+        "gpt_neox.layers.4.mlp.dense_4h_to_h.weight": 3.7009029388427734,
+        "gpt_neox.layers.5.attention.query_key_value.weight": 28.412546157836914,
+        "gpt_neox.layers.5.attention.dense.weight": 2.3327560424804688,
+        "gpt_neox.layers.5.mlp.dense_h_to_4h.weight": 6.278242111206055,
+        "gpt_neox.layers.5.mlp.dense_4h_to_h.weight": 5.364410400390625,
+        "gpt_neox.layers.6.attention.query_key_value.weight": 60.800350189208984,
+        "gpt_neox.layers.6.attention.dense.weight": 2.2242400646209717,
+        "gpt_neox.layers.6.mlp.dense_h_to_4h.weight": 6.0649614334106445,
+        "gpt_neox.layers.6.mlp.dense_4h_to_h.weight": 5.774207592010498,
+        "gpt_neox.layers.7.attention.query_key_value.weight": 50.509254455566406,
+        "gpt_neox.layers.7.attention.dense.weight": 2.142627716064453,
+        "gpt_neox.layers.7.mlp.dense_h_to_4h.weight": 5.662258148193359,
+        "gpt_neox.layers.7.mlp.dense_4h_to_h.weight": 5.312962055206299,
+        "gpt_neox.layers.8.attention.query_key_value.weight": 56.37937927246094,
+        "gpt_neox.layers.8.attention.dense.weight": 2.410010814666748,
+        "gpt_neox.layers.8.mlp.dense_h_to_4h.weight": 5.962018966674805,
+        "gpt_neox.layers.8.mlp.dense_4h_to_h.weight": 6.221385955810547,
+        "gpt_neox.layers.9.attention.query_key_value.weight": 57.53422927856445,
+        "gpt_neox.layers.9.attention.dense.weight": 1.9180822372436523,
+        "gpt_neox.layers.9.mlp.dense_h_to_4h.weight": 6.108020782470703,
+        "gpt_neox.layers.9.mlp.dense_4h_to_h.weight": 6.160542964935303,
+        "gpt_neox.layers.10.attention.query_key_value.weight": 74.54988861083984,
+        "gpt_neox.layers.10.attention.dense.weight": 1.325743556022644,
+        "gpt_neox.layers.10.mlp.dense_h_to_4h.weight": 6.471426963806152,
+        "gpt_neox.layers.10.mlp.dense_4h_to_h.weight": 6.579477310180664,
+        "gpt_neox.layers.11.attention.query_key_value.weight": 58.17015075683594,
+        "gpt_neox.layers.11.attention.dense.weight": 5.062404155731201,
+        "gpt_neox.layers.11.mlp.dense_h_to_4h.weight": 6.659830570220947,
+        "gpt_neox.layers.11.mlp.dense_4h_to_h.weight": 7.743287563323975,
+        "embed_out.weight": 649.7084350585938
+      },
+      "hessian_top_full": 96614.09068284785,
+      "hessian_bot_full": -267827.1523218907,
+      "hessian_eigs_full": [
+        96614.09068284785,
+        13635.639681538274,
+        -0.004186874364944726,
+        -150323.72174925648,
+        -267827.1523218907
+      ],
+      "relative_flatness_full": 325638354368.0612,
+      "hessian_top_train": 202493.62191315525,
+      "hessian_bot_train": -550874.9334949988,
+      "relative_flatness_train": 682505929971.2966,
+      "cos_grad_train_test": 0.007887371815741062,
+      "angle_deg": 89.54808219774283,
+      "grad_train_norm": 5.683846950531006,
+      "grad_test_norm": 7.52011775970459,
+      "grad_ratio_test_over_train": 1.3230682611465454,
+      "mia_loss_auc": 0.894967734375,
+      "mean_train_loss": 2.7461862564086914,
+      "mean_test_loss": 3.428602457046509,
+      "gap_loss": 0.6824162006378174,
+      "mode": "G",
+      "seed": 0,
+      "n_train": 25600,
+      "checkpoint_epoch": 6,
+      "total_epochs": 12,
+      "val_history": [
+        {
+          "epoch": 1,
+          "train_loss": 3.5202674865722656,
+          "test_loss": 3.705050468444824
+        },
+        {
+          "epoch": 2,
+          "train_loss": 3.3024282455444336,
+          "test_loss": 3.561548948287964
+        },
+        {
+          "epoch": 3,
+          "train_loss": 3.1780362129211426,
+          "test_loss": 3.5220746994018555
+        },
+        {
+          "epoch": 4,
+          "train_loss": 3.0329859256744385,
+          "test_loss": 3.496473789215088
+        },
+        {
+          "epoch": 5,
+          "train_loss": 2.8805274963378906,
+          "test_loss": 3.4590234756469727
+        },
+        {
+          "epoch": 6,
+          "train_loss": 2.738165855407715,
+          "test_loss": 3.458644390106201
+        },
+        {
+          "epoch": 7,
+          "train_loss": 2.5440001487731934,
+          "test_loss": 3.47475528717041
+        },
+        {
+          "epoch": 8,
+          "train_loss": 2.3661413192749023,
+          "test_loss": 3.541334629058838
+        },
+        {
+          "epoch": 9,
+          "train_loss": 2.179772138595581,
+          "test_loss": 3.639392375946045
+        },
+        {
+          "epoch": 10,
+          "train_loss": 1.970468521118164,
+          "test_loss": 3.750588893890381
+        },
+        {
+          "epoch": 11,
+          "train_loss": 1.7461390495300293,
+          "test_loss": 3.9318268299102783
+        },
+        {
+          "epoch": 12,
+          "train_loss": 1.5315427780151367,
+          "test_loss": 4.169246673583984
+        }
+      ],
+      "pretrained_baseline_test": 3.372612237930298,
+      "improved_from_baseline": false
+    },
+    {
+      "ranks": {
+        "gpt_neox.embed_in.weight": 679.0143432617188,
+        "gpt_neox.layers.0.attention.query_key_value.weight": 525.06201171875,
+        "gpt_neox.layers.0.attention.dense.weight": 313.30169677734375,
+        "gpt_neox.layers.0.mlp.dense_h_to_4h.weight": 639.7949829101562,
+        "gpt_neox.layers.0.mlp.dense_4h_to_h.weight": 665.154296875,
+        "gpt_neox.layers.1.attention.query_key_value.weight": 503.2175598144531,
+        "gpt_neox.layers.1.attention.dense.weight": 350.19293212890625,
+        "gpt_neox.layers.1.mlp.dense_h_to_4h.weight": 520.1327514648438,
+        "gpt_neox.layers.1.mlp.dense_4h_to_h.weight": 577.633544921875,
+        "gpt_neox.layers.2.attention.query_key_value.weight": 550.4214477539062,
+        "gpt_neox.layers.2.attention.dense.weight": 397.51751708984375,
+        "gpt_neox.layers.2.mlp.dense_h_to_4h.weight": 490.98779296875,
+        "gpt_neox.layers.2.mlp.dense_4h_to_h.weight": 577.2290649414062,
+        "gpt_neox.layers.3.attention.query_key_value.weight": 134.9563751220703,
+        "gpt_neox.layers.3.attention.dense.weight": 346.814697265625,
+        "gpt_neox.layers.3.mlp.dense_h_to_4h.weight": 461.26165771484375,
+        "gpt_neox.layers.3.mlp.dense_4h_to_h.weight": 575.1165771484375,
+        "gpt_neox.layers.4.attention.query_key_value.weight": 145.92562866210938,
+        "gpt_neox.layers.4.attention.dense.weight": 373.1844787597656,
+        "gpt_neox.layers.4.mlp.dense_h_to_4h.weight": 568.4019165039062,
+        "gpt_neox.layers.4.mlp.dense_4h_to_h.weight": 574.7802124023438,
+        "gpt_neox.layers.5.attention.query_key_value.weight": 118.13783264160156,
+        "gpt_neox.layers.5.attention.dense.weight": 396.2784729003906,
+        "gpt_neox.layers.5.mlp.dense_h_to_4h.weight": 558.0944213867188,
+        "gpt_neox.layers.5.mlp.dense_4h_to_h.weight": 546.9656982421875,
+        "gpt_neox.layers.6.attention.query_key_value.weight": 11.460659980773926,
+        "gpt_neox.layers.6.attention.dense.weight": 352.2394714355469,
+        "gpt_neox.layers.6.mlp.dense_h_to_4h.weight": 556.976806640625,
+        "gpt_neox.layers.6.mlp.dense_4h_to_h.weight": 514.9297485351562,
+        "gpt_neox.layers.7.attention.query_key_value.weight": 29.386842727661133,
+        "gpt_neox.layers.7.attention.dense.weight": 303.73236083984375,
+        "gpt_neox.layers.7.mlp.dense_h_to_4h.weight": 558.9930419921875,
+        "gpt_neox.layers.7.mlp.dense_4h_to_h.weight": 525.8362426757812,
+        "gpt_neox.layers.8.attention.query_key_value.weight": 36.668495178222656,
+        "gpt_neox.layers.8.attention.dense.weight": 288.62896728515625,
+        "gpt_neox.layers.8.mlp.dense_h_to_4h.weight": 561.9957885742188,
+        "gpt_neox.layers.8.mlp.dense_4h_to_h.weight": 550.206787109375,
+        "gpt_neox.layers.9.attention.query_key_value.weight": 52.666481018066406,
+        "gpt_neox.layers.9.attention.dense.weight": 382.12957763671875,
+        "gpt_neox.layers.9.mlp.dense_h_to_4h.weight": 552.5346069335938,
+        "gpt_neox.layers.9.mlp.dense_4h_to_h.weight": 587.8635864257812,
+        "gpt_neox.layers.10.attention.query_key_value.weight": 74.59000396728516,
+        "gpt_neox.layers.10.attention.dense.weight": 395.2927551269531,
+        "gpt_neox.layers.10.mlp.dense_h_to_4h.weight": 544.5361938476562,
+        "gpt_neox.layers.10.mlp.dense_4h_to_h.weight": 618.5501098632812,
+        "gpt_neox.layers.11.attention.query_key_value.weight": 112.618896484375,
+        "gpt_neox.layers.11.attention.dense.weight": 269.9451904296875,
+        "gpt_neox.layers.11.mlp.dense_h_to_4h.weight": 555.6141357421875,
+        "gpt_neox.layers.11.mlp.dense_4h_to_h.weight": 588.744384765625,
+        "embed_out.weight": 2.5195908546447754
+      },
+      "weight_l2_norm": 1835.7010486707932,
+      "log_path_norm_proxy": 102.24904527072802,
+      "spectral_norms": {
+        "gpt_neox.embed_in.weight": 18.616252899169922,
+        "gpt_neox.layers.0.attention.query_key_value.weight": 6.197994232177734,
+        "gpt_neox.layers.0.attention.dense.weight": 2.7279210090637207,
+        "gpt_neox.layers.0.mlp.dense_h_to_4h.weight": 6.259035587310791,
+        "gpt_neox.layers.0.mlp.dense_4h_to_h.weight": 2.9639945030212402,
+        "gpt_neox.layers.1.attention.query_key_value.weight": 6.304588794708252,
+        "gpt_neox.layers.1.attention.dense.weight": 3.048497438430786,
+        "gpt_neox.layers.1.mlp.dense_h_to_4h.weight": 8.568236351013184,
+        "gpt_neox.layers.1.mlp.dense_4h_to_h.weight": 4.389426231384277,
+        "gpt_neox.layers.2.attention.query_key_value.weight": 6.217023849487305,
+        "gpt_neox.layers.2.attention.dense.weight": 1.9600011110305786,
+        "gpt_neox.layers.2.mlp.dense_h_to_4h.weight": 11.707364082336426,
+        "gpt_neox.layers.2.mlp.dense_4h_to_h.weight": 3.9658091068267822,
+        "gpt_neox.layers.3.attention.query_key_value.weight": 26.31315040588379,
+        "gpt_neox.layers.3.attention.dense.weight": 1.9881924390792847,
+        "gpt_neox.layers.3.mlp.dense_h_to_4h.weight": 13.176030158996582,
+        "gpt_neox.layers.3.mlp.dense_4h_to_h.weight": 3.9438178539276123,
+        "gpt_neox.layers.4.attention.query_key_value.weight": 24.44552230834961,
+        "gpt_neox.layers.4.attention.dense.weight": 2.1391186714172363,
+        "gpt_neox.layers.4.mlp.dense_h_to_4h.weight": 6.407788276672363,
+        "gpt_neox.layers.4.mlp.dense_4h_to_h.weight": 3.719778537750244,
+        "gpt_neox.layers.5.attention.query_key_value.weight": 28.38808822631836,
+        "gpt_neox.layers.5.attention.dense.weight": 2.4300918579101562,
+        "gpt_neox.layers.5.mlp.dense_h_to_4h.weight": 6.283985137939453,
+        "gpt_neox.layers.5.mlp.dense_4h_to_h.weight": 5.418389797210693,
+        "gpt_neox.layers.6.attention.query_key_value.weight": 60.68769073486328,
+        "gpt_neox.layers.6.attention.dense.weight": 2.213137626647949,
+        "gpt_neox.layers.6.mlp.dense_h_to_4h.weight": 6.092649459838867,
+        "gpt_neox.layers.6.mlp.dense_4h_to_h.weight": 5.7440876960754395,
+        "gpt_neox.layers.7.attention.query_key_value.weight": 50.735538482666016,
+        "gpt_neox.layers.7.attention.dense.weight": 2.164947986602783,
+        "gpt_neox.layers.7.mlp.dense_h_to_4h.weight": 5.613945960998535,
+        "gpt_neox.layers.7.mlp.dense_4h_to_h.weight": 5.32223653793335,
+        "gpt_neox.layers.8.attention.query_key_value.weight": 56.26640701293945,
+        "gpt_neox.layers.8.attention.dense.weight": 2.407646417617798,
+        "gpt_neox.layers.8.mlp.dense_h_to_4h.weight": 5.917068004608154,
+        "gpt_neox.layers.8.mlp.dense_4h_to_h.weight": 6.1834893226623535,
+        "gpt_neox.layers.9.attention.query_key_value.weight": 57.61589431762695,
+        "gpt_neox.layers.9.attention.dense.weight": 1.9119839668273926,
+        "gpt_neox.layers.9.mlp.dense_h_to_4h.weight": 6.112718105316162,
+        "gpt_neox.layers.9.mlp.dense_4h_to_h.weight": 6.165200710296631,
+        "gpt_neox.layers.10.attention.query_key_value.weight": 74.46556091308594,
+        "gpt_neox.layers.10.attention.dense.weight": 1.3600833415985107,
+        "gpt_neox.layers.10.mlp.dense_h_to_4h.weight": 6.445384979248047,
+        "gpt_neox.layers.10.mlp.dense_4h_to_h.weight": 6.562559604644775,
+        "gpt_neox.layers.11.attention.query_key_value.weight": 58.161964416503906,
+        "gpt_neox.layers.11.attention.dense.weight": 5.074155807495117,
+        "gpt_neox.layers.11.mlp.dense_h_to_4h.weight": 6.659207344055176,
+        "gpt_neox.layers.11.mlp.dense_4h_to_h.weight": 7.727091312408447,
+        "embed_out.weight": 649.1947021484375
+      },
+      "hessian_top_full": 149825.7531110067,
+      "hessian_bot_full": -5143.521149231862,
+      "hessian_eigs_full": [
+        149825.7531110067,
+        38682.18669190894,
+        13433.140968658023,
+        0.00045670747546648215,
+        -5143.521149231862
+      ],
+      "relative_flatness_full": 504882574136.36176,
+      "hessian_top_train": 78337.7508907186,
+      "hessian_bot_train": -20282.405206227846,
+      "relative_flatness_train": 263982422918.00967,
+      "cos_grad_train_test": -0.0066567109897732735,
+      "angle_deg": 90.3814042619727,
+      "grad_train_norm": 4.03460168838501,
+      "grad_test_norm": 4.915050506591797,
+      "grad_ratio_test_over_train": 1.2182245254516602,
+      "mia_loss_auc": 0.8958275390625,
+      "mean_train_loss": 2.731050491333008,
+      "mean_test_loss": 3.4190478324890137,
+      "gap_loss": 0.6879973411560059,
+      "mode": "G",
+      "seed": 1,
+      "n_train": 25600,
+      "checkpoint_epoch": 6,
+      "total_epochs": 12,
+      "val_history": [
+        {
+          "epoch": 1,
+          "train_loss": 3.4820594787597656,
+          "test_loss": 3.7301206588745117
+        },
+        {
+          "epoch": 2,
+          "train_loss": 3.277111530303955,
+          "test_loss": 3.5878963470458984
+        },
+        {
+          "epoch": 3,
+          "train_loss": 3.1788828372955322,
+          "test_loss": 3.558079719543457
+        },
+        {
+          "epoch": 4,
+          "train_loss": 3.008068084716797,
+          "test_loss": 3.50358247756958
+        },
+        {
+          "epoch": 5,
+          "train_loss": 2.8492019176483154,
+          "test_loss": 3.445664644241333
+        },
+        {
+          "epoch": 6,
+          "train_loss": 2.6966519355773926,
+          "test_loss": 3.4424943923950195
+        },
+        {
+          "epoch": 7,
+          "train_loss": 2.526704788208008,
+          "test_loss": 3.4809744358062744
+        },
+        {
+          "epoch": 8,
+          "train_loss": 2.3556246757507324,
+          "test_loss": 3.529364585876465
+        },
+        {
+          "epoch": 9,
+          "train_loss": 2.162393093109131,
+          "test_loss": 3.6187515258789062
+        },
+        {
+          "epoch": 10,
+          "train_loss": 1.9609973430633545,
+          "test_loss": 3.7669103145599365
+        },
+        {
+          "epoch": 11,
+          "train_loss": 1.7327393293380737,
+          "test_loss": 3.8983616828918457
+        },
+        {
+          "epoch": 12,
+          "train_loss": 1.5655460357666016,
+          "test_loss": 4.12051248550415
+        }
+      ],
+      "pretrained_baseline_test": 3.372612237930298,
+      "improved_from_baseline": false
+    },
+    {
+      "ranks": {
+        "gpt_neox.embed_in.weight": 678.913330078125,
+        "gpt_neox.layers.0.attention.query_key_value.weight": 525.3287353515625,
+        "gpt_neox.layers.0.attention.dense.weight": 313.4505310058594,
+        "gpt_neox.layers.0.mlp.dense_h_to_4h.weight": 639.683349609375,
+        "gpt_neox.layers.0.mlp.dense_4h_to_h.weight": 665.2098388671875,
+        "gpt_neox.layers.1.attention.query_key_value.weight": 503.1285400390625,
+        "gpt_neox.layers.1.attention.dense.weight": 350.0066223144531,
+        "gpt_neox.layers.1.mlp.dense_h_to_4h.weight": 520.4635009765625,
+        "gpt_neox.layers.1.mlp.dense_4h_to_h.weight": 577.4523315429688,
+        "gpt_neox.layers.2.attention.query_key_value.weight": 550.9552612304688,
+        "gpt_neox.layers.2.attention.dense.weight": 397.6180114746094,
+        "gpt_neox.layers.2.mlp.dense_h_to_4h.weight": 491.5305480957031,
+        "gpt_neox.layers.2.mlp.dense_4h_to_h.weight": 576.695068359375,
+        "gpt_neox.layers.3.attention.query_key_value.weight": 134.8895263671875,
+        "gpt_neox.layers.3.attention.dense.weight": 347.00775146484375,
+        "gpt_neox.layers.3.mlp.dense_h_to_4h.weight": 463.22137451171875,
+        "gpt_neox.layers.3.mlp.dense_4h_to_h.weight": 575.0011596679688,
+        "gpt_neox.layers.4.attention.query_key_value.weight": 147.1066131591797,
+        "gpt_neox.layers.4.attention.dense.weight": 372.6050109863281,
+        "gpt_neox.layers.4.mlp.dense_h_to_4h.weight": 568.0689086914062,
+        "gpt_neox.layers.4.mlp.dense_4h_to_h.weight": 574.7267456054688,
+        "gpt_neox.layers.5.attention.query_key_value.weight": 118.0174560546875,
+        "gpt_neox.layers.5.attention.dense.weight": 395.8435363769531,
+        "gpt_neox.layers.5.mlp.dense_h_to_4h.weight": 558.860595703125,
+        "gpt_neox.layers.5.mlp.dense_4h_to_h.weight": 547.4596557617188,
+        "gpt_neox.layers.6.attention.query_key_value.weight": 11.40227222442627,
+        "gpt_neox.layers.6.attention.dense.weight": 352.82275390625,
+        "gpt_neox.layers.6.mlp.dense_h_to_4h.weight": 556.949462890625,
+        "gpt_neox.layers.6.mlp.dense_4h_to_h.weight": 514.6575317382812,
+        "gpt_neox.layers.7.attention.query_key_value.weight": 29.209482192993164,
+        "gpt_neox.layers.7.attention.dense.weight": 299.6651916503906,
+        "gpt_neox.layers.7.mlp.dense_h_to_4h.weight": 558.5419921875,
+        "gpt_neox.layers.7.mlp.dense_4h_to_h.weight": 525.8011474609375,
+        "gpt_neox.layers.8.attention.query_key_value.weight": 36.74571990966797,
+        "gpt_neox.layers.8.attention.dense.weight": 287.63385009765625,
+        "gpt_neox.layers.8.mlp.dense_h_to_4h.weight": 562.4306030273438,
+        "gpt_neox.layers.8.mlp.dense_4h_to_h.weight": 549.9735717773438,
+        "gpt_neox.layers.9.attention.query_key_value.weight": 52.7744026184082,
+        "gpt_neox.layers.9.attention.dense.weight": 380.300537109375,
+        "gpt_neox.layers.9.mlp.dense_h_to_4h.weight": 552.6373901367188,
+        "gpt_neox.layers.9.mlp.dense_4h_to_h.weight": 587.9658813476562,
+        "gpt_neox.layers.10.attention.query_key_value.weight": 74.5549087524414,
+        "gpt_neox.layers.10.attention.dense.weight": 396.10540771484375,
+        "gpt_neox.layers.10.mlp.dense_h_to_4h.weight": 544.70703125,
+        "gpt_neox.layers.10.mlp.dense_4h_to_h.weight": 618.5934448242188,
+        "gpt_neox.layers.11.attention.query_key_value.weight": 112.52742767333984,
+        "gpt_neox.layers.11.attention.dense.weight": 268.735107421875,
+        "gpt_neox.layers.11.mlp.dense_h_to_4h.weight": 555.6253051757812,
+        "gpt_neox.layers.11.mlp.dense_4h_to_h.weight": 587.6676635742188,
+        "embed_out.weight": 2.5196895599365234
+      },
+      "weight_l2_norm": 1835.5329406012265,
+      "log_path_norm_proxy": 102.19484568711775,
+      "spectral_norms": {
+        "gpt_neox.embed_in.weight": 18.64313507080078,
+        "gpt_neox.layers.0.attention.query_key_value.weight": 6.196629047393799,
+        "gpt_neox.layers.0.attention.dense.weight": 2.7281763553619385,
+        "gpt_neox.layers.0.mlp.dense_h_to_4h.weight": 6.2491455078125,
+        "gpt_neox.layers.0.mlp.dense_4h_to_h.weight": 2.950484037399292,
+        "gpt_neox.layers.1.attention.query_key_value.weight": 6.329212665557861,
+        "gpt_neox.layers.1.attention.dense.weight": 3.051966428756714,
+        "gpt_neox.layers.1.mlp.dense_h_to_4h.weight": 8.537400245666504,
+        "gpt_neox.layers.1.mlp.dense_4h_to_h.weight": 4.386899948120117,
+        "gpt_neox.layers.2.attention.query_key_value.weight": 6.1685872077941895,
+        "gpt_neox.layers.2.attention.dense.weight": 1.9439120292663574,
+        "gpt_neox.layers.2.mlp.dense_h_to_4h.weight": 11.68251895904541,
+        "gpt_neox.layers.2.mlp.dense_4h_to_h.weight": 3.9719176292419434,
+        "gpt_neox.layers.3.attention.query_key_value.weight": 26.307165145874023,
+        "gpt_neox.layers.3.attention.dense.weight": 1.9878695011138916,
+        "gpt_neox.layers.3.mlp.dense_h_to_4h.weight": 13.060664176940918,
+        "gpt_neox.layers.3.mlp.dense_4h_to_h.weight": 3.93412446975708,
+        "gpt_neox.layers.4.attention.query_key_value.weight": 24.37474250793457,
+        "gpt_neox.layers.4.attention.dense.weight": 2.1268229484558105,
+        "gpt_neox.layers.4.mlp.dense_h_to_4h.weight": 6.410654544830322,
+        "gpt_neox.layers.4.mlp.dense_4h_to_h.weight": 3.683725595474243,
+        "gpt_neox.layers.5.attention.query_key_value.weight": 28.391590118408203,
+        "gpt_neox.layers.5.attention.dense.weight": 2.358039379119873,
+        "gpt_neox.layers.5.mlp.dense_h_to_4h.weight": 6.228479862213135,
+        "gpt_neox.layers.5.mlp.dense_4h_to_h.weight": 5.379963397979736,
+        "gpt_neox.layers.6.attention.query_key_value.weight": 60.685516357421875,
+        "gpt_neox.layers.6.attention.dense.weight": 2.2756268978118896,
+        "gpt_neox.layers.6.mlp.dense_h_to_4h.weight": 6.092432022094727,
+        "gpt_neox.layers.6.mlp.dense_4h_to_h.weight": 5.771914958953857,
+        "gpt_neox.layers.7.attention.query_key_value.weight": 50.87844467163086,
+        "gpt_neox.layers.7.attention.dense.weight": 2.1940817832946777,
+        "gpt_neox.layers.7.mlp.dense_h_to_4h.weight": 5.609492301940918,
+        "gpt_neox.layers.7.mlp.dense_4h_to_h.weight": 5.2769365310668945,
+        "gpt_neox.layers.8.attention.query_key_value.weight": 56.258914947509766,
+        "gpt_neox.layers.8.attention.dense.weight": 2.435243844985962,
+        "gpt_neox.layers.8.mlp.dense_h_to_4h.weight": 5.876202583312988,
+        "gpt_neox.layers.8.mlp.dense_4h_to_h.weight": 6.187440872192383,
+        "gpt_neox.layers.9.attention.query_key_value.weight": 57.548954010009766,
+        "gpt_neox.layers.9.attention.dense.weight": 1.9182143211364746,
+        "gpt_neox.layers.9.mlp.dense_h_to_4h.weight": 6.107132911682129,
+        "gpt_neox.layers.9.mlp.dense_4h_to_h.weight": 6.147585391998291,
+        "gpt_neox.layers.10.attention.query_key_value.weight": 74.50114440917969,
+        "gpt_neox.layers.10.attention.dense.weight": 1.3151224851608276,
+        "gpt_neox.layers.10.mlp.dense_h_to_4h.weight": 6.488419532775879,
+        "gpt_neox.layers.10.mlp.dense_4h_to_h.weight": 6.567250728607178,
+        "gpt_neox.layers.11.attention.query_key_value.weight": 58.19465637207031,
+        "gpt_neox.layers.11.attention.dense.weight": 5.100851058959961,
+        "gpt_neox.layers.11.mlp.dense_h_to_4h.weight": 6.677765846252441,
+        "gpt_neox.layers.11.mlp.dense_4h_to_h.weight": 7.859522342681885,
+        "embed_out.weight": 648.8357543945312
+      },
+      "hessian_top_full": 26912.737320468925,
+      "hessian_bot_full": -32696.874336343455,
+      "hessian_eigs_full": [
+        26912.737320468925,
+        4291.829543208966,
+        -0.00019015192696554512,
+        -9812.800504602792,
+        -32696.874336343455
+      ],
+      "relative_flatness_full": 90673887975.62279,
+      "hessian_top_train": 11649.114084342027,
+      "hessian_bot_train": -36629.220726622385,
+      "relative_flatness_train": 39247975890.41657,
+      "cos_grad_train_test": 0.14940901100635529,
+      "angle_deg": 81.40732055509517,
+      "grad_train_norm": 3.915645122528076,
+      "grad_test_norm": 4.51492166519165,
+      "grad_ratio_test_over_train": 1.153046727180481,
+      "mia_loss_auc": 0.8956100390625001,
+      "mean_train_loss": 2.7272231578826904,
+      "mean_test_loss": 3.413534641265869,
+      "gap_loss": 0.6863114833831787,
+      "mode": "G",
+      "seed": 2,
+      "n_train": 25600,
+      "checkpoint_epoch": 6,
+      "total_epochs": 12,
+      "val_history": [
+        {
+          "epoch": 1,
+          "train_loss": 3.495323657989502,
+          "test_loss": 3.6983046531677246
+        },
+        {
+          "epoch": 2,
+          "train_loss": 3.286126136779785,
+          "test_loss": 3.5538952350616455
+        },
+        {
+          "epoch": 3,
+          "train_loss": 3.172205924987793,
+          "test_loss": 3.5431158542633057
+        },
+        {
+          "epoch": 4,
+          "train_loss": 3.0218920707702637,
+          "test_loss": 3.498243808746338
+        },
+        {
+          "epoch": 5,
+          "train_loss": 2.8728623390197754,
+          "test_loss": 3.480515718460083
+        },
+        {
+          "epoch": 6,
+          "train_loss": 2.7062809467315674,
+          "test_loss": 3.4446752071380615
+        },
+        {
+          "epoch": 7,
+          "train_loss": 2.547333240509033,
+          "test_loss": 3.4851698875427246
+        },
+        {
+          "epoch": 8,
+          "train_loss": 2.3686985969543457,
+          "test_loss": 3.5471692085266113
+        },
+        {
+          "epoch": 9,
+          "train_loss": 2.1688899993896484,
+          "test_loss": 3.629208564758301
+        },
+        {
+          "epoch": 10,
+          "train_loss": 1.960381269454956,
+          "test_loss": 3.7801809310913086
+        },
+        {
+          "epoch": 11,
+          "train_loss": 1.7559502124786377,
+          "test_loss": 3.9545745849609375
+        },
+        {
+          "epoch": 12,
+          "train_loss": 1.56589937210083,
+          "test_loss": 4.127692699432373
+        }
+      ],
+      "pretrained_baseline_test": 3.372612237930298,
+      "improved_from_baseline": false
+    }
+  ]
+}
