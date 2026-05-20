@@ -3205,6 +3205,39 @@ MIA gap is positive (M > G) in 6/6 memorizing tiers. Sharpness direction is corr
 
 ---
 
+## Entry 112 — tier6_v4: PROPER M vs G for Pythia fine-tuning via data-diversity sweep [GENUINE G FOUND — "REGIME COLLAPSE" FALSIFIED]
+
+**Why this exists.** v1/v2/v3 never produced a real G — their "G" was the pretrained model early-stopped at epoch 1 (under-fit, not generalizing). The bug: all three used a tiny corpus (200–2000 chunks ≈ 0.05–0.5M tokens) trained for 30–50 epochs, so a 160M model sees each chunk 30+ times → memorization is forced regardless of LR/WD. Tuning the optimizer only trades memorization for under-fitting.
+
+**Design.** Fixed compute budget (~76,800 chunk-visits), fixed lr=5e-5, fixed wd=0.01, final-checkpoint rule. Sweep ONLY training-set size N over a ~35-novel Gutenberg corpus. Held-out test set (1000 chunks) reserved once, disjoint from all training. 2 seeds. The lever is visits-per-chunk = budget/N.
+
+**Result (seed-averaged, baseline held-out loss = 3.37):**
+
+| N | epochs (=visits/chunk) | train loss | test loss | gap | MIA AUC | regime |
+|---|---|---|---|---|---|---|
+| 400 | 192 | 0.015 | 11.99 | 11.97 | 1.00 | M |
+| 1600 | 48 | 0.047 | 9.88 | 9.83 | 1.00 | M |
+| 6400 | 12 | 1.15 | 4.95 | 3.80 | 1.00 | transition |
+| 25600 | 3 | 3.22 | 3.51 | **0.30** | **0.70** | **G** |
+
+**Findings:**
+
+1. **There IS a genuine generalizing regime.** At N=25600 (each chunk seen 3×) the train/test gap is 0.30 nat and MIA is 0.70 — a real G. The "regime collapse" framing from v1/v2/v3 (and the earlier paper Epilogue) is FALSIFIED: it was a small-data artifact, not a fundamental property of fine-tuning.
+
+2. **Clean monotone crossover.** As data diversity rises, gap closes 11.97→9.83→3.80→0.30 and MIA falls 1.00→1.00→1.00→0.70. Memorization is controlled by visits-per-chunk, NOT by weight decay (held constant at 0.01 throughout). N=6400 (12 visits) still overfits — its val curve shows test loss rising 3.70→4.85 while train falls. N=25600 (3 visits) generalizes — train and test descend *together* (test 3.80→3.60→3.57 over 3 epochs).
+
+3. **Honest limit: the genuine G does not beat the pretrained baseline within budget.** G test loss 3.51 vs baseline 3.37 — slightly worse, though still descending at the 3-epoch cutoff. Pythia-160m was pretrained on Pile (includes Gutenberg/books), so it already half-knows this text; 3 epochs preserves rather than improves competence. M actively destroys it (test loss 12). Suggested follow-up: extend N=25600 to ~8–10 epochs to push test below baseline and confirm improved_from_baseline=True.
+
+4. **Hessian numbers are garbage** — top eig ranges 56k–5.6M, 10–100× seed variance. Lanczos k=5 on 160M params is not converged. Do NOT use Pythia Hessian numbers in the paper.
+
+5. **Gradient angle does not separate here** (cos ≈ 0 ± 0.05 at all N) — unlike v3 where it weakly did. Noisy; drop.
+
+**For the paper.** The Epilogue must be (and now is) rewritten: not "pretrained fine-tuning collapses the M/G distinction" but "fine-tuning memorizes or generalizes on the same terms as any training; the knob is data diversity (visits-per-chunk), not weight decay." This is a cleaner, more honest, and more useful result — a monotone crossover matching the cross-tier story. Practitioner privacy lesson: MIA tracked visits-per-chunk (1.00→0.70) while fixed weight decay did nothing.
+
+**Script:** `bulletproof3/tier6_v4_proper_mg.py`. **JSON:** `bulletproof3/results/tier6_v4_proper_mg.json`.
+
+---
+
 ## Final synthesis: what the paper can now claim with full empirical backing
 
 **Claim 1 — MIA universality.** MIA AUC separates M from G in every tier where memorization actually occurs (6/6 memorizing tiers, 0/2 null tiers). Effect sizes range from d=2.2 (ViT-Tiny) to d=28.5 (algorithmic). Even in the Pythia fine-tune extreme case (barely-tuned G), MIA separates.
@@ -3215,6 +3248,6 @@ MIA gap is positive (M > G) in 6/6 memorizing tiers. Sharpness direction is corr
 
 **Claim 4 — WD-rank-grokking mechanism (Track A).** Smooth norm penalties (nuclear, Frobenius²) escape. Aggressive rank penalties (Schatten-1/2, log-singular) reduce rank but don't grok. LR×WD ∈ [0.001, 0.03] is the escape window. 12-architecture × 4-task matrix confirms universality.
 
-**Claim 5 — From-scratch vs pretrained fine-tuning are distinct regimes.** tier5 CharLM (from-scratch, 1.5M params): M/G split clean, basin separation confirmed (barrier=+3.03±1.19), M top eig 19× G's. tier6 Pythia (pretrained, 160M params): M collapses, the "G" checkpoint is a near-pretrained under-fit model (test loss 3.38 vs baseline 3.43) — the generalizing regime is empty (Entry 111). On top of the regime collapse, the weights-only signatures (rank, weight norm, path norm) go blind because the model never leaves the pretrained basin; only MIA and gradient angle still separate M from G. MIA=1.0 at M, 0.83 at the non-memorizing checkpoint — a privacy finding relevant to practitioners.
+**Claim 5 — Fine-tuning memorizes or generalizes; the knob is data diversity, not weight decay.** tier5 CharLM (from-scratch, 1.5M params): M/G split clean, basin separation confirmed (barrier=+3.03±1.19), M top eig 19× G's. tier6 Pythia (pretrained, 160M params): earlier small-data runs (v1/v2/v3) memorized at every WD — but tier6_v4 (Entry 112) shows this was a small-data artifact. At fixed compute, sweeping training-set size traces a clean memorize→generalize crossover: gap 11.97→0.30, MIA 1.00→0.70 as visits-per-chunk falls 192→3. A genuine G exists (N=25600, gap 0.30, MIA 0.70). Memorization is controlled by how often each example is revisited, not by weight decay. Privacy lesson: MIA tracked visits-per-chunk; fixed WD did nothing. (Caveat from v3: when G is instead obtained by early-stopping near the pretrained checkpoint, weights-only signatures cannot separate M from G — the data-free audit degrades near a strong initialization.)
 
 **Every claim now has multi-seed evidence with effect sizes. The paper is ready to write.**
