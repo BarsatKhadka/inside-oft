@@ -3238,6 +3238,35 @@ MIA gap is positive (M > G) in 6/6 memorizing tiers. Sharpness direction is corr
 
 ---
 
+## Entry 113 — tier6_v5: validating the Pythia fine-tune G [NOT VALIDATED — G generalizes but does not beat baseline, and leaks]
+
+**Setup.** Follow-up to tier6_v4 (Entry 112). Two runs differing ONLY in dataset size, same lr=5e-5, wd=0.01: M = N=400 chunks trained 60 epochs (final checkpoint); G = N=25600 chunks trained 12 epochs (best-val checkpoint). 3 seeds each. Pretrained baseline held-out loss = 3.373. Script: `bulletproof3/tier6_v5_validate_g.py`.
+
+**Result (3-seed means):**
+
+| | train loss | held-out loss | gap | MIA AUC | improved over baseline? |
+|---|---|---|---|---|---|
+| M (N=400) | 0.04 | 10.57 | 10.53 | 1.000 | no |
+| G (N=25600, best-val ep≈6) | 2.73 | 3.42 | 0.686 | 0.895 | **no** |
+
+**G val curve (seed 0):** test loss bottoms at epoch 5–6 (3.459) then rises monotonically — 3.48 → 3.54 → 3.64 → 3.75 → 3.93 → 4.17 by epoch 12. The minimum held-out loss G ever reaches (~3.42–3.46) stays **above** the pretrained baseline (3.373) on all 3 seeds.
+
+**Verdict: NOT VALIDATED.** The success criteria (best test < baseline AND gap < 0.5 AND MIA < 0.80) fail on all three counts.
+
+**Findings:**
+
+1. **M memorizes, unambiguous and consistent** — train→0.04, test→10.6, gap 10.5, MIA 1.0, 3/3 seeds.
+
+2. **G generalizes relative to M but does NOT beat the pretrained baseline.** Its train/test gap (0.69) is ~15× smaller than M's (10.5), so the memorize→generalize distinction is real. But its best-ever held-out loss (~3.42) never crosses the baseline 3.37. This is a definitive ceiling, not a compute-budget limit: the val curve turns *upward* after epoch 6. Earlier I (paper limitation #4) framed this as "still falling at the cutoff" — that was wrong; v5 with 12 epochs shows it bottoms out and rises.
+
+3. **Even the best G leaks: MIA = 0.895.** And MIA climbs with training along the N=25600 trajectory — v4's 3-epoch G had MIA 0.70 (gap 0.30); v5's 6-epoch best-val G has MIA 0.90 (gap 0.69). Same N, further along the same trajectory. There is a tradeoff with no sweet spot: stop early → under-fit (gap small but test ≈ baseline, barely trained); train longer → test creeps down but gap and MIA climb, and it still never beats baseline.
+
+4. **Honest synthesis for the Epilogue.** v4 established the data-diversity crossover (memorize vs generalize is controlled by visits-per-chunk). v5 validates the *quality* of the generalizing endpoint and finds it bounded: fine-tuning Pythia-160m on this corpus yields **no checkpoint that is both better than the pretrained model and membership-private.** The generalizing regime exists but is capped at break-even with the pretrained baseline and leaks at MIA ~0.9. Paper limitation #4 should change from "G hasn't beaten baseline within budget (still falling)" to the finding: "the generalizing fine-tune matches but does not beat the pretrained baseline, and already leaks at MIA 0.90."
+
+**JSON:** `bulletproof3/results/tier6_v5_validate_g.json`.
+
+---
+
 ## Final synthesis: what the paper can now claim with full empirical backing
 
 **Claim 1 — MIA universality.** MIA AUC separates M from G in every tier where memorization actually occurs (6/6 memorizing tiers, 0/2 null tiers). Effect sizes range from d=2.2 (ViT-Tiny) to d=28.5 (algorithmic). Even in the Pythia fine-tune extreme case (barely-tuned G), MIA separates.

@@ -29,7 +29,10 @@
       "Bash(awk '{print $5, $9}')",
       "Bash(awk -v 'cell=\"__TRACKED_VAR__\":' '$0 ~ cell {found=1; next} found && /\"wd\"/ {seeds++} /^  \\\\],/ {if\\(found\\){print cell, seeds; exit}} END {if\\(found && !seeds_print\\){}}' bulletproof4/results/mech4_resnet_ablation.json)",
       "Bash(awk ' *)",
-      "Bash(awk '/\"wd\": 0.5/{a++} /\"wd\": 1.0/{b++} /\"wd\": 5.0/{c++} END{print \" 0.5:\",a,\" 1.0:\",b,\" 5.0:\",c}' bulletproof3/results/tier6_strong_wd.json)"
+      "Bash(awk '/\"wd\": 0.5/{a++} /\"wd\": 1.0/{b++} /\"wd\": 5.0/{c++} END{print \" 0.5:\",a,\" 1.0:\",b,\" 5.0:\",c}' bulletproof3/results/tier6_strong_wd.json)",
+      "Bash(venv/Scripts/python.exe -c ' *)",
+      "Bash(sed -n '440,465p;675,695p' so_far_results.md)",
+      "Bash(sed -n '1669,1700p' so_far_results.md)"
     ]
   }
 }
