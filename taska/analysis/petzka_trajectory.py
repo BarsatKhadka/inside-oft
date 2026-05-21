@@ -84,25 +84,36 @@ def main():
         cfg = read_cfg(d)
         frac = float(cfg.get('frac_train', 0.3))
         seed = int(cfg.get('seed', 0))
-        tr_pairs, _ = gen_train_test(p=P, frac_train=frac, seed=seed)
+        tr_pairs, te_pairs = gen_train_test(p=P, frac_train=frac, seed=seed)
         tr_in, tr_lab = to_tensors(tr_pairs, P, device=device)
+        te_in, te_lab = to_tensors(te_pairs, P, device=device)
 
         model = Transformer(p=P, d_model=D_MODEL, num_heads=4, n_ctx=3,
                              num_layers=1).to(device)
         eps = epochs_for(d)
         rec = {'seed': seed, 'frac_train': frac, 'epochs': eps,
-               'top_eig': [], 'theta_norm': [], 'petzka': []}
+               'top_eig_full': [], 'top_eig_train': [], 'theta_norm': [],
+               'petzka': []}
         print(f'\n=== {name} (seed={seed}, frac={frac}, {len(eps)} ckpts) ===')
         for ep in eps:
             model.load_state_dict(state_for(d, ep))
-            loss_fn = lambda: ce(model(tr_in)[:, -1, :], tr_lab)
-            top, _bot, _ = hessian_top_bot(model, loss_fn, k=LANCZOS_K)
+            # Petzka uses the FULL-data loss Hessian (== relative_flatness_full
+            # in the battery). The train-only Hessian degenerates to ~0 once
+            # the model interpolates the training set, so it is recorded only
+            # to document that degeneracy.
+            loss_full = lambda: 0.5 * (ce(model(tr_in)[:, -1, :], tr_lab)
+                                       + ce(model(te_in)[:, -1, :], te_lab))
+            loss_train = lambda: ce(model(tr_in)[:, -1, :], tr_lab)
+            top_full, _b, _ = hessian_top_bot(model, loss_full, k=LANCZOS_K)
+            top_train, _b2, _ = hessian_top_bot(model, loss_train, k=LANCZOS_K)
             wn = weight_l2_norm(model)
-            pz = relative_flatness(top, wn)
-            rec['top_eig'].append(top)
+            pz = relative_flatness(top_full, wn)
+            rec['top_eig_full'].append(top_full)
+            rec['top_eig_train'].append(top_train)
             rec['theta_norm'].append(wn)
             rec['petzka'].append(pz)
-            print(f'  ep={ep:>6}: top={top:>10.3f}  ||theta||={wn:>8.3f}  '
+            print(f'  ep={ep:>6}: top_full={top_full:>10.3f}  '
+                  f'top_train={top_train:>9.3f}  ||theta||={wn:>8.3f}  '
                   f'petzka={pz:>12.1f}')
         out['runs'][name] = rec
         with open(out_path, 'w') as f:

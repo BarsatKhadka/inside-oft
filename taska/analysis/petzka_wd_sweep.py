@@ -89,18 +89,24 @@ def run(wd, seed, device):
     test_acc = eval_acc(model, te_in, te_lab)
     train_acc = eval_acc(model, tr_in, tr_lab)
     rank = effective_rank(model.blocks[0].mlp.W_out)
-    loss_fn = lambda: ce(model(tr_in)[:, -1, :], tr_lab)
-    top, bot, _ = hessian_top_bot(model, loss_fn, k=LANCZOS_K)
+    # Petzka == relative_flatness_full: Hessian of the FULL-data loss
+    # (0.5*(train+test)). The train-only Hessian degenerates to ~0 on an
+    # interpolating model -- recorded for transparency.
+    loss_full = lambda: 0.5 * (ce(model(tr_in)[:, -1, :], tr_lab)
+                               + ce(model(te_in)[:, -1, :], te_lab))
+    loss_train = lambda: ce(model(tr_in)[:, -1, :], tr_lab)
+    top, bot, _ = hessian_top_bot(model, loss_full, k=LANCZOS_K)
+    top_train, _bt, _ = hessian_top_bot(model, loss_train, k=LANCZOS_K)
     wn = weight_l2_norm(model)
     petzka = relative_flatness(top, wn)
     grokked = test_acc >= 0.95
     print(f'  wd={wd:<5} seed={seed} test={test_acc:.4f} grok={grokked} '
-          f'(@{grok_epoch}) rank={rank:6.2f} top={top:9.2f} '
-          f'||th||={wn:7.2f} petzka={petzka:11.1f}')
+          f'(@{grok_epoch}) rank={rank:6.2f} top_full={top:9.2f} '
+          f'top_train={top_train:7.2f} ||th||={wn:7.2f} petzka={petzka:11.1f}')
     return {'wd': wd, 'seed': seed, 'test_acc': test_acc,
-            'train_acc': train_acc, 'rank_W_out': rank, 'top_eig': top,
-            'bot_eig': bot, 'theta_norm': wn, 'petzka': petzka,
-            'grokked': grokked, 'grok_epoch': grok_epoch}
+            'train_acc': train_acc, 'rank_W_out': rank, 'top_eig_full': top,
+            'top_eig_train': top_train, 'bot_eig': bot, 'theta_norm': wn,
+            'petzka': petzka, 'grokked': grokked, 'grok_epoch': grok_epoch}
 
 
 def main():
@@ -126,8 +132,8 @@ def main():
         m = lambda k: sum(r[k] for r in rs) / n
         ng = sum(r['grokked'] for r in rs)
         print(f'  WD={wd:<5} grokked {ng}/{n}  test={m("test_acc"):.3f}  '
-              f'top={m("top_eig"):.1f}  ||th||={m("theta_norm"):.2f}  '
-              f'petzka={m("petzka"):.1f}')
+              f'top_full={m("top_eig_full"):.1f}  '
+              f'||th||={m("theta_norm"):.2f}  petzka={m("petzka"):.1f}')
     print(f'\nwrote {out_path}')
 
 

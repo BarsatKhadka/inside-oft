@@ -94,8 +94,15 @@ def run_cell(wd, frac, device):
     test_acc = eval_acc(model, te_in, te_lab)
     train_acc = eval_acc(model, tr_in, tr_lab)
     rank = effective_rank(model.blocks[0].mlp.W_out)
-    loss_fn = lambda: ce(model(tr_in)[:, -1, :], tr_lab)
-    top, bot, _ = hessian_top_bot(model, loss_fn, k=LANCZOS_K)
+    # Petzka == relative_flatness_full: Hessian of the FULL-data loss
+    # (0.5*(train+test)), matching the vision-tier convention. The train-only
+    # Hessian degenerates to ~0 on an interpolating model -- recorded for
+    # transparency.
+    loss_full = lambda: 0.5 * (ce(model(tr_in)[:, -1, :], tr_lab)
+                               + ce(model(te_in)[:, -1, :], te_lab))
+    loss_train = lambda: ce(model(tr_in)[:, -1, :], tr_lab)
+    top, bot, _ = hessian_top_bot(model, loss_full, k=LANCZOS_K)
+    top_train, _bt, _ = hessian_top_bot(model, loss_train, k=LANCZOS_K)
     wn = weight_l2_norm(model)
     petzka = relative_flatness(top, wn)
 
@@ -106,11 +113,11 @@ def run_cell(wd, frac, device):
            ck_dir / f'wd{wd}_frac{frac}.pt')
 
     print(f'  wd={wd:<5} frac={frac:<4} test={test_acc:.4f} rank={rank:6.2f} '
-          f'top={top:9.2f} ||th||={wn:7.2f} petzka={petzka:11.1f} '
-          f'grok@{grok_epoch}')
+          f'top_full={top:9.2f} top_train={top_train:7.2f} ||th||={wn:7.2f} '
+          f'petzka={petzka:11.1f} grok@{grok_epoch}')
     return {'test_acc': test_acc, 'train_acc': train_acc, 'rank_W_out': rank,
-            'top_eig': top, 'bot_eig': bot, 'theta_norm': wn, 'petzka': petzka,
-            'grok_epoch': grok_epoch}
+            'top_eig_full': top, 'top_eig_train': top_train, 'bot_eig': bot,
+            'theta_norm': wn, 'petzka': petzka, 'grok_epoch': grok_epoch}
 
 
 def main():
