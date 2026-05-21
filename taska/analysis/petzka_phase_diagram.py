@@ -30,9 +30,12 @@ ROOT = HERE.parent
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(ROOT))
 
-import matplotlib
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
+try:
+    import matplotlib
+    matplotlib.use('Agg')
+    import matplotlib.pyplot as plt
+except Exception:                              # matplotlib optional
+    plt = None
 import torch as t
 import torch.optim as optim
 
@@ -135,6 +138,11 @@ def main():
                 json.dump(grid, f, indent=2)
 
     # Petzka vs test accuracy, coloured by weight decay -- the falsification plot
+    if plt is None:
+        print(f'\nwrote {out_path}')
+        print('matplotlib unavailable; skipping plot. Build it later from the '
+              'JSON (e.g. via paper/fig.py).')
+        return
     fig, ax = plt.subplots(figsize=(7.5, 5.2))
     cmap = plt.cm.viridis
     for i, wd in enumerate(WD_VALUES):
